@@ -1,0 +1,31 @@
+<h3>
+  <i class="fa fa-cloud-download"></i> Download File
+</h3>
+<br>
+
+<div class="alert alert-info" role="alert" *ngIf="status.checkingFile">
+  <h4><i class="fa fa-spinner fa-spin fa-fw"></i> Checking file...</h4>
+</div>
+
+<div class="alert alert-danger" role="alert" *ngIf="status.error">
+  <h4 class="text-danger"><i class="fa fa-exclamation-triangle"></i> Error!</h4>
+  {{status.error}}
+</div>
+
+<div class="alert alert-success" role="alert" *ngIf="status.success">
+  <h4 class="text-success"><i class="fa fa-check-circle-o"></i> File Exists!</h4>
+  Your file should automatically download shortly.  If it does not, click <a href="{{DOWNLOAD_URL + task.filename}}">here</a>.
+</div>
+
+
+<div class="form-group">
+  <label for="filename">Filename to search:</label>
+  <input type="text" class="form-control" id="filename" placeholder="Filename" [(ngModel)]="task.filename">
+</div>
+
+<div>
+  <button type="button" class="btn btn-primary" (click)="download()" [disabled]="status.checkingFile">
+    <span *ngIf="status.running" class="checkingFile"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>
+    <span>Download</span>
+  </button>
+</div>
