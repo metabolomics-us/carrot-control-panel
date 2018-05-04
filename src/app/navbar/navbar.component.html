@@ -1,0 +1,30 @@
+<nav class="navbar navbar-fiehnlab navbar-toggleable-sm fixed-top navbar-expand-sm">
+  <a class="navbar-brand" href="#">{{globals.APP_TITLE}}</a>
+
+  <button class="navbar-toggler navbar-toggler-right" type="button" (click)="navbarCollapsed = !navbarCollapsed"
+          [attr.aria-expanded]="!navbarCollapsed" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <div class="collapse navbar-collapse" id="navbarContent" [ngbCollapse]="navbarCollapsed">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Page 1</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Page 2</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Page 3</a>
+      </li>
+      <li class="nav-item" ngbDropdown>
+        <a class="nav-link" ngbDropdownToggle aria-haspopup="true" aria-expanded="false">Dropdown</a>
+        <div class="dropdown-menu" ngbDropdownMenu>
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
