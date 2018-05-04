@@ -1,0 +1,12 @@
+<h4>
+  <i class="fa fa-table"></i> Generate Acquisition Table<br>
+  <small class="text-muted">Update MiniX studies with filenames based on your acquisition properties</small>
+</h4>
+<br>
+
+<form novalidate [formGroup]="acquistionTableForm">
+  <div class="form-group">
+    <label>MiniX ID:</label>
+    <input type="text" class="form-control" formControlName="minix" required>
+  </div>
+</form>

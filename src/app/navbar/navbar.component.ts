@@ -13,6 +13,6 @@ export class NavbarComponent {
   navbarCollapsed: boolean;
 
   constructor(private globals: Globals) {
-      this.navbarCollapsed = true;
+    this.navbarCollapsed = true;
   }
 }

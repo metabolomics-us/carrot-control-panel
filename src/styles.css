@@ -2,8 +2,19 @@
  * Simple Fiehn Lab Theme
  */
 
+@import url('https://fonts.googleapis.com/css?family=Libre+Baskerville');
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
 body {
   padding-top: 5rem;
   background-color: #f8f8f8;
-  font-family: "Garamond,Baskerville,Baskerville Old Face,Hoefler Text,Times New Roman,serif";
+  font-family: 'Lato', sans-serif;
 }
+
+#page-wrapper {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 767px;
+}
+
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
