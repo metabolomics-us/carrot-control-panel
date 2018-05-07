@@ -10,6 +10,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Globals } from './app.globals';
 import { AppComponent } from './app.component';
 import { AcquisitionTableComponent } from './acquisition-table/acquisition-table.component';
+import { AcquisitionTableService } from './acquisition-table/acquisition-table.service';
+import { MiniXService } from './acquisition-table/minix.service';
+
 import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
@@ -27,7 +30,9 @@ import { NavbarComponent } from './navbar/navbar.component';
     NgbModule.forRoot()
   ],
   providers: [
-    Globals
+    Globals,
+    MiniXService,
+    AcquisitionTableService
   ],
   bootstrap: [AppComponent]
 })

@@ -7,8 +7,8 @@
 <form novalidate [formGroup]="acquistionTableForm">
   <div class="form-row">
     <div class="col-md-12 mb-3">
-    <label>Study Identifier (Sample filename prefix):</label>
-    <input type="text" class="form-control" formControlName="studyLabel" required>
+      <label>Study Identifier (Sample filename prefix):</label>
+      <input type="text" class="form-control" formControlName="studyLabel" required>
     </div>
   </div>
 
@@ -20,7 +20,7 @@
     <div class="col-md-6 mb-3">
       <label>Platform</label>
       <select class="custom-select custom-select mb-3" formControlName="minix1_label">
-        <option *ngFor="let label of minixFileLabels" [ngValue]="label">{{label}}</option>
+      <option *ngFor="let label of minixFileLabels" [ngValue]="label">{{label}}</option>
       </select>
     </div>
   </div>
@@ -33,15 +33,15 @@
     <div class="col-md-6 mb-3">
       <label>Platform</label>
       <select class="custom-select custom-select mb-3" formControlName="minix2_label">
-        <option *ngFor="let label of minixFileLabels" [ngValue]="label">{{label}}</option>
+      <option *ngFor="let label of minixFileLabels" [ngValue]="label">{{label}}</option>
       </select>
     </div>
   </div>
 
   <div class="form-row">
     <div class="col-md-2 mb-3">
-        <label>Enabled</label>
-        <input type="checkbox" formControlName="methodBlankEnabled">
+      <label>Enabled</label>
+      <input type="checkbox" formControlName="methodBlankEnabled">
     </div>
     <div class="col-md-6 mb-3">
       <label>Method Blank Label</label>
@@ -55,8 +55,8 @@
 
   <div class="form-row">
     <div class="col-md-2 mb-3">
-        <label>Enabled</label>
-        <input type="checkbox" formControlName="qcEnabled">
+      <label>Enabled</label>
+      <input type="checkbox" formControlName="qcEnabled">
     </div>
     <div class="col-md-6 mb-3">
       <label>QC Label</label>
@@ -70,8 +70,8 @@
 
   <div class="form-row">
     <div class="col-md-2 mb-3">
-        <label>Enabled</label>
-        <input type="checkbox" formControlName="nistEnabled">
+      <label>Enabled</label>
+      <input type="checkbox" formControlName="nistEnabled">
     </div>
     <div class="col-md-6 mb-3">
       <label>NIST QC Label</label>
@@ -83,11 +83,10 @@
     </div>
   </div>
 
-
   <div class="form-row">
     <div class="col-md-12 mb-3">
-    <label>MS/MS Samples</label>
-    <input type="text" class="form-control" formControlName="msmsNumber" required>
+      <label>MS/MS Samples</label>
+      <input type="text" class="form-control" formControlName="msmsNumber" required>
     </div>
   </div>
 </form>
