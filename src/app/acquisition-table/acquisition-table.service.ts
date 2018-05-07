@@ -40,7 +40,7 @@ export class AcquisitionTableService {
 
     var pad = n => ('' + n).padStart(3, '0')
 
-    var formatSampleName = (sample, i, j) => {
+    var formatSampleName = (sample, i) => {
       return miniXID +'_'+ params.prefix + pad(i) +'_'+ params.methods[0]
         +'_'+ sample.userdata.label;
     }
@@ -61,7 +61,7 @@ export class AcquisitionTableService {
         fileNames.push(formatQCName(params.qc.label, i + 1, params.qc.frequency))
       }
 
-      if (params.nist.enabled && (i == 0 (i + 1) % params.nist.frequency == 0)) {
+      if (params.nist.enabled && (i == 0 || (i + 1) % params.nist.frequency == 0)) {
         fileNames.push(formatQCName(params.nist.label, i + 1, params.nist.frequency))
       }
 
