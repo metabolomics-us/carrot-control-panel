@@ -30,7 +30,7 @@ export class AcquisitionTableComponent implements OnInit {
       minix2_label: new FormControl(this.minixFileLabels),
 
       methodBlankEnabled: new FormControl(false),
-      methodBlankLabel: new FormControl('MethBlank'),
+      methodBlankLabel: new FormControl('MtdBlank'),
       methodBlankFrequency: new FormControl(10),
 
       qcEnabled: new FormControl(false),
