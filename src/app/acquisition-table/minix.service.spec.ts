@@ -6,7 +6,7 @@ import { MiniXService } from './minix.service';
 import { parseString } from 'xml2js';
 
 
-describe('Service: SpectrumService', () => {
+describe('Service: MiniXService', () => {
   let service;
 
   beforeEach(() => {
