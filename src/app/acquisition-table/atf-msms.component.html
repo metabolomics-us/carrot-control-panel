@@ -1,0 +1,50 @@
+<h4>MiniX ID: {{data.miniXID}}</h4>
+<h5 class="mb-5">{{data.miniXData.experiment.$.title}}</h5>
+
+<form novalidate [formGroup]="form">
+  <div class="form-row">
+    <div class="col-md-12 mt-3 mb-3">
+      <h5>MS/MS Samples</h5>
+      
+      <!--
+      <div *ngFor="let class of data.miniXData.experiment.classes[0].class" class="mb-2">
+        <h5>{{class.$.id}}: {{class.$.species}} {{class.$.organ}}</h5>
+
+        <div *ngIf="class.treatments[0].treatment">
+          <h6>Treatments:</h6>
+
+          <ol>
+            <li *ngFor="let treatment of class.treatments[0].treatment">
+              {{treatment.$.name}}: {{treatment.$.value}}
+            </li>
+          </ol>
+        </div>
+
+        <table class="table table-striped">
+          <tr *ngFor="let sample of class.samples[0].sample">
+            <td><input type="checkbox"></td>
+            <td>{{sample.$.id}}</td>
+            <td>{{sample.$.label}}</td>
+            <td>{{sample.$.comment}}</td>
+          </tr>
+        </table>
+      </div>
+    -->
+
+      <table class="table table-striped">
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let sample of data.sampleData">
+          <td><input type="checkbox"></td>
+          <td>{{sample.filename}}</td>
+          <td>{{sample.userdata.label}}</td>
+          <td>{{sample.userdata.comment}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</form>

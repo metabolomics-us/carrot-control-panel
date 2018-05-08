@@ -20,16 +20,17 @@ describe('Service: AcquisitionTableService', () => {
 
   it('should shuffle an array of numbers', async(() => {
     var sampleNumbers = service.generateSampleNumbers(100);
-    var result = service.generateRandomizedArray(sampleNumbers.slice(0));
+    var result = service.randomizeArray(sampleNumbers.slice(0));
     expect(sampleNumbers).not.toBe(result);
   }));
 
   it('should generate acquisition table for MX373065', async(() => {
-    var acquisitionParameters = {
+    var data = {
       prefix: 'Connor',
       miniXID: 373065,
-      methods: [
-        'posHILIC'
+      platform: 'HILIC',
+      ionizations: [
+        'pos'
       ],
       blank: {
         enabled: true,
@@ -49,13 +50,16 @@ describe('Service: AcquisitionTableService', () => {
       msms: {
         enabled: true,
         number: 4
-      }
+      },
+      randomize: true,
+      sampleData: []
     };
 
-    miniXService.getMiniXExport(acquisitionParameters.miniXID, (error, result) => {
-      var miniXID = result.experiment.$.id
-      var sampleData = miniXService.parseMiniXSamples(result);
-      var result = service.generateAcquisitionTable(miniXID, sampleData, acquisitionParameters);
+    miniXService.getMiniXExport(data.miniXID, (error, result) => {
+      data.sampleData = miniXService.parseMiniXSamples(result);
+
+      var result = service.generateAcquisitionTable(data);
+      console.log(result);
     });
   }));
 });

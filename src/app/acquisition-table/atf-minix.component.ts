@@ -20,11 +20,11 @@ export class ATFMiniXComponent implements OnInit {
 
   miniXLoading: boolean;
 
-  constructor(private formBuilder: FormBuilder, private miniXService: MiniXService) {
-    this.miniXLoading = false;
-  }
+  constructor(private formBuilder: FormBuilder, private miniXService: MiniXService) {}
 
   ngOnInit() {
+    this.miniXLoading = false;
+
     this.form = this.formBuilder.group({
       studyLabel: new FormControl('', [
         Validators.required,
@@ -44,12 +44,14 @@ export class ATFMiniXComponent implements OnInit {
     this.miniXLoading = true;
 
     this.miniXService.getMiniXExport(this.form.value.minix, (error, result) => {
+      this.data.prefix = this.form.value.studyLabel;
       this.data.miniXID = this.form.value.minix;
-      this.data.studyLabel = this.form.value.studyLabel;
       this.data.platform = this.form.value.platform;
 
       this.data.miniXData = result;
       this.data.sampleData = this.miniXService.parseMiniXSamples(result);
+
+      this.data.step += 1;
 
       this.miniXLoading = false;
     });

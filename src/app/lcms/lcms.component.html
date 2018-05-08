@@ -4,6 +4,8 @@
 </h3>
 <br>
 
-<app-atf-minix *ngIf="!lcmsData.miniXData" [platforms]="lcmsPlatforms" [data]="lcmsData"></app-atf-minix>
+<app-atf-minix *ngIf="data.step == 1" [platforms]="lcmsPlatforms" [data]="data"></app-atf-minix>
 
-<app-atf-lcms *ngIf="lcmsData.miniXData && !lcmsData.samples" [data]="lcmsData"></app-atf-lcms>
+<app-atf-lcms *ngIf="data.step == 2" [data]="data"></app-atf-lcms>
+
+<app-atf-msms *ngIf="data.step == 3" [data]="data"></app-atf-msms>

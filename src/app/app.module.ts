@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ATFMiniXComponent } from './acquisition-table/atf-minix.component';
 import { ATFLCMSComponent } from './acquisition-table/atf-lcms.component';
+import { ATFMSMSComponent } from './acquisition-table/atf-msms.component';
 import { LCMSComponent } from './lcms/lcms.component';
 
 import { AcquisitionTableService } from './acquisition-table/acquisition-table.service';
@@ -31,6 +32,7 @@ export const ROUTES: Routes = [
     NavbarComponent,
     ATFMiniXComponent,
     ATFLCMSComponent,
+    ATFMSMSComponent,
     LCMSComponent
   ],
   imports: [

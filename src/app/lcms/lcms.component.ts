@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class LCMSComponent {
   
   lcmsPlatforms = ['CSH', 'HILIC'];
-  lcmsData = {};
+  data = {step: 1};
 
   constructor() {}
 

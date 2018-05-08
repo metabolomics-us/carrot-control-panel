@@ -5,7 +5,7 @@ export class AcquisitionTableService {
 
   constructor() { }
 
-  generateAcquisitionTable(miniXID, sampleData, params) {
+  generateAcquisitionTable(params) {
     console.log(params);
 
     // Generate acquisition table
@@ -13,54 +13,70 @@ export class AcquisitionTableService {
 
     var pad = n => ('' + n).padStart(3, '0')
 
-    var formatSampleName = (sample, i) => {
-      return miniXID +'_'+ params.prefix + pad(i) +'_'+ params.methods[0]
+    var formatSampleName = (sample, mode, i) => {
+      return params.miniXID +'_'+ params.prefix + pad(i) +'_'+ mode + params.platform
         +'_'+ sample.userdata.label;
     }
 
-    var formatQCName = (label, i, frequency) => {
-      return miniXID +'_'+ label + pad(i == 1 ? i : Math.ceil(i / frequency)) +'_'+
-        params.methods[0] +'_'+ (i == 1 ? 'pre' : 'post') + params.prefix + pad(i);
+    var formatQCName = (label, mode, i, frequency) => {
+      return params.miniXID +'_'+ label + pad(i == 1 ? i : Math.ceil(i / frequency)) +'_'+
+        mode + params.platform +'_'+ (i == 1 ? 'pre' : 'post') + params.prefix + pad(i);
     }
 
-    var fileNames = [];
+    var fileNames = {};
 
-    this.generateRandomizedArray(sampleData).forEach((sample, i) => {
-      if (params.blank.enabled && (i == 0 || (i + 1) % params.blank.frequency == 0)) {
-        fileNames.push(formatQCName(params.blank.label, i + 1, params.blank.frequency))
-      }
+    // Randomize sample list if required
+    var sampleData = params.randomize ? this.randomizeArray(params.sampleData.slice(0)) : params.sampleData;
 
-      if (params.qc.enabled && (i == 0 || (i + 1) % params.qc.frequency == 0)) {
-        fileNames.push(formatQCName(params.qc.label, i + 1, params.qc.frequency))
-      }
+    // Iterate over each ionization mode
+    params.ionizations.forEach(mode => {
+      var files = [];
 
-      if (params.nist.enabled && (i == 0 || (i + 1) % params.nist.frequency == 0)) {
-        fileNames.push(formatQCName(params.nist.label, i + 1, params.nist.frequency))
-      }
+      // Loop over all samples and generate filenames
+      sampleData.forEach((sample, i) => {
+        // Process samples
+        if (i > 0) {
+          sample.filename = formatSampleName(sample, mode, i + 1);
+          files.push(sample);
+        }
 
-      fileNames.push(formatSampleName(sample, i + 1));
+        // Handle blanks and QCs
+        if (params.blank.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % params.blank.frequency == 0)) {
+          files.push({
+            filename: formatQCName(params.blank.label, mode, i + 1, params.blank.frequency)
+          })
+        }
 
-      if (params.blank.enabled && i == sampleData.length - 1) {
-        fileNames.push(formatQCName(params.blank.label, i + 1, params.blank.frequency))
-      }
+        if (params.qc.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % params.qc.frequency == 0)) {
+          files.push({
+            filename: formatQCName(params.qc.label, mode, i + 1, params.qc.frequency)
+          });
+        }
 
-      if (params.qc.enabled && i == sampleData.length - 1) {
-        fileNames.push(formatQCName(params.qc.label, i + 1, params.qc.frequency))
-      }
+        if (params.nist.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % params.nist.frequency == 0)) {
+          files.push({
+            filename: formatQCName(params.nist.label, mode, i + 1, params.nist.frequency)
+          });
+        }
+
+        // Handle first sample in list since it comes after the pre samples
+        if (i == 0) {
+          sample.filename = formatSampleName(sample, mode, i + 1);
+          files.push(sample);
+        }
+      });
+
+      fileNames[mode + params.platform] = files;
     });
 
-    if (params.msms.enabled) {
-
-    }
-
-    console.log(fileNames)
+    return fileNames;
   }
 
   /**
    * Uses the Fisher-Yates (aka Knuth) Shuffle
    * https://stackoverflow.com/a/2450976/406772
    */
-  generateRandomizedArray(array) {
+  randomizeArray(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
 
     // While there remain elements to shuffle...

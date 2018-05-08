@@ -61,31 +61,13 @@
   </div>
 
   <div class="form-row">
-    <div class="col-md-12 mt-3 mb-3">
-      <h4>MS/MS Samples</h4>
-      
-      <div *ngFor="let class of data.miniXData.experiment.classes[0].class" class="mb-2">
-        <h5>{{class.$.id}}: {{class.$.species}} {{class.$.organ}}</h5>
-
-        <div *ngIf="class.treatments[0].treatment">
-          <h6>Treatments:</h6>
-
-          <ol>
-            <li *ngFor="let treatment of class.treatments[0].treatment">
-              {{treatment.$.name}}: {{treatment.$.value}}
-            </li>
-          </ol>
-        </div>
-
-        <table class="table table-striped">
-          <tr *ngFor="let sample of class.samples[0].sample">
-            <td><input type="checkbox"></td>
-            <td>{{sample.$.id}}</td>
-            <td>{{sample.$.label}}</td>
-            <td>{{sample.$.comment}}</td>
-          </tr>
-        </table>
-      </div>
+    <div class="col-md-12 mb-3">
+      <label>Randomize Samples</label><br>
+      <input type="checkbox" formControlName="randomize">
     </div>
+  </div>
+
+  <div>
+    <button type="submit" class="btn btn-primary" (click)="nextStep()">Build File List</button>
   </div>
 </form>
