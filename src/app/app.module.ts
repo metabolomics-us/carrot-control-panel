@@ -11,12 +11,12 @@ import { Globals } from './app.globals';
 import { AppComponent } from './app.component';
 import { AcquisitionTableComponent } from './acquisition-table/acquisition-table.component';
 import { AcquisitionTableService } from './acquisition-table/acquisition-table.service';
-import { MiniXService } from './acquisition-table/minix.service';
+import { MiniXService } from './minix/minix.service';
 
 import { NavbarComponent } from './navbar/navbar.component';
 
 export const ROUTES: Routes = [
-  {path: '', component: AcquisitionTableComponent},
+  {path: '', redirectTo: '/lcms', pathMatch: 'full'},
   {path: 'lcms', component: AcquisitionTableComponent},
   {path: 'gcms', component: AcquisitionTableComponent}
 ];

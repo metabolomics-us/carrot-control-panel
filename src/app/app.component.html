@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
 
 <div class="container" id="page-wrapper">
-  <app-acquisition-table></app-acquisition-table>
+  <router-outlet (activate)="onActivate($event)"></router-outlet>
 </div>
