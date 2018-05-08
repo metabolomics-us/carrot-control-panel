@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
+import { MiniXService } from '../minix/minix.service';
+
 @Component({
   selector: 'app-acquisition-table',
   templateUrl: './acquisition-table.component.html',
