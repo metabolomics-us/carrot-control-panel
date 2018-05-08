@@ -24,8 +24,9 @@ export class MiniXService {
     miniXData.experiment.classes[0].class.forEach(c => {
       c.samples[0].sample.forEach(sample => {
         sampleData.push({
-          id: sample.$.fileName,
+          id: sample.$.id,
           minix: miniXID,
+
           acquisition: {
             instrument: miniXData.experiment.architecture[0].$.name
           },
