@@ -13,7 +13,12 @@ export class AcquisitionTableComponent implements OnInit {
   atForm: FormGroup;
   minixFileLabels = ['CSH', 'HILIC'];
 
-  constructor(private formBuilder: FormBuilder) {}
+  miniXData;
+  miniXLoading: boolean;
+
+  constructor(private formBuilder: FormBuilder, private miniXService: MiniXService) {
+    this.miniXLoading = false;
+  }
 
   ngOnInit() {
     this.atForm = this.formBuilder.group({
@@ -41,6 +46,16 @@ export class AcquisitionTableComponent implements OnInit {
       nistFrequency: new FormControl(100),
 
       msmsNumber: new FormControl(8)
+    });
+  }
+
+  pullMiniX() {
+    this.miniXLoading = true;
+
+    this.miniXService.getMiniXExport(this.atForm.value.minix, (error, result) => {
+      this.miniXData = result;
+      this.miniXLoading = false;
+      console.log(this.miniXData);
     });
   }
 }
