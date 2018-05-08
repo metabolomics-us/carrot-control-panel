@@ -31,7 +31,7 @@ describe('Service: AcquisitionTableService', () => {
       methods: [
         'posHILIC'
       ],
-      methodBlank: {
+      blank: {
         enabled: true,
         label: 'MtdBlank',
         frequency: 10

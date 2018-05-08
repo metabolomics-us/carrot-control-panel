@@ -53,8 +53,8 @@ export class AcquisitionTableService {
     var fileNames = [];
 
     this.generateRandomizedArray(sampleData).forEach((sample, i) => {
-      if (params.methodBlank.enabled && (i == 0 || (i + 1) % params.methodBlank.frequency == 0)) {
-        fileNames.push(formatQCName(params.methodBlank.label, i + 1, params.methodBlank.frequency))
+      if (params.blank.enabled && (i == 0 || (i + 1) % params.blank.frequency == 0)) {
+        fileNames.push(formatQCName(params.blank.label, i + 1, params.blank.frequency))
       }
 
       if (params.qc.enabled && (i == 0 || (i + 1) % params.qc.frequency == 0)) {
@@ -67,8 +67,8 @@ export class AcquisitionTableService {
 
       fileNames.push(formatSampleName(sample, i + 1));
 
-      if (params.methodBlank.enabled && i == sampleData.length - 1) {
-        fileNames.push(formatQCName(params.methodBlank.label, i + 1, params.methodBlank.frequency))
+      if (params.blank.enabled && i == sampleData.length - 1) {
+        fileNames.push(formatQCName(params.blank.label, i + 1, params.blank.frequency))
       }
 
       if (params.qc.enabled && i == sampleData.length - 1) {

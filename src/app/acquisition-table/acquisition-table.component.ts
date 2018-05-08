@@ -10,30 +10,27 @@ import { MiniXService } from '../minix/minix.service';
 })
 export class AcquisitionTableComponent implements OnInit {
 
-  acquistionTableForm: FormGroup;
-  minixFileLabels = ['posCSH', 'negCSH', 'posHILIC', 'negHILIC'];
+  atForm: FormGroup;
+  minixFileLabels = ['CSH', 'HILIC'];
 
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-    this.acquistionTableForm = this.formBuilder.group({
+    this.atForm = this.formBuilder.group({
       studyLabel: new FormControl(''),
 
       minix1: new FormControl('', [
         Validators.required,
         Validators.pattern("\d+")
       ]),
-      minix1_label: new FormControl(this.minixFileLabels),
+      minix_label: new FormControl(this.minixFileLabels),
 
-      minix2: new FormControl('', [
-        Validators.required,
-        Validators.pattern("\d+")
-      ]),
-      minix2_label: new FormControl(this.minixFileLabels),
+      positiveMode: new FormControl(false),
+      negativeMode: new FormControl(false),
 
-      methodBlankEnabled: new FormControl(false),
-      methodBlankLabel: new FormControl('MtdBlank'),
-      methodBlankFrequency: new FormControl(10),
+      blankEnabled: new FormControl(false),
+      blankLabel: new FormControl('MtdBlank'),
+      blankFrequency: new FormControl(10),
 
       qcEnabled: new FormControl(false),
       qcLabel: new FormControl('BioRec'),

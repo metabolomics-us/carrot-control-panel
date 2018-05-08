@@ -4,7 +4,7 @@
 </h4>
 <br>
 
-<form novalidate [formGroup]="acquistionTableForm">
+<form novalidate [formGroup]="atForm">
   <div class="form-row">
     <div class="col-md-12 mb-3">
       <label>Study Identifier (Sample filename prefix):</label>
@@ -14,42 +14,46 @@
 
   <div class="form-row">
     <div class="col-md-6 mb-3">
-      <label>MiniX ID #1:</label>
-      <input type="text" class="form-control" formControlName="minix1" required>
+      <label>MiniX ID</label>
+      <input type="text" class="form-control" formControlName="minix" required>
     </div>
     <div class="col-md-6 mb-3">
       <label>Platform</label>
-      <select class="custom-select custom-select mb-3" formControlName="minix1_label">
+      <select class="custom-select custom-select mb-3" formControlName="minix_label">
       <option *ngFor="let label of minixFileLabels" [ngValue]="label">{{label}}</option>
       </select>
     </div>
   </div>
 
-  <div class="form-row">
-    <div class="col-md-6 mb-3">
-      <label>MiniX ID #2:</label>
-      <input type="text" class="form-control" formControlName="minix2" required>
+  <div class="form-row text-center">
+    <div class="col-md-2 mb-3"></div>
+    <div class="col-md-4 mb-3">
+      <label>Positive Mode</label><br>
+      <input type="checkbox" class="form-control-lg" formControlName="positiveMode">
     </div>
-    <div class="col-md-6 mb-3">
-      <label>Platform</label>
-      <select class="custom-select custom-select mb-3" formControlName="minix2_label">
-      <option *ngFor="let label of minixFileLabels" [ngValue]="label">{{label}}</option>
-      </select>
+    <div class="col-md-4 mb-3">
+      <label>Negative Mode</label><br>
+      <input type="checkbox" class="form-control-lg" formControlName="negativeMode">
     </div>
+    <div class="col-md-2 mb-3"></div>
+  </div>
+
+  <div class="mb-5">
+    <button type="submit" class="btn btn-primary" (click)="pullMiniX()">Pull MiniX Data</button>
   </div>
 
   <div class="form-row">
     <div class="col-md-3 mb-3">
-      <label>Method Blanks</label><br>
-      <input type="checkbox" class="form-control-lg" formControlName="methodBlankEnabled">
+      <label>Blanks</label><br>
+      <input type="checkbox" class="form-control-lg" formControlName="blankEnabled">
     </div>
     <div class="col-md-5 mb-3">
       <label>Label</label>
-      <input type="text" class="form-control" formControlName="methodBlankLabel">
+      <input type="text" class="form-control" formControlName="blankLabel">
     </div>
     <div class="col-md-4 mb-3">
       <label>Frequency</label>
-      <input type="text" class="form-control" formControlName="methodBlankFrequency">
+      <input type="text" class="form-control" formControlName="blankFrequency">
     </div>
   </div>
 
@@ -86,7 +90,7 @@
   <div class="form-row">
     <div class="col-md-12 mb-3">
       <label>MS/MS Samples</label>
-      <input type="text" class="form-control" formControlName="msmsNumber" required>
+      
     </div>
   </div>
 </form>
