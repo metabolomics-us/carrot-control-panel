@@ -1,0 +1,9 @@
+<h4>
+  <i class="fa fa-table"></i> Generate Acquisition Table<br>
+  <small class="text-muted">Update MiniX studies with filenames based on your acquisition properties</small>
+</h4>
+<br>
+
+<app-atf-minix *ngIf="!lcmsData.miniXData" [platforms]="lcmsPlatforms" [data]="lcmsData"></app-atf-minix>
+
+<app-atf-lcms *ngIf="lcmsData.miniXData && !lcmsData.samples" [data]="lcmsData"></app-atf-lcms>

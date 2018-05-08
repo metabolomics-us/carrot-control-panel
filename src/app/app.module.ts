@@ -9,24 +9,29 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { Globals } from './app.globals';
 import { AppComponent } from './app.component';
-import { AcquisitionTableComponent } from './acquisition-table/acquisition-table.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { ATFMiniXComponent } from './acquisition-table/atf-minix.component';
+import { ATFLCMSComponent } from './acquisition-table/atf-lcms.component';
+import { LCMSComponent } from './lcms/lcms.component';
+
 import { AcquisitionTableService } from './acquisition-table/acquisition-table.service';
 import { MiniXService } from './minix/minix.service';
 
-import { NavbarComponent } from './navbar/navbar.component';
 
 export const ROUTES: Routes = [
   {path: '', redirectTo: '/lcms', pathMatch: 'full'},
-  {path: 'lcms', component: AcquisitionTableComponent},
-  {path: 'gcms', component: AcquisitionTableComponent}
+  {path: 'lcms', component: LCMSComponent},
+  {path: 'gcms', component: LCMSComponent}
 ];
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AcquisitionTableComponent,
-    NavbarComponent
+    NavbarComponent,
+    ATFMiniXComponent,
+    ATFLCMSComponent,
+    LCMSComponent
   ],
   imports: [
     BrowserModule,

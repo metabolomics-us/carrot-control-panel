@@ -1,0 +1,25 @@
+<form novalidate [formGroup]="form">
+  <div class="form-row">
+    <div class="col-md-12 mb-3">
+      <label>Study Identifier (Sample filename prefix):</label>
+      <input type="text" class="form-control" formControlName="studyLabel" required>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label>MiniX ID</label>
+      <input type="text" class="form-control" formControlName="minix" required>
+    </div>
+    <div class="col-md-6 mb-3">
+      <label>Platform</label>
+      <select class="custom-select custom-select mb-3" formControlName="platform">
+      <option *ngFor="let label of platforms" [ngValue]="label">{{label}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="mb-5">
+    <button type="submit" class="btn btn-primary" (click)="pullMiniX()">Pull MiniX Data</button>
+  </div>
+</form>

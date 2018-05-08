@@ -5,35 +5,8 @@ export class AcquisitionTableService {
 
   constructor() { }
 
-  generateAcquisitionTable(miniXData, params) {
-    console.log(miniXData);
+  generateAcquisitionTable(miniXID, sampleData, params) {
     console.log(params);
-
-    var miniXID = miniXData.experiment.$.id;
-    var sampleData = [];
-
-    // Compile sample data
-    miniXData.experiment.classes[0].class.forEach(c => {
-      c.samples[0].sample.forEach(sample => {
-
-        sampleData.push({
-          id: sample.$.fileName,
-          minix: miniXID,
-          acquisition: {
-            instrument: miniXData.experiment.architecture[0].$.name
-          },
-          metadata: {
-            class: c.$.id,
-            species: c.$.species,
-            organ: c.$.organ
-          },
-          userdata: {
-            label: sample.$.label,
-            comment: sample.$.comment
-          }
-        });
-      });
-    });
 
     // Generate acquisition table
     var acquisitionTable = [];

@@ -24,7 +24,7 @@ export class AcquisitionTableComponent implements OnInit {
     this.atForm = this.formBuilder.group({
       studyLabel: new FormControl(''),
 
-      minix1: new FormControl('', [
+      minix: new FormControl('400333', [
         Validators.required,
         Validators.pattern("\d+")
       ]),

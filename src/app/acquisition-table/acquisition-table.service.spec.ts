@@ -53,7 +53,9 @@ describe('Service: AcquisitionTableService', () => {
     };
 
     miniXService.getMiniXExport(acquisitionParameters.miniXID, (error, result) => {
-      var result = service.generateAcquisitionTable(result, acquisitionParameters);
+      var miniXID = result.experiment.$.id
+      var sampleData = miniXService.parseMiniXSamples(result);
+      var result = service.generateAcquisitionTable(miniXID, sampleData, acquisitionParameters);
     });
   }));
 });
