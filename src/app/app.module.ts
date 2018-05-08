@@ -15,6 +15,13 @@ import { MiniXService } from './acquisition-table/minix.service';
 
 import { NavbarComponent } from './navbar/navbar.component';
 
+export const ROUTES: Routes = [
+  {path: '', component: AcquisitionTableComponent},
+  {path: 'lcms', component: AcquisitionTableComponent},
+  {path: 'gcms', component: AcquisitionTableComponent}
+];
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,6 +34,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    RouterModule.forRoot(ROUTES),
     NgbModule.forRoot()
   ],
   providers: [
