@@ -13,25 +13,24 @@ export class ATFLCMSComponent implements OnInit {
 
   form: FormGroup;
 
-  miniXLoading: boolean;
-
-  constructor(private formBuilder: FormBuilder) {
-    this.miniXLoading = false;
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      studyLabel: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(16)
-      ]),
+      positiveMode: new FormControl(false),
+      negativeMode: new FormControl(false),
 
-      minix: new FormControl('400333', [
-        Validators.required,
-        Validators.pattern("\d+")
-      ]),
+      blankEnabled: new FormControl(true),
+      blankLabel: new FormControl('MtdBlank'),
+      blankFrequency: new FormControl(10),
 
-      platform: new FormControl('')
+      qcEnabled: new FormControl(true),
+      qcLabel: new FormControl('BioRec'),
+      qcFrequency: new FormControl(10),
+
+      nistEnabled: new FormControl(false),
+      nistLabel: new FormControl('NIST'),
+      nistFrequency: new FormControl(100)
     });
   }
 }

@@ -1,4 +1,7 @@
-<form novalidate [formGroup]="atForm">
+<h4>MiniX ID: {{data.miniXID}}</h4>
+<h5 class="mb-5">{{data.miniXData.experiment.$.title}}</h5>
+
+<form novalidate [formGroup]="form">
   <div class="form-row text-center">
     <div class="col-md-2 mb-3"></div>
     <div class="col-md-4 mb-3">
@@ -10,5 +13,79 @@
       <input type="checkbox" class="form-control-lg" formControlName="negativeMode">
     </div>
     <div class="col-md-2 mb-3"></div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-3 mb-3">
+      <label>Blanks</label><br>
+      <input type="checkbox" class="form-control-lg" formControlName="blankEnabled">
+    </div>
+    <div class="col-md-5 mb-3">
+      <label>Label</label>
+      <input type="text" class="form-control" formControlName="blankLabel">
+    </div>
+    <div class="col-md-4 mb-3">
+      <label>Frequency</label>
+      <input type="text" class="form-control" formControlName="blankFrequency">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-3 mb-3">
+      <label>Quality Controls</label><br>
+      <input type="checkbox" formControlName="qcEnabled">
+    </div>
+    <div class="col-md-5 mb-3">
+      <label>Label</label>
+      <input type="text" class="form-control" formControlName="qcLabel">
+    </div>
+    <div class="col-md-4 mb-3">
+      <label>Frequency</label>
+      <input type="text" class="form-control" formControlName="qcFrequency">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-3 mb-3">
+      <label>NIST QCs</label><br>
+      <input type="checkbox" formControlName="nistEnabled">
+    </div>
+    <div class="col-md-5 mb-3">
+      <label>Label</label>
+      <input type="text" class="form-control" formControlName="nistLabel">
+    </div>
+    <div class="col-md-4 mb-3">
+      <label>Frequency</label>
+      <input type="text" class="form-control" formControlName="nistFrequency">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-12 mt-3 mb-3">
+      <h4>MS/MS Samples</h4>
+      
+      <div *ngFor="let class of data.miniXData.experiment.classes[0].class" class="mb-2">
+        <h5>{{class.$.id}}: {{class.$.species}} {{class.$.organ}}</h5>
+
+        <div *ngIf="class.treatments[0].treatment">
+          <h6>Treatments:</h6>
+
+          <ol>
+            <li *ngFor="let treatment of class.treatments[0].treatment">
+              {{treatment.$.name}}: {{treatment.$.value}}
+            </li>
+          </ol>
+        </div>
+
+        <table class="table table-striped">
+          <tr *ngFor="let sample of class.samples[0].sample">
+            <td><input type="checkbox"></td>
+            <td>{{sample.$.id}}</td>
+            <td>{{sample.$.label}}</td>
+            <td>{{sample.$.comment}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
   </div>
 </form>
