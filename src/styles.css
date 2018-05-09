@@ -14,7 +14,7 @@ body {
 #page-wrapper {
   margin-right: auto;
   margin-left: auto;
-  max-width: 767px;
+  max-width: 992px;
 }
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
