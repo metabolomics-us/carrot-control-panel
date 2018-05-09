@@ -52,7 +52,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular-acquisition-table-generator:build"
+            "browserTarget": "angular-acquisition-table-generator:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {

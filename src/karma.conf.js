@@ -26,6 +26,13 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false
+    singleRun: false,
+    proxies: {
+      "/rest": {
+        "target": "http://minix.fiehnlab.ucdavis.edu/rest",
+        "secure": false,
+        "changeOrigin": true
+      }
+    }
   });
 };

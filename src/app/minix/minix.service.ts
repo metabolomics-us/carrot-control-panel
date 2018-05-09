@@ -11,7 +11,7 @@ export class MiniXService {
 
   getMiniXExport(minixID: number, callback: Function) {
     return this.http.get(
-      'http://localhost:1337/minix.fiehnlab.ucdavis.edu/rest/export/'+ minixID,
+      '/rest/export/'+ minixID,
       {responseType: 'text'}
     ).subscribe((result: string) => parseString(result, callback));
   }

@@ -1,0 +1,7 @@
+{
+  "/rest": {
+    "target": "http://minix.fiehnlab.ucdavis.edu",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
