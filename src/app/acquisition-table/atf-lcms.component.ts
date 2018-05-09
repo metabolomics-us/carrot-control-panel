@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { ATFComponent } from './atf.component';
 import { AcquisitionTableService } from './acquisition-table.service';
 
 @Component({
@@ -8,43 +9,60 @@ import { AcquisitionTableService } from './acquisition-table.service';
   templateUrl: './atf-lcms.component.html',
   styleUrls: []
 })
-export class ATFLCMSComponent implements OnInit {
+export class ATFLCMSComponent extends ATFComponent implements OnInit {
 
-  @Input()
-  data;
+  ionizationForm: FormGroup;
+  blankForm: FormGroup;
+  qcForm: FormGroup;
+  nistForm: FormGroup;
 
-  form: FormGroup;
-
-  constructor(private formBuilder: FormBuilder, private acquisitionTableService: AcquisitionTableService) {}
+  constructor(private formBuilder: FormBuilder, private acquisitionTableService: AcquisitionTableService) {
+    super();
+  }
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      positiveMode: new FormControl(true),
-      negativeMode: new FormControl(true),
-
-      blankEnabled: new FormControl(true),
-      blankLabel: new FormControl('MtdBlank'),
-      blankFrequency: new FormControl(10),
-
-      qcEnabled: new FormControl(true),
-      qcLabel: new FormControl('BioRec'),
-      qcFrequency: new FormControl(10),
-
-      nistEnabled: new FormControl(false),
-      nistLabel: new FormControl('NIST'),
-      nistFrequency: new FormControl(100),
-
-      randomize: new FormControl(true)
+    this.ionizationForm = this.formBuilder.group({
+      positiveMode: true,
+      negativeMode: true
+    }, {
+      validator: this.checkBoxValidation
     });
+
+    // Combination of form groups
+    this.form = this.formBuilder.group({
+      ionization: this.ionizationForm,
+
+      blankEnabled: true,
+      blankLabel: ['MtdBlank', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      blankFrequency: [10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
+
+      qcEnabled: true,
+      qcLabel: ['BioRec', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      qcFrequency:  [10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
+
+      nistEnabled: false,
+      nistLabel: ['NIST', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      nistFrequency:  [100, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
+
+      randomize: true
+    });
+  }
+
+  checkBoxValidation(control: FormGroup) {
+    if (!control.value.positiveMode && !control.value.negativeMode)
+      return {required: true};
+    return null;
   }
 
   nextStep() {
     this.data.ionizations = [];
 
+    console.log(this.form);
+
     // Set ionization mode
-    if (this.form.value.positiveMode)
+    if (this.form.value.ionization.positiveMode)
       this.data.ionizations.push('pos');
-    if (this.form.value.negativeMode)
+    if (this.form.value.ionization.negativeMode)
       this.data.ionizations.push('neg');
 
     // Set QC parameters
@@ -68,7 +86,7 @@ export class ATFLCMSComponent implements OnInit {
 
     this.data.randomize = this.form.value.randomize;
 
-
+    // Generate QC pattern generic filenames for defined samples
     var sampleNames = this.acquisitionTableService.generateAcquisitionTable(this.data);
     this.data.sampleNames = sampleNames;
 
