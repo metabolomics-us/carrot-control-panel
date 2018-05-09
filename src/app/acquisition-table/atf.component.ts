@@ -14,7 +14,6 @@ export class ATFComponent {
   validateAllFormFields(formGroup: FormGroup = this.form) {
     Object.keys(formGroup.controls).forEach(field => {
       const control = formGroup.get(field);
-      console.log(field);
 
       if (control instanceof FormControl) {
         control.markAsTouched({ onlySelf: true });

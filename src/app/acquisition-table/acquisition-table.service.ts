@@ -8,8 +8,6 @@ export class AcquisitionTableService {
   constructor() { }
 
   generateAcquisitionTable(params) {
-    console.log(params);
-
     // Generate acquisition table
     var acquisitionTable = [];
 
@@ -23,8 +21,6 @@ export class AcquisitionTableService {
       return label + pad(i == 1 ? 1 : Math.ceil(i / frequency) + 1) +'_MX'+ params.miniXID
         +'_{METHOD}_' + (i == 1 ? 'pre' : 'post') + params.prefix + pad(i);
     }
-
-    console.log(params.sampleData)
 
     // Randomize sample list if required
     var sampleData = params.randomize ? this.randomizeArray(params.sampleData, params.miniXID) : params.sampleData;

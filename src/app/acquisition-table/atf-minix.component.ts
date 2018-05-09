@@ -37,7 +37,6 @@ export class ATFMiniXComponent extends ATFComponent implements OnInit {
   }
 
   pullMiniX() {
-    console.log(this.form)
     this.miniXLoading = true;
 
     this.miniXService.getMiniXExport(this.form.value.minix, (error, result) => {
