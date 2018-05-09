@@ -44,16 +44,18 @@ export class ATFMiniXComponent implements OnInit {
     this.miniXLoading = true;
 
     this.miniXService.getMiniXExport(this.form.value.minix, (error, result) => {
+      this.miniXLoading = false;
+
+      // Update form data
       this.data.prefix = this.form.value.studyLabel;
       this.data.miniXID = this.form.value.minix;
       this.data.platform = this.form.value.platform;
 
+      // Store raw MiniX data and parsed samples
       this.data.miniXData = result;
       this.data.sampleData = this.miniXService.parseMiniXSamples(result);
 
       this.data.step += 1;
-
-      this.miniXLoading = false;
     });
   }
 }

@@ -41,11 +41,13 @@ export class ATFLCMSComponent implements OnInit {
   nextStep() {
     this.data.ionizations = [];
 
+    // Set ionization mode
     if (this.form.value.positiveMode)
       this.data.ionizations.push('pos');
     if (this.form.value.negativeMode)
       this.data.ionizations.push('neg');
 
+    // Set QC parameters
     this.data.blank = {
       enabled: this.form.value.blankEnabled,
       label: this.form.value.blankLabel,

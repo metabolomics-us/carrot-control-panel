@@ -13,63 +13,52 @@ export class AcquisitionTableService {
 
     var pad = n => ('' + n).padStart(3, '0')
 
-    var formatSampleName = (sample, mode, i) => {
-      return params.miniXID +'_'+ params.prefix + pad(i) +'_'+ mode + params.platform
-        +'_'+ sample.userdata.label;
+    var formatSampleName = (sample, i) => {
+      return params.miniXID +'_'+ params.prefix + pad(i) +'_{METHOD}_'+ sample.userdata.label;
     }
 
-    var formatQCName = (label, mode, i, frequency) => {
-      return params.miniXID +'_'+ label + pad(i == 1 ? i : Math.ceil(i / frequency)) +'_'+
-        mode + params.platform +'_'+ (i == 1 ? 'pre' : 'post') + params.prefix + pad(i);
+    var formatQCName = (label, i, frequency) => {
+      return params.miniXID +'_'+ label + pad(i == 1 ? i : Math.ceil(i / frequency)) +
+        '_{METHOD}_' + (i == 1 ? 'pre' : 'post') + params.prefix + pad(i);
     }
-
-    var fileNames = {};
 
     // Randomize sample list if required
-    var sampleData = params.randomize ? this.randomizeArray(params.sampleData.slice(0)) : params.sampleData;
+    var sampleData = params.randomize ? this.randomizeArray(params.sampleData) : params.sampleData;
+    params.sampleData = [];
 
-    // Iterate over each ionization mode
-    params.ionizations.forEach(mode => {
-      var files = [];
+    // Loop over all samples and generate filenames
+    sampleData.forEach((sample, i) => {
+      // Process samples
+      if (i > 0) {
+        sample.filename = formatSampleName(sample, i + 1);
+        params.sampleData.push(sample);
+      }
 
-      // Loop over all samples and generate filenames
-      sampleData.forEach((sample, i) => {
-        // Process samples
-        if (i > 0) {
-          sample.filename = formatSampleName(sample, mode, i + 1);
-          files.push(sample);
-        }
+      // Handle blanks and QCs
+      if (params.blank.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % params.blank.frequency == 0)) {
+        params.sampleData.push({
+          filename: formatQCName(params.blank.label, i + 1, params.blank.frequency)
+        })
+      }
 
-        // Handle blanks and QCs
-        if (params.blank.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % params.blank.frequency == 0)) {
-          files.push({
-            filename: formatQCName(params.blank.label, mode, i + 1, params.blank.frequency)
-          })
-        }
+      if (params.qc.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % params.qc.frequency == 0)) {
+        params.sampleData.push({
+          filename: formatQCName(params.qc.label, i + 1, params.qc.frequency)
+        });
+      }
 
-        if (params.qc.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % params.qc.frequency == 0)) {
-          files.push({
-            filename: formatQCName(params.qc.label, mode, i + 1, params.qc.frequency)
-          });
-        }
+      if (params.nist.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % params.nist.frequency == 0)) {
+        params.sampleData.push({
+          filename: formatQCName(params.nist.label, i + 1, params.nist.frequency)
+        });
+      }
 
-        if (params.nist.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % params.nist.frequency == 0)) {
-          files.push({
-            filename: formatQCName(params.nist.label, mode, i + 1, params.nist.frequency)
-          });
-        }
-
-        // Handle first sample in list since it comes after the pre samples
-        if (i == 0) {
-          sample.filename = formatSampleName(sample, mode, i + 1);
-          files.push(sample);
-        }
-      });
-
-      fileNames[mode + params.platform] = files;
+      // Handle first sample in list since it comes after the pre samples
+      if (i == 0) {
+        sample.filename = formatSampleName(sample, i + 1);
+        params.sampleData.push(sample);
+      }
     });
-
-    return fileNames;
   }
 
   /**

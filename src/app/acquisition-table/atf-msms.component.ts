@@ -12,11 +12,12 @@ export class ATFMSMSComponent implements OnInit {
   data;
 
   form: FormGroup;
+  method: string;
 
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
-
+    this.method = this.data.ionizations[0] + this.data.platform
     this.form = this.formBuilder.group({});
   }
 }
