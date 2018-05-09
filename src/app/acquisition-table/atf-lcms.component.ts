@@ -88,6 +88,7 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     var sampleNames = this.acquisitionTableService.generateAcquisitionTable(this.data);
     this.data.sampleNames = sampleNames;
 
+    window.scroll(0, 0);
     this.data.step += 1;
   }
 }
