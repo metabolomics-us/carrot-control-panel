@@ -18,8 +18,8 @@ export class AcquisitionTableService {
     }
 
     var formatQCName = (label, i, frequency) => {
-      return label + pad(i == 1 ? 1 : Math.ceil(i / frequency) + 1) +'_MX'+ params.miniXID +'_'+ 
-        '_{METHOD}_' + (i == 1 ? 'pre' : 'post') + params.prefix + pad(i);
+      return label + pad(i == 1 ? 1 : Math.ceil(i / frequency) + 1) +'_MX'+ params.miniXID
+        +'_{METHOD}_' + (i == 1 ? 'pre' : 'post') + params.prefix + pad(i);
     }
 
     // Randomize sample list if required
