@@ -1,25 +1,37 @@
 <form novalidate [formGroup]="form">
   <div class="form-row">
     <div class="col-md-12 mb-3">
-      <label>Study Identifier (Sample filename prefix):</label>
-      <input type="text" class="form-control" formControlName="studyLabel" required>
+      <label>MiniX ID</label>
+      <input type="text" class="form-control" formControlName="minix"
+        [ngClass]="displayFieldCss('minix')" required>
+      <div class="invalid-feedback" *ngIf="!isValid('minix')">
+        Please enter a valid MiniX ID
+      </div>
     </div>
   </div>
 
   <div class="form-row">
-    <div class="col-md-6 mb-3">
-      <label>MiniX ID</label>
-      <input type="text" class="form-control" formControlName="minix" required>
+    <div class="col-md-12 mb-3">
+      <label>Study Identifier (Sample filename prefix, e.g. <b>Fiehn</b>001_posHILIC_C1_020):</label>
+      <input type="text" class="form-control" formControlName="studyLabel"
+        [ngClass]="displayFieldCss('studyLabel')" required>
+      <div class="invalid-feedback" *ngIf="!isValid('studyLabel')">
+        Please enter a filename prefix for this study (between 1 and 16 characters)
+      </div>
     </div>
-    <div class="col-md-6 mb-3">
-      <label>Platform</label>
-      <select class="custom-select custom-select mb-3" formControlName="platform">
-      <option *ngFor="let label of platforms" [ngValue]="label">{{label}}</option>
-      </select>
+  </div>
+
+  <div class="form-row text-center">
+    <div class="col mb-5" *ngFor="let platform of platforms">
+      <label>{{platform}}</label><br>
+      <input type="radio" name="platform" [value]="platform" formControlName="platform">
     </div>
   </div>
 
   <div>
-    <button type="submit" class="btn btn-primary" (click)="pullMiniX()">Pull MiniX Data</button>
+    <button type="submit" class="btn btn-primary" (click)="pullMiniX()" [disabled]="!form.valid || miniXLoading">
+      Pull MiniX Data
+      <span *ngIf="miniXLoading"> <i class="fa fa-spinner fa-pulse fa-fw"></i></span>
+    </button>
   </div>
 </form>

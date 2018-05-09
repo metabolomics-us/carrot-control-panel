@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { ATFComponent } from './atf.component';
 import { MiniXService } from '../minix/minix.service';
 
 @Component({
@@ -8,39 +9,35 @@ import { MiniXService } from '../minix/minix.service';
   templateUrl: './atf-minix.component.html',
   styleUrls: []
 })
-export class ATFMiniXComponent implements OnInit {
+export class ATFMiniXComponent extends ATFComponent implements OnInit {
 
   @Input()
   platforms;
 
-  @Input()
-  data;
-
-  form: FormGroup;
-
   miniXLoading: boolean;
 
-  constructor(private formBuilder: FormBuilder, private miniXService: MiniXService) {}
+  constructor(private formBuilder: FormBuilder, private miniXService: MiniXService) {
+    super();
+  }
 
   ngOnInit() {
     this.miniXLoading = false;
 
     this.form = this.formBuilder.group({
-      studyLabel: new FormControl('', [
+      studyLabel: ['asdf', [
         Validators.required,
+        Validators.minLength(1),
         Validators.maxLength(16)
-      ]),
+      ]],
 
-      minix: new FormControl('400333', [
-        Validators.required,
-        Validators.pattern("\d+")
-      ]),
+      minix: ['400333', [Validators.required, Validators.pattern("\\d+")]],
 
-      platform: new FormControl('')
+      platform: [this.platforms[0], Validators.required]
     });
   }
 
   pullMiniX() {
+    console.log(this.form)
     this.miniXLoading = true;
 
     this.miniXService.getMiniXExport(this.form.value.minix, (error, result) => {
