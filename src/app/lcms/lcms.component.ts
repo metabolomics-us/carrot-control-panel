@@ -10,6 +10,10 @@ export class LCMSComponent {
   lcmsPlatforms = ['CSH', 'HILIC'];
   data = {step: 1};
 
-  constructor() {}
+  msms_suffix = {
+    'pos': ['120_700', '700_800', '800_880', '880_1200'],
+    'neg': ['60_700', '700_800', '800_880', '880_1200']
+  };
 
+  constructor() {}
 }

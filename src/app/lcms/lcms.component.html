@@ -4,8 +4,30 @@
 </h3>
 <br>
 
+<div *ngIf="data.step > 1">
+  <h4>MiniX ID: {{data.miniXID}}</h4>
+  <h5 class="mb-5">{{data.miniXData.experiment.$.title}}</h5>
+</div>
+
 <app-atf-minix *ngIf="data.step == 1" [platforms]="lcmsPlatforms" [data]="data"></app-atf-minix>
 
 <app-atf-lcms *ngIf="data.step == 2" [data]="data"></app-atf-lcms>
 
 <app-atf-msms *ngIf="data.step == 3" [data]="data"></app-atf-msms>
+
+<div class="row" *ngIf="data.step == 4">
+  <div class="col" *ngFor="let mode of data.ionizations">
+      <table class="table table-striped mb-3">
+        <tr>
+          <th>{{mode}}{{data.platform}}</th>
+        </tr>
+        <tr *ngFor="let sample of data.sampleData; index as i">
+          <td>{{sample.filename.replace('{METHOD}', mode + data.platform)}}</td>
+        </tr>
+        <tr *ngFor="let sample of data.msmsData; index as i">
+          <td>{{sample.filename.replace('{METHOD}', mode + data.platform) +'_'+ 
+            msms_suffix[mode][i % msms_suffix[mode].length]}}</td>
+        </tr>
+      </table>
+  </div>
+</div>
