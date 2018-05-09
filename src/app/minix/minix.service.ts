@@ -23,23 +23,26 @@ export class MiniXService {
     // Compile sample data
     miniXData.experiment.classes[0].class.forEach(c => {
       c.samples[0].sample.forEach(sample => {
-        sampleData.push({
-          id: sample.$.id,
-          minix: miniXID,
+        // Only keep samples with an associated label
+        if (sample.$.label) {
+          sampleData.push({
+            id: sample.$.id,
+            minix: miniXID,
 
-          acquisition: {
-            instrument: miniXData.experiment.architecture[0].$.name
-          },
-          metadata: {
-            class: c.$.id,
-            species: c.$.species,
-            organ: c.$.organ
-          },
-          userdata: {
-            label: sample.$.label,
-            comment: sample.$.comment
-          }
-        });
+            acquisition: {
+              instrument: miniXData.experiment.architecture[0].$.name
+            },
+            metadata: {
+              class: c.$.id,
+              species: c.$.species,
+              organ: c.$.organ
+            },
+            userdata: {
+              label: sample.$.label,
+              comment: sample.$.comment
+            }
+          });
+        }
       });
     });
 
