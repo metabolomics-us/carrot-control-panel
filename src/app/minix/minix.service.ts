@@ -22,7 +22,10 @@ export class MiniXService {
 
     // Compile sample data
     miniXData.experiment.classes[0].class.forEach(c => {
-      c.samples[0].sample.forEach(sample => {
+      var samples = c.samples[0].sample;
+      samples.sort((a, b) => a.$.id - b.$.id);
+
+      samples.forEach(sample => {
         // Only keep samples with an associated label
         if (sample.$.label) {
           sampleData.push({
