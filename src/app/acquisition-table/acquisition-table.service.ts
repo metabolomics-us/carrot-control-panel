@@ -14,11 +14,11 @@ export class AcquisitionTableService {
     var pad = n => ('' + n).padStart(3, '0')
 
     var formatSampleName = (sample, i) => {
-      return params.miniXID +'_'+ params.prefix + pad(i) +'_{METHOD}_'+ sample.userdata.label;
+      return params.prefix + pad(i) +'_MX'+ params.miniXID +'_{METHOD}_'+ sample.userdata.label;
     }
 
     var formatQCName = (label, i, frequency) => {
-      return params.miniXID +'_'+ label + pad(i == 1 ? i : Math.ceil(i / frequency)) +
+      return label + pad(i == 1 ? i : Math.ceil(i / frequency)) +'_MX'+ params.miniXID +'_'+ 
         '_{METHOD}_' + (i == 1 ? 'pre' : 'post') + params.prefix + pad(i);
     }
 
