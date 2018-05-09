@@ -12,13 +12,19 @@
           <th>Comment</th>
         </tr>
         <tr *ngFor="let sample of data.sampleData; index as i">
-          <td><input type="checkbox" *ngIf="sample.userdata"></td>
-          <td>{{i}}</td>
-          <td>{{sample.filename.replace(data.miniXID +'_', '').replace('{METHOD}', method)}}</td>
+          <td><input type="checkbox" *ngIf="sample.userdata" formControlName="{{i}}"></td>
+          <td>{{i + 1}}</td>
+          <td>{{sample.filename.split('_MX')[0]}}</td>
           <td>{{sample.userdata ? sample.userdata.label : ''}}</td>
           <td>{{sample.userdata ? sample.userdata.comment : ''}}</td>
         </tr>
       </table>
+
+      <h5 class="mb-3">Marked {{countMSMS()}} samples for MS/MS injections</h5>
+
+      <button type="submit" class="btn btn-primary" (click)="nextStep()" [disabled]="!form.valid">
+        Create Acquisition Table
+      </button>
     </div>
   </div>
 </form>
