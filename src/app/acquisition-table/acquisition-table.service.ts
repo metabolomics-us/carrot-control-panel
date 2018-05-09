@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import * as seedrandom from 'seedrandom';
+
 @Injectable()
 export class AcquisitionTableService {
 
@@ -22,8 +24,10 @@ export class AcquisitionTableService {
         +'_{METHOD}_' + (i == 1 ? 'pre' : 'post') + params.prefix + pad(i);
     }
 
+    console.log(params.sampleData)
+
     // Randomize sample list if required
-    var sampleData = params.randomize ? this.randomizeArray(params.sampleData) : params.sampleData;
+    var sampleData = params.randomize ? this.randomizeArray(params.sampleData, params.miniXID) : params.sampleData;
     params.sampleData = [];
 
     // Loop over all samples and generate filenames
@@ -65,13 +69,14 @@ export class AcquisitionTableService {
    * Uses the Fisher-Yates (aka Knuth) Shuffle
    * https://stackoverflow.com/a/2450976/406772
    */
-  randomizeArray(array) {
+  randomizeArray(array, seed) {
     var currentIndex = array.length, temporaryValue, randomIndex;
+    var rng = seed ? seedrandom(seed) : seedrandom();
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
       // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
+      randomIndex = Math.floor(rng() * currentIndex);
       currentIndex -= 1;
 
       // And swap it with the current element.
