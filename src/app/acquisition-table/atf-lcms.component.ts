@@ -57,8 +57,6 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
   nextStep() {
     this.data.ionizations = [];
 
-    console.log(this.form);
-
     // Set ionization mode
     if (this.form.value.ionization.positiveMode)
       this.data.ionizations.push('pos');
