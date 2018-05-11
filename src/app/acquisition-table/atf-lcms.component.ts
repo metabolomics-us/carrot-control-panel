@@ -37,7 +37,7 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
       blankFrequency: [10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
 
       qcEnabled: true,
-      qcLabel: ['BioRec', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      qcLabel: ['Biorec', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
       qcFrequency:  [10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
 
       nistEnabled: false,
