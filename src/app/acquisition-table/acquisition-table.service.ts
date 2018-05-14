@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 
 import * as seedrandom from 'seedrandom';
 
@@ -47,9 +47,9 @@ export class AcquisitionTableService {
         });
       }
 
-      if (params.nist.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % params.nist.frequency == 0)) {
+      if (params.qc2.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % params.qc2.frequency == 0)) {
         params.sampleData.push({
-          filename: formatQCName(params.nist.label, i + 1, params.nist.frequency)
+          filename: formatQCName(params.qc2.label, i + 1, params.qc2.frequency)
         });
       }
 

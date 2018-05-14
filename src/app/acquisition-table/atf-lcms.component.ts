@@ -1,8 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import { ATFComponent } from './atf.component';
-import { AcquisitionTableService } from './acquisition-table.service';
+import {ATFComponent} from './atf.component';
+import {AcquisitionTableService} from './acquisition-table.service';
 
 @Component({
   selector: 'app-atf-lcms',
@@ -12,9 +12,6 @@ import { AcquisitionTableService } from './acquisition-table.service';
 export class ATFLCMSComponent extends ATFComponent implements OnInit {
 
   ionizationForm: FormGroup;
-  blankForm: FormGroup;
-  qcForm: FormGroup;
-  nistForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private acquisitionTableService: AcquisitionTableService) {
     super();
@@ -37,12 +34,12 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
       blankFrequency: [10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
 
       qcEnabled: true,
-      qcLabel: ['Biorec', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      qcLabel: ['Primary QC', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
       qcFrequency:  [10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
 
-      nistEnabled: false,
-      nistLabel: ['NIST', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
-      nistFrequency:  [100, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
+      qc2Enabled: false,
+      qc2Label: ['Secondary QC', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      qc2Frequency: [100, [Validators.required, Validators.pattern('\\d+'), Validators.min(1)]],
 
       randomize: true
     });
@@ -76,10 +73,10 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
       frequency: this.form.value.qcFrequency
     };
 
-    this.data.nist = {
-      enabled: this.form.value.nistEnabled,
-      label: this.form.value.nistLabel,
-      frequency: this.form.value.nistFrequency
+    this.data.qc2 = {
+      enabled: this.form.value.qc2Enabled,
+      label: this.form.value.qc2Label,
+      frequency: this.form.value.qc2Frequency
     };
 
     this.data.randomize = this.form.value.randomize;

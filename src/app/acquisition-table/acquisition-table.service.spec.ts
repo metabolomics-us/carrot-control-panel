@@ -1,8 +1,8 @@
-import { async, TestBed } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
+import {async, TestBed} from '@angular/core/testing';
+import {HttpClientModule} from '@angular/common/http';
 
-import { AcquisitionTableService } from './acquisition-table.service';
-import { MiniXService } from '../minix/minix.service';
+import {AcquisitionTableService} from './acquisition-table.service';
+import {MiniXService} from '../minix/minix.service';
 
 describe('Service: AcquisitionTableService', () => {
   let service;
@@ -42,7 +42,7 @@ describe('Service: AcquisitionTableService', () => {
         label: 'BioRec',
         frequency: 10
       },
-      nist: {
+      qc2: {
         enabled: false,
         label: 'NIST',
         frequency: 100

@@ -44,7 +44,7 @@
 
   <div class="form-row">
     <div class="col-md-3 mb-3">
-      <label>Quality Controls</label><br>
+      <label>Primary QC</label><br>
       <input type="checkbox" formControlName="qcEnabled">
     </div>
     <div class="col-md-5 mb-3">
@@ -52,7 +52,7 @@
       <input type="text" class="form-control" formControlName="qcLabel"
         [ngClass]="displayFieldCss('qcLabel')">
       <div class="invalid-feedback" *ngIf="!isValid('qcLabel')">
-        Please enter a QC label
+        Please enter a primary QC label
       </div>
     </div>
     <div class="col-md-4 mb-3">
@@ -67,22 +67,22 @@
 
   <div class="form-row">
     <div class="col-md-3 mb-3">
-      <label>NIST QCs</label><br>
-      <input type="checkbox" formControlName="nistEnabled">
+      <label>Secondary QCs</label><br>
+      <input type="checkbox" formControlName="qc2Enabled">
     </div>
     <div class="col-md-5 mb-3">
       <label>Label</label>
-      <input type="text" class="form-control" formControlName="nistLabel"
-        [ngClass]="displayFieldCss('nistLabel')">
-      <div class="invalid-feedback" *ngIf="!isValid('nistLabel')">
-        Please enter a NIST label
+      <input type="text" class="form-control" formControlName="qc2Label"
+             [ngClass]="displayFieldCss('qc2Label')">
+      <div class="invalid-feedback" *ngIf="!isValid('qc2Label')">
+        Please enter a Secondary QC label
       </div>
     </div>
     <div class="col-md-4 mb-3">
       <label>Frequency</label>
-      <input type="text" class="form-control" formControlName="nistFrequency"
-        [ngClass]="displayFieldCss('nistFrequency')">
-      <div class="invalid-feedback" *ngIf="!isValid('nistFrequency')">
+      <input type="text" class="form-control" formControlName="qc2Frequency"
+             [ngClass]="displayFieldCss('qc2Frequency')">
+      <div class="invalid-feedback" *ngIf="!isValid('qc2Frequency')">
         Frequency must be at least 1
       </div>
     </div>
