@@ -8,7 +8,7 @@ import { Tracking } from './model/tracking.model';
 @Injectable()
 export class StasisService {
 
-  private URL: string = 'http://localhost:1337/dev-api.metabolomics.us/stasis';
+  private URL: string = 'http://test-api.metabolomics.us/stasis';
 
   private trackingPath: string = "tracking";
   private resultPath: string = "result";
