@@ -8,11 +8,13 @@ export class SampleData {
   acquisition: Acquisition;
   metadata: Metadata;
   userdata: Userdata;
+  references: Object;
 
-  constructor(sample: string, acquisition: Acquisition, metadata: Metadata, userdata: Userdata) {
+  constructor(sample: string, acquisition: Acquisition, metadata: Metadata, userdata: Userdata, references: Object) {
     this.sample = sample;
     this.acquisition = acquisition;
     this.metadata = metadata;
     this.userdata = userdata;
+    this.references = references;
   }
 }

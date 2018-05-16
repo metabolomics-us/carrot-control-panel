@@ -44,7 +44,8 @@ describe('StatisService', () => {
       filename,
       new Acquisition('instrument A', 'GCTOF', 'positive', 'gcms'),
       new Metadata('123456', 'rat', 'tissue'),
-      new Userdata('file123', '')
+      new Userdata('file123', ''),
+      {minix: 12345}
     );
 
     service.createAcquisition(sampleData).subscribe(
@@ -52,6 +53,7 @@ describe('StatisService', () => {
         expect(response).not.toBeNull();
         expect(response.id).toEqual(filename);
         expect(response.userdata.label).toEqual(sampleData.userdata.label);
+        expect(response.references.minix).toEqual(12345);
 
         // Pull created sample acquisition
         setTimeout(() => {
@@ -60,6 +62,7 @@ describe('StatisService', () => {
               expect(response).not.toBeNull();
               expect(response.id).toEqual(filename);
               expect(response.userdata.label).toEqual(sampleData.userdata.label);
+              expect(response.references.minix).toEqual(12345);
             },
             (error: HttpErrorResponse) =>
               fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
