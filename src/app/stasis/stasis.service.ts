@@ -9,7 +9,7 @@ import { TrackingData } from './model/tracking.model';
 @Injectable()
 export class StasisService {
 
-  private URL: string = 'http://test-api.metabolomics.us/stasis';
+  private URL: string = 'http://localhost:1337/test-api.metabolomics.us/stasis';
 
   private trackingPath: string = "tracking";
   private resultPath: string = "result";
@@ -17,20 +17,20 @@ export class StasisService {
 
   constructor(private http: HttpClient) { }
 
-  getTracking(sample: string): Observable<Tracking>  {
-    return this.http.get<Tracking>(this.URL +'/'+ this.trackingPath +'/'+ sample);
+  getTracking(sample: string): Observable<TrackingData>  {
+    return this.http.get<TrackingData>(this.URL +'/'+ this.trackingPath +'/'+ sample);
   }
 
-  addTracking(sample: string, status: string): Observable<Tracking> {
-    return this.http.post<Tracking>(this.URL +'/'+ this.trackingPath, {sample: sample, status: status});
+  addTracking(sample: string, status: string): Observable<TrackingData> {
+    return this.http.post<TrackingData>(this.URL +'/'+ this.trackingPath, {sample: sample, status: status});
   }
 
-  getResults(sample: string) {
-    return this.http.get(this.URL +'/'+ this.resultPath +'/'+ sample);
+  getResults(sample: string): Observable<ResultData> {
+    return this.http.get<ResultData>(this.URL +'/'+ this.resultPath +'/'+ sample);
   }
 
-  addResult(data) {
-    return this.http.post(this.URL +'/'+ this.resultPath, data);
+  addResult(data: ResultData): Observable<ResultData> {
+    return this.http.post<ResultData>(this.URL +'/'+ this.resultPath, data);
   }
 
   getAcquisition(sample: string): Observable<SampleData> {

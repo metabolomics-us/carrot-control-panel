@@ -1,10 +1,20 @@
 import { async, TestBed, inject } from '@angular/core/testing';
 import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 
-import { SampleData } from './model/sampledata.model';
-import { Acquisition } from './model/acquisition.model';
-import { Metadata } from './model/metadata.model';
-import { Userdata } from './model/userdata.model';
+import { SampleData } from './model/sample.model';
+import { Acquisition } from './model/sample.acquisition.model';
+import { Metadata } from './model/sample.metadata.model';
+import { Userdata } from './model/sample.userdata.model';
+
+import { ResultData } from './model/result.model';
+import { Injection } from './model/result.injection.model';
+import { Correction } from './model/result.correction.model';
+import { CorrectionPoint } from './model/result.correction.point.model';
+import { Result } from './model/result.result.model';
+import { Target } from './model/result.target.model';
+import { Annotation } from './model/result.annotation.model';
+
+
 
 import { StasisService } from './stasis.service';
 
@@ -89,65 +99,36 @@ describe('StatisService', () => {
   it('should create/get result', async(() => {
     expect(service).toBeTruthy();
 
-    let resultData = {
-      sample: filename,
-      injections: {
-        'test_1': {
-          logid: 'R2D2',
-          correction: {
-            polynomial: 5,
-            sampleUsed: 'test',
-            curve: [
-              {x: 121.12, y: 121.2},
-              {x: 123.12, y: 123.2}
-            ]
-          },
-          results: [
-            {
-              target: {
-                retentionIndex: 121.12,
-                name: 'test',
-                id: 'test_id',
-                mass: 12.2
-              },
-              annotation: {
-                retentionIndex: 121.12,
-                intensity: 10.0,
-                replaced: false,
-                mass: 12.2
-              }
-            },
-            {
-              target: {
-                retentionIndex: 123.12,
-                name: 'test2',
-                id: 'test_id2',
-                mass: 132.12
-              },
-              annotation: {
-                retentionIndex: 123.2,
-                intensity: 103.0,
-                replaced: true,
-                mass: 132.12
-              }
-            }
-          ]
-        }
-      }
-    };
+    let resultData = new ResultData(
+      filename,
+      {'test_1': new Injection(
+        'R2D2',
+        new Correction(5, 'test', [new CorrectionPoint(121.12, 121.2), new CorrectionPoint(123.12, 123.2)]),
+        [
+          new Result(
+            new Target(121.12, "test", "test_id", 12.2),
+            new Annotation(121.2, 10.0, false, 12.2)
+          ),
+          new Result(
+            new Target(123.12, "test2", "test_id2", 132.12),
+            new Annotation(123.2, 103.0, true, 132.12)
+          )
+        ]
+      )}
+    );
 
     service.addResult(resultData).subscribe(
       response => {
+        // Soft accessing of keys is necessary without a domain object
+        expect(response.sample).toEqual(filename);
+        expect(Object.keys(response.injections).length).toBeGreaterThan(0);
+
         // Pull created sample result data
         setTimeout(() => {
-          // Soft accessing of keys is necessary without a domain object
-          expect(response['sample']).toEqual(filename);
-          expect(Object.keys(response['injections']).length).toBeGreaterThan(0);
-
           service.getResults(filename).subscribe(
             response => {
-              expect(response['sample']).toEqual(filename);
-              expect(Object.keys(response['injections']).length).toBeGreaterThan(0);
+              expect(response.sample).toEqual(filename);
+              expect(Object.keys(response.injections).length).toBeGreaterThan(0);
             },
             (error: HttpErrorResponse) =>
               fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
