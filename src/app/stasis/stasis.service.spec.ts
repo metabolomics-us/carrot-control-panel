@@ -1,5 +1,5 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
+import { async, TestBed, inject } from '@angular/core/testing';
+import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 
 import { SampleData } from './model/sampledata.model';
 import { Acquisition } from './model/acquisition.model';
@@ -12,18 +12,24 @@ import { StasisService } from './stasis.service';
 let filename = "test"+ Date.now();
 
 describe('StatisService', () => {
+  let service;
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientModule ],
       providers: [ StasisService ]
     });
+
+    service = TestBed.get(StasisService);
   });
 
   it('should be created', inject([StasisService], (service: StasisService) => {
     expect(service).toBeTruthy();
   }));
 
-  it('should create/get acquisition', inject([StasisService], (service: StasisService) => {
+  it('should create/get acquisition', async(() => {
+    expect(service).toBeTruthy();
+
     let sampleData: SampleData = new SampleData(
       filename,
       new Acquisition('instrument A', 'GCTOF', 'positive', 'gcms'),
@@ -33,60 +39,56 @@ describe('StatisService', () => {
 
     service.createAcquisition(sampleData).subscribe(
       response => {
+        expect(response).not.toBeNull();
+        expect(response.id).toEqual(filename);
+        expect(response.userdata.label).toEqual(sampleData.userdata.label);
+
         // Pull created sample acquisition
         setTimeout(() => {
           service.getAcquisition(filename).subscribe(
             response => {
-
               expect(response).not.toBeNull();
               expect(response.id).toEqual(filename);
-              expect(response.metadata).toEqual(sampleData.metadata);
-              expect(response.userdata).toEqual(sampleData.userdata);
+              expect(response.userdata.label).toEqual(sampleData.userdata.label);
             },
-            error => {
-              fail('HTTP GET request failed: '+ error);
-            }
+            (error: HttpErrorResponse) =>
+              fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
           );
         }, 1000);
-
-        expect(response).not.toBeNull();
-        expect(response.id).toEqual(filename);
-        expect(response.metadata).toEqual(sampleData.metadata);
-        expect(response.userdata).toEqual(sampleData.userdata);
       },
-      error => {
-        fail('HTTP POST request failed: '+ error);
-      }
+      (error: HttpErrorResponse) =>
+        fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
     );
   }));
 
-  it('should create/get tracking', inject([StasisService], (service: StasisService) => {
+  it('should create/get tracking', async(() => {
+    expect(service).toBeTruthy();
+
     service.addTracking(filename, 'entered').subscribe(
       response => {
+        expect(response.id).toEqual(filename);
+        expect(response.status[0].value).toEqual('entered');
+
         // Pull created sample tracking data
         setTimeout(() => {
           service.getTracking(filename).subscribe(
             response => {
-              console.log(response)
               expect(response.id).toEqual(filename);
               expect(response.status[0].value).toEqual('entered');
             },
-            error => {
-              fail('HTTP GET request failed: '+ error);
-            }
+            (error: HttpErrorResponse) =>
+              fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
           );
         }, 1000);
-
-        expect(response.id).toEqual(filename);
-        expect(response.status[0].value).toEqual('entered');
       },
-      error => {
-        fail('HTTP POST request failed: '+ error);
-      }
+      (error: HttpErrorResponse) =>
+        fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
     );
   }));
 
-  it('should create/get a result', inject([StasisService], (service: StasisService) => {
+  it('should create/get result', async(() => {
+    expect(service).toBeTruthy();
+
     let resultData = {
       sample: filename,
       injections: {
@@ -135,29 +137,25 @@ describe('StatisService', () => {
     };
 
     service.addResult(resultData).subscribe(
-        response => {
-          // Pull created sample result data
-          setTimeout(() => {
-            console.log('Calling getResults');
-
-            service.getResults(filename).subscribe(
-              response => {
-                expect(response['sample']).toEqual(filename);
-                expect(response['injections'].length[0]).toBeGreaterThan(0);
-              },
-              error => {
-                fail('HTTP GET request failed: '+ error);
-              }
-            );
-          }, 1000);
-          
+      response => {
+        // Pull created sample result data
+        setTimeout(() => {
           // Soft accessing of keys is necessary without a domain object
           expect(response['sample']).toEqual(filename);
-          expect(response['injections'].length[0]).toBeGreaterThan(0);
-        },
-        error => {
-          fail('HTTP POST request failed: '+ error);
-        }
-      );
+          expect(Object.keys(response['injections']).length).toBeGreaterThan(0);
+
+          service.getResults(filename).subscribe(
+            response => {
+              expect(response['sample']).toEqual(filename);
+              expect(Object.keys(response['injections']).length).toBeGreaterThan(0);
+            },
+            (error: HttpErrorResponse) =>
+              fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
+          );
+        }, 1000);
+      },
+      (error: HttpErrorResponse) =>
+        fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
+    );
   }));
 });
