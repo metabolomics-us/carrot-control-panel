@@ -1,6 +1,6 @@
-import { Acquisition } from './acquisition.model';
-import { Metadata } from './metadata.model';
-import { Userdata } from './userdata.model';
+import { Acquisition } from './sample.acquisition.model';
+import { Metadata } from './sample.metadata.model';
+import { Userdata } from './sample.userdata.model';
 
 export class SampleData {
   id: string;

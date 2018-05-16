@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { SampleData } from './model/sampledata.model';
-import { Tracking } from './model/tracking.model';
+import { SampleData } from './model/sample.model';
+import { ResultData } from './model/result.model';
+import { TrackingData } from './model/tracking.model';
 
 @Injectable()
 export class StasisService {

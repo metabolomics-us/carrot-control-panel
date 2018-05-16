@@ -1,6 +1,6 @@
 import { TrackingStatus } from './tracking.status.model';
 
-export class Tracking {
+export class TrackingData {
   id: string;
   sample: string;
   status: Array<TrackingStatus>;
