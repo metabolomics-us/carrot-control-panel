@@ -29,16 +29,20 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     this.form = this.formBuilder.group({
       ionization: this.ionizationForm,
 
+      // preInjectionEnabled: true,
+      // preInjectionLabel: ['PreInj', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      // preInjectionCount: [null, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
+
       blankEnabled: true,
       blankLabel: ['MtdBlank', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
       blankFrequency: [10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
 
       qcEnabled: true,
-      qcLabel: ['Primary QC', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      qcLabel: ['Biorec', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
       qcFrequency:  [10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
 
       qc2Enabled: false,
-      qc2Label: ['Secondary QC', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      qc2Label: ['NIST', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
       qc2Frequency: [100, [Validators.required, Validators.pattern('\\d+'), Validators.min(1)]],
 
       randomize: true
