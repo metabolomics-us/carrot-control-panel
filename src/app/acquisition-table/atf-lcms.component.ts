@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import {ATFComponent} from './atf.component';
-import {AcquisitionTableService} from './acquisition-table.service';
+import { ATFComponent } from './atf.component';
+import { AcquisitionTableService } from './acquisition-table.service';
 
 @Component({
   selector: 'app-atf-lcms',
@@ -10,6 +10,9 @@ import {AcquisitionTableService} from './acquisition-table.service';
   styleUrls: []
 })
 export class ATFLCMSComponent extends ATFComponent implements OnInit {
+
+  @Input()
+  platforms;
 
   ionizationForm: FormGroup;
 
@@ -27,6 +30,14 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
 
     // Combination of form groups
     this.form = this.formBuilder.group({
+      studyLabel: [null, [
+        Validators.required,
+        Validators.minLength(1),
+        Validators.maxLength(16)
+      ]],
+
+      platform: [this.platforms[0], Validators.required],
+
       ionization: this.ionizationForm,
 
       // preInjectionEnabled: true,
@@ -56,6 +67,8 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
   }
 
   nextStep() {
+    this.data.prefix = this.form.value.studyLabel;
+    this.data.platform = this.form.value.platform;
     this.data.ionizations = [];
 
     // Set ionization mode
