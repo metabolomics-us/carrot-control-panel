@@ -3,6 +3,7 @@ import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 
 import { SampleData } from './model/sample.model';
 import { Acquisition } from './model/sample.acquisition.model';
+import { Processing } from './model/sample.processing.model';
 import { Metadata } from './model/sample.metadata.model';
 import { Userdata } from './model/sample.userdata.model';
 
@@ -42,7 +43,8 @@ describe('StatisService', () => {
 
     let sampleData: SampleData = new SampleData(
       filename,
-      new Acquisition('instrument A', 'GCTOF', 'positive', 'gcms'),
+      new Acquisition('instrument A', 'positive', 'gcms'),
+      new Processing('gcms'),
       new Metadata('123456', 'rat', 'tissue'),
       new Userdata('file123', ''),
       {minix: 12345}
