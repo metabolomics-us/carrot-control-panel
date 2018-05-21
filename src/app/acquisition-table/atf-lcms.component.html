@@ -11,21 +11,21 @@
   </div>
 
   <div class="form-row text-center">
-    <div class="col mb-5" *ngFor="let platform of platforms">
+    <div class="col mb-2" *ngFor="let platform of platforms">
       <label>{{platform}}</label><br>
-      <input type="radio" name="platform" class="form-check-input" [value]="platform" formControlName="platform">
+      <input type="radio" name="platform" [value]="platform" formControlName="platform">
     </div>
   </div>
 
   <div class="form-row text-center" [formGroup]="ionizationForm">
     <div class="col mb-5">
       <label>Positive Mode</label><br>
-      <input type="checkbox" class="form-check-input" formControlName="positiveMode"
+      <input type="checkbox" formControlName="positiveMode"
         [ngClass]="displayFieldCss('ionization')">
     </div>
     <div class="col mb-5">
       <label>Negative Mode</label><br>
-      <input type="checkbox" class="form-check-input" formControlName="negativeMode"
+      <input type="checkbox" formControlName="negativeMode"
         [ngClass]="displayFieldCss('ionization')">
     </div>
   </div>
