@@ -28,9 +28,14 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
       validator: this.checkBoxValidation
     });
 
+    // Initial prefix
+    var studyLabel = this.data.miniXData.experiment.$.title.split(',')[0].split(' ');
+    studyLabel = studyLabel.length > 0 ? studyLabel[studyLabel.length - 1] : null;
+
+
     // Combination of form groups
     this.form = this.formBuilder.group({
-      studyLabel: [null, [
+      studyLabel: [studyLabel, [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(16)
