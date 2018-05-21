@@ -14,6 +14,17 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
   @Input()
   platforms;
 
+  /**
+  Instruments:
+    e - Agilent Q-TOF 6550
+    g - Agilent Q-TOF 6530
+    h - CORE Agilent Q-TOF 6560 (Ion Mobility)
+    i - CORE Agilent Q-TOF 6530b
+    j - Sciex TripleTOF 6600
+    k - Sciex QTRAP 6500
+    q - Thermo Q Exactive
+  */
+
   ionizationForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private acquisitionTableService: AcquisitionTableService) {
@@ -32,6 +43,7 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     var studyLabel = this.data.miniXData.experiment.$.title.split(',')[0].split(' ');
     studyLabel = studyLabel.length > 0 ? studyLabel[studyLabel.length - 1] : null;
 
+    // Initial 
 
     // Combination of form groups
     this.form = this.formBuilder.group({
