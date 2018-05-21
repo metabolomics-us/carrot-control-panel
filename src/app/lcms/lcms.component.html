@@ -5,7 +5,7 @@
 <br>
 
 <div *ngIf="data.step > 1">
-  <h4>MiniX ID: {{data.miniXID}}</h4>
+  <h4>MiniX ID: <a href="http://minix.fiehnlab.ucdavis.edu/studie/show/{{data.miniXID}}" target="_blank">{{data.miniXID}}</a></h4>
   <h5 class="mb-5">{{data.miniXData.experiment.$.title}}</h5>
 </div>
 
