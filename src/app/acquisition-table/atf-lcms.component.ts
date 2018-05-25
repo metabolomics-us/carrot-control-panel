@@ -14,6 +14,9 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
   @Input()
   platforms;
 
+//  @Input()
+//  instruments;
+
   /**
   Instruments:
     e - Agilent Q-TOF 6550
