@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class LCMSComponent {
   
-  lcmsPlatforms = ['CSH', 'HILIC'];
+  lcmsPlatforms = ['CSH', 'HILIC', 'RP'];
   data = {step: 1};
 
   msms_suffix = {
