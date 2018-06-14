@@ -18,3 +18,7 @@ body {
 }
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+form {
+	margin-bottom: 2em;
+}

@@ -70,7 +70,7 @@ export class AcquisitionTableService {
     var rng = seed ? seedrandom(seed) : seedrandom();
 
     // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
+    while (currentIndex !== 0) {
       // Pick a remaining element...
       randomIndex = Math.floor(rng() * currentIndex);
       currentIndex -= 1;

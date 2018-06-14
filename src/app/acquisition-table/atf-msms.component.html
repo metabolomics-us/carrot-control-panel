@@ -22,9 +22,15 @@
 
       <h5 class="mb-3">Marked {{countMSMS()}} samples for MS/MS injections</h5>
 
-      <button type="submit" class="btn btn-primary" (click)="nextStep()" [disabled]="!form.valid">
-        Create Acquisition Table <i class="fa fa-arrow-right"></i>
-      </button>
+      <div>
+        <button type="submit" class="btn btn-info" (click)="lastStep()" [disabled]="!form.valid">
+          <i class="fa fa-arrow-left"></i> Back
+        </button>
+
+        <button type="submit" class="btn btn-primary pull-right" (click)="nextStep()" [disabled]="!form.valid">
+          Create Acquisition Table <i class="fa fa-arrow-right"></i>
+        </button>
+      </div>
     </div>
   </div>
 </form>

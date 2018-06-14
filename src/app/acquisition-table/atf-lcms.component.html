@@ -83,7 +83,7 @@
 
   <div class="form-row">
     <div class="col-md-3 mb-3">
-      <label>Secondary QCs</label><br>
+      <label>Secondary QC</label><br>
       <input type="checkbox" formControlName="qc2Enabled">
     </div>
     <div class="col-sm-5 mb-3">
@@ -112,7 +112,11 @@
   </div>
 
   <div>
-    <button type="submit" class="btn btn-primary" (click)="nextStep()" [disabled]="!form.valid">
+    <button type="submit" class="btn btn-warning" (click)="reset()" [disabled]="!form.valid">
+      <i class="fa fa-repeat"></i> Restart
+    </button>
+
+    <button type="submit" class="btn btn-primary pull-right" (click)="nextStep()" [disabled]="!form.valid">
       Build File List <i class="fa fa-arrow-right"></i>
     </button>
   </div>

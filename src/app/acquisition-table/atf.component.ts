@@ -39,7 +39,11 @@ export class ATFComponent {
     };
   }
 
+  lastStep() {
+    this.data.step -= 1;
+  }
+
   reset() {
-    this.form.reset();
+    this.data.step = 1;
   }
 }
