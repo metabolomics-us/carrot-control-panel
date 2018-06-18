@@ -23,18 +23,23 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Get available platforms and instruments
+    this.platforms = this.acquisitionDataService.getLCMSPlatforms();
+    this.instruments = this.acquisitionDataService.getLCMSInstruments();
+
+    // Create the ionization + instrument sub-form
     this.ionizationForm = this.formBuilder.group({
       positiveMode: true,
-      negativeMode: true
+      positiveModeInstrument: null,
+      negativeMode: true,
+      negativeModeInstrument: null
     }, {
-      validator: this.checkBoxValidation
+      validator: this.instrumentValidation
     });
 
     // Initial prefix
     var studyLabel = this.data.miniXData.experiment.$.title.split(',')[0].split(' ');
     studyLabel = studyLabel.length > 0 ? studyLabel[studyLabel.length - 1] : null;
-
-    // Initial 
 
     // Combination of form groups
     this.form = this.formBuilder.group({
@@ -48,9 +53,9 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
 
       ionization: this.ionizationForm,
 
-      // preInjectionEnabled: true,
-      // preInjectionLabel: ['PreInj', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
-      // preInjectionCount: [null, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
+      preInjectionEnabled: true,
+      preInjectionLabel: ['PreInj', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      preInjectionCount: [null, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
 
       blankEnabled: true,
       blankLabel: ['MtdBlank', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
@@ -68,8 +73,12 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     });
   }
 
-  checkBoxValidation(control: FormGroup) {
+  instrumentValidation(control: FormGroup) {
     if (!control.value.positiveMode && !control.value.negativeMode)
+      return {required: true};
+    if (control.value.positiveMode && !control.value.positiveModeInstrument)
+      return {required: true};
+    if (control.value.negativeMode && !control.value.negativeModeInstrument)
       return {required: true};
     return null;
   }
@@ -105,6 +114,8 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     };
 
     this.data.randomize = this.form.value.randomize;
+
+    console.log(this.data)
 
     // Generate QC pattern generic filenames for defined samples
     var sampleNames = this.acquisitionTableService.generateAcquisitionTable(this.data);
