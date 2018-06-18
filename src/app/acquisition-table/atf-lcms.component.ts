@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ATFComponent } from './atf.component';
+import { AcquisitionDataService } from './acquisition-data.service';
 import { AcquisitionTableService } from './acquisition-table.service';
 
 @Component({
@@ -11,26 +12,13 @@ import { AcquisitionTableService } from './acquisition-table.service';
 })
 export class ATFLCMSComponent extends ATFComponent implements OnInit {
 
-  @Input()
   platforms;
-
-//  @Input()
-//  instruments;
-
-  /**
-  Instruments:
-    e - Agilent Q-TOF 6550
-    g - Agilent Q-TOF 6530
-    h - CORE Agilent Q-TOF 6560 (Ion Mobility)
-    i - CORE Agilent Q-TOF 6530b
-    j - Sciex TripleTOF 6600
-    k - Sciex QTRAP 6500
-    q - Thermo Q Exactive
-  */
+  instruments;
 
   ionizationForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private acquisitionTableService: AcquisitionTableService) {
+  constructor(private formBuilder: FormBuilder, private acquisitionTableService: AcquisitionTableService,
+      private acquisitionDataService: AcquisitionDataService) {
     super();
   }
 
