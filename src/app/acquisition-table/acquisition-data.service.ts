@@ -8,7 +8,7 @@ export class AcquisitionDataService {
   /**
    * Get a list of all LCMS methods
    */
-   getLCMSMethods(): Array<string> {
+   getLCMSPlatforms(): Array<string> {
      return ['CSH', 'HILIC', 'RP'];
    }
 
@@ -17,10 +17,10 @@ export class AcquisitionDataService {
    */
    getLCMSInstruments(): Array<string> {
      return [
-       'Agilent QTOF 6530 (g)',
-       'Agilent QTOF 6550 (e)',
-       'Agilent QTOF 7200 (f)',
-       'CORE Agilent QTOF 6530b (i)',
+       'Agilent Q-TOF 6530 (g)',
+       'Agilent Q-TOF 6550 (e)',
+       'Agilent Q-TOF 7200 (f)',
+       'CORE Agilent Q-TOF 6530b (i)',
        'Sciex QTRAP 4000',
        'Sciex QTRAP 6500',
        'Sciex TripleTOF 6600 (j)',
