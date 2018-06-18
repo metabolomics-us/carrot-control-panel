@@ -15,6 +15,7 @@ import { ATFLCMSComponent } from './acquisition-table/atf-lcms.component';
 import { ATFMSMSComponent } from './acquisition-table/atf-msms.component';
 import { LCMSComponent } from './lcms/lcms.component';
 
+import { AcquisitionDataService } from './acquisition-table/acquisition-data.service';
 import { AcquisitionTableService } from './acquisition-table/acquisition-table.service';
 import { MiniXService } from './minix/minix.service';
 
@@ -47,6 +48,7 @@ export const ROUTES: Routes = [
   providers: [
     Globals,
     MiniXService,
+    AcquisitionDataService,
     AcquisitionTableService
   ],
   bootstrap: [AppComponent]
