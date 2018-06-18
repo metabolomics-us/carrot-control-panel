@@ -11,7 +11,7 @@
           <th>Label</th>
           <th>Comment</th>
         </tr>
-        <tr *ngFor="let sample of data.sampleData; index as i">
+        <tr *ngFor="let sample of data.acquisitionData; index as i">
           <td><input type="checkbox" *ngIf="sample.userdata" formControlName="{{i}}"></td>
           <td>{{i + 1}}</td>
           <td>{{sample.filename.split('_MX')[0]}}</td>

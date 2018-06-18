@@ -25,7 +25,7 @@ describe('Service: AcquisitionTableService', () => {
   }));
 
   it('should generate acquisition table for MX373065', async(() => {
-    var data = {
+    let data = {
       prefix: 'Connor',
       miniXID: 373065,
       platform: 'HILIC',
@@ -48,7 +48,8 @@ describe('Service: AcquisitionTableService', () => {
         frequency: 100
       },
       randomize: true,
-      sampleData: []
+      sampleData: [],
+      acquisitionData: []
     };
 
     // Test filename generation with randomization
@@ -69,7 +70,7 @@ describe('Service: AcquisitionTableService', () => {
       ];
 
       service.generateAcquisitionTable(data);
-      expect(data.sampleData.map(x => x.filename)).toEqual(expectedFilenames);
+      expect(data.acquisitionData.map(x => x.filename)).toEqual(expectedFilenames);
     });
 
     // Test filename generation without randomization
@@ -91,7 +92,7 @@ describe('Service: AcquisitionTableService', () => {
 
       data.randomize = false;
       service.generateAcquisitionTable(data);
-      expect(data.sampleData.map(x => x.filename)).toEqual(expectedFilenames);
+      expect(data.acquisitionData.map(x => x.filename)).toEqual(expectedFilenames);
     });
   }));
 });

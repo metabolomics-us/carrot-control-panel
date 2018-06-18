@@ -20,7 +20,7 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
   ngOnInit() {
     var formFields = {};
 
-    this.data.sampleData.forEach((sample, i) => {
+    this.data.acquisitionData.forEach((sample, i) => {
       if (sample.userdata) {
         formFields[i] = false
       }
@@ -46,7 +46,7 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
 
     for (let i in this.form.value) {
       if (this.form.value[i]) {
-        var sample = cloneDeep(this.data.sampleData[i]);
+        var sample = cloneDeep(this.data.acquisitionData[i]);
         sample.filename = this.data.prefix +'_MSMS_MX'+ sample.filename.split('_MX')[1];
 
         this.data.msmsData.push(sample);
