@@ -67,7 +67,7 @@ describe('StatisService', () => {
               expect(response.references.minix).toEqual(12345);
             },
             (error: HttpErrorResponse) =>
-              fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
+              fail(error.status == 0 ? 'CORS Error' : 'HTTP GET error: '+ JSON.stringify(error))
           );
         }, 1000);
       },
@@ -92,7 +92,7 @@ describe('StatisService', () => {
               expect(response.status[0].value).toEqual('entered');
             },
             (error: HttpErrorResponse) =>
-              fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
+              fail(error.status == 0 ? 'CORS Error' : 'HTTP GET error: '+ JSON.stringify(error))
           );
         }, 1000);
       },
@@ -136,7 +136,7 @@ describe('StatisService', () => {
               expect(Object.keys(response.injections).length).toBeGreaterThan(0);
             },
             (error: HttpErrorResponse) =>
-              fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
+              fail(error.status == 0 ? 'CORS Error' : 'HTTP GET error: '+ JSON.stringify(error))
           );
         }, 1000);
       },
