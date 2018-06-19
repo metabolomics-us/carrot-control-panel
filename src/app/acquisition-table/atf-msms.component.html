@@ -1,4 +1,4 @@
-<form novalidate [formGroup]="form">
+<form novalidate>
   <div class="form-row">
     <div class="col-md-12 mb-3">
       <h5>Mark MS/MS Samples</h5>
@@ -12,7 +12,21 @@
           <th>Comment</th>
         </tr>
         <tr *ngFor="let sample of data.acquisitionData; index as i">
-          <td><input type="checkbox" *ngIf="sample.userdata" formControlName="{{i}}"></td>
+          <td>
+            <input type="checkbox" *ngIf="sample.userdata"
+              [(ngModel)]="data.msmsSelection[i].selected"
+              (change)="selectMSMS($event, i)"
+              [ngModelOptions]="{standalone: true}">
+            &nbsp;
+
+            <select disabled *ngIf="sample.userdata"
+              [ngModel]="data.msmsSelection[i].order"
+              [ngModelOptions]="{standalone: true}">
+
+              <option [ngValue]="null"></option>
+              <option *ngFor="let j of acquisitionTableService.generateSampleNumbers(msmsSelectedCount)" [ngValue]="j">{{j}}</option>
+            </select>
+          </td>
           <td>{{i + 1}}</td>
           <td>{{sample.filename.split('_MX')[0]}}</td>
           <td>{{sample.userdata ? sample.userdata.label : ''}}</td>
@@ -20,14 +34,19 @@
         </tr>
       </table>
 
-      <h5 class="mb-3">Marked {{countMSMS()}} samples for MS/MS injections</h5>
+      <h5 class="mb-3">Marked {{msmsSelectedCount}} samples for MS/MS injections</h5>
 
       <div>
         <button type="submit" class="btn btn-info" (click)="lastStep()">
           <i class="fa fa-arrow-left"></i> Back
         </button>
+        &nbsp;
 
-        <button type="submit" class="btn btn-primary pull-right" (click)="nextStep()" [disabled]="!form.valid">
+        <button type="submit" class="btn btn-warning" (click)="resetMSMS()">
+          <i class="fa fa-repeat"></i> Deselect All
+        </button>
+
+        <button type="submit" class="btn btn-primary pull-right" (click)="nextStep()">
           Create Acquisition Table <i class="fa fa-arrow-right"></i>
         </button>
       </div>

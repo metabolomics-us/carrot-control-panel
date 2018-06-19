@@ -43,9 +43,9 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
       // Create the ionization + instrument sub-form
       ionization: this.formBuilder.group({
         positiveMode: this.data.platform ? this.data.ionizations.hasOwnProperty('pos') : true,
-        positiveModeInstrument: this.data.platform && this.data.ionizations.hasOwnProperty('pos')? this.data.ionizations['pos'] : null,
+        positiveModeInstrument: this.data.platform && this.data.ionizations.hasOwnProperty('pos')? this.data.ionizations['pos'] : this.instruments[0],
         negativeMode: this.data.platform ? this.data.ionizations.hasOwnProperty('neg') : true,
-        negativeModeInstrument: this.data.platform && this.data.ionizations.hasOwnProperty('neg') ? this.data.ionizations['neg'] : null
+        negativeModeInstrument: this.data.platform && this.data.ionizations.hasOwnProperty('neg') ? this.data.ionizations['neg'] : this.instruments[0]
       }, {
         validator: this.instrumentValidation
       }),
@@ -62,7 +62,7 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
       qc2Label: [this.data.qc2 ? this.data.qc2.label : 'NIST', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
       qc2Frequency: [this.data.qc2 ? this.data.qc2.frequency : 100, [Validators.required, Validators.pattern('\\d+'), Validators.min(1)]],
 
-      randomize: this.data.hasOwnProperty('randomize') ? this.data.randomize : true;
+      randomize: this.data.hasOwnProperty('randomize') ? this.data.randomize : true
     });
   }
 

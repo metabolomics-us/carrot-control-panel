@@ -18,4 +18,18 @@ export class LCMSComponent {
   };
 
   constructor() {}
+
+  generateAcquisitionFilenames(mode) {
+    let filenames = [];
+
+    this.data.acquisitionData.forEach((sample, i) => {
+      filenames.push(sample.filename);
+    });
+
+    this.data.msmsData.forEach((sample, i) => {
+      filenames.push(sample.filename +'_'+ this.msms_suffix[mode][i % this.msms_suffix[mode].length]);
+    });
+
+    return filenames;
+  }
 }
