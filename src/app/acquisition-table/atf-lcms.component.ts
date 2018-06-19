@@ -30,43 +30,39 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     var studyLabel = this.data.miniXData.experiment.$.title.split(',')[0].split(' ');
     studyLabel = studyLabel.length > 0 ? studyLabel[studyLabel.length - 1] : null;
 
-    // Combination of form groups
+    // Combination of form groups, using existing data from model if available
     this.form = this.formBuilder.group({
-      studyLabel: [studyLabel, [
+      studyLabel: [this.data.prefix ? this.data.prefix : studyLabel, [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(16)
       ]],
 
-      platform: [this.platforms[0], Validators.required],
+      platform: [this.data.platform ? this.data.platform : this.platforms[0], Validators.required],
 
       // Create the ionization + instrument sub-form
       ionization: this.formBuilder.group({
-        positiveMode: true,
-        positiveModeInstrument: null,
-        negativeMode: true,
-        negativeModeInstrument: null
+        positiveMode: this.data.platform ? this.data.ionizations.hasOwnProperty('pos') : true,
+        positiveModeInstrument: this.data.platform && this.data.ionizations.hasOwnProperty('pos')? this.data.ionizations['pos'] : null,
+        negativeMode: this.data.platform ? this.data.ionizations.hasOwnProperty('neg') : true,
+        negativeModeInstrument: this.data.platform && this.data.ionizations.hasOwnProperty('neg') ? this.data.ionizations['neg'] : null
       }, {
         validator: this.instrumentValidation
       }),
 
-      //preInjectionEnabled: true,
-      //preInjectionLabel: ['PreInj', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
-      //preInjectionCount: [null, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
+      blankEnabled: this.data.blank ? this.data.blank.enabled : true,
+      blankLabel: [this.data.blank ? this.data.blank.label : 'MtdBlank', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      blankFrequency: [this.data.blank ? this.data.blank.frequency : 10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
 
-      blankEnabled: true,
-      blankLabel: ['MtdBlank', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
-      blankFrequency: [10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
+      qcEnabled: this.data.qc ? this.data.qc.enabled : true,
+      qcLabel: [this.data.qc ? this.data.qc.label : 'Biorec', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      qcFrequency: [this.data.qc ? this.data.qc.frequency : 10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
 
-      qcEnabled: true,
-      qcLabel: ['Biorec', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
-      qcFrequency:  [10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
+      qc2Enabled: this.data.qc2 ? this.data.qc2.enabled : false,
+      qc2Label: [this.data.qc2 ? this.data.qc2.label : 'NIST', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      qc2Frequency: [this.data.qc2 ? this.data.qc2.frequency : 100, [Validators.required, Validators.pattern('\\d+'), Validators.min(1)]],
 
-      qc2Enabled: false,
-      qc2Label: ['NIST', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
-      qc2Frequency: [100, [Validators.required, Validators.pattern('\\d+'), Validators.min(1)]],
-
-      randomize: true
+      randomize: this.data.hasOwnProperty('randomize') ? this.data.randomize : true;
     });
   }
 
@@ -111,8 +107,6 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     };
 
     this.data.randomize = this.form.value.randomize;
-
-    console.log(this.data)
 
     // Generate QC pattern generic filenames for defined samples
     var sampleNames = this.acquisitionTableService.generateAcquisitionTable(this.data);
