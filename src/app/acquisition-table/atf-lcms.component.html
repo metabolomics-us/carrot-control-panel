@@ -1,6 +1,6 @@
 <form novalidate [formGroup]="form">
   <div class="form-row">
-    <div class="col-md-12 mb-3">
+    <div class="col-md-12 mb-5">
       <label>Study Identifier (Sample filename prefix, e.g. <b>Fiehn</b>001_posHILIC_C1_020):</label>
       <input type="text" class="form-control" formControlName="studyLabel"
         [ngClass]="displayFieldCss('studyLabel')" required>
@@ -11,27 +11,35 @@
   </div>
 
   <div class="form-row text-center">
-    <div class="col mb-2" *ngFor="let platform of platforms">
+    <div class="col mb-5" *ngFor="let platform of platforms">
       <label>{{platform}}</label><br>
       <input type="radio" name="platform" [value]="platform" formControlName="platform">
     </div>
   </div>
 
-  <div class="form-row text-center" [formGroup]="ionizationForm">
-    <div class="col mb-5">
+  <div class="form-row text-center" formGroupName="ionization">
+    <div class="col-sm-6 col-xs-12 mb-2">
       <label>Positive Mode</label><br>
       <input type="checkbox" formControlName="positiveMode"
-        [ngClass]="displayFieldCss('ionization')">
+        [ngClass]="displayFieldCss('ionization')"><br>
+      <select class="form-control" formControlName="positiveModeInstrument">
+        <option [ngValue]="null">Select Instrument</option>
+        <option *ngFor="let instrument of instruments" [ngValue]="instrument">{{instrument}}</option>
+      </select>
     </div>
-    <div class="col mb-5">
+    <div class="col-sm-6 col-xs-12 mb-2">
       <label>Negative Mode</label><br>
       <input type="checkbox" formControlName="negativeMode"
-        [ngClass]="displayFieldCss('ionization')">
+        [ngClass]="displayFieldCss('ionization')"><br>
+      <select class="form-control" formControlName="negativeModeInstrument">
+        <option [ngValue]="null">Select Instrument</option>
+        <option *ngFor="let instrument of instruments" [ngValue]="instrument">{{instrument}}</option>
+      </select>
     </div>
   </div>
-  <div class="row text-center text-danger" *ngIf="!isValid('ionization')">
-    <div class="col-md-12 mb-3">
-      Please select at least one ionization mode
+  <div class="row mb-5">
+    <div class="col-md-12 text-center text-danger" *ngIf="!isValid('ionization')">
+      Please enable and select an instrument for at least one ionization mode
     </div>
   </div>
 
@@ -103,7 +111,7 @@
       </div>
     </div>
   </div>
-  
+
   <div class="form-row">
     <div class="col-sm-12 mt-3 mb-3">
       <label>Randomize Samples</label><br>

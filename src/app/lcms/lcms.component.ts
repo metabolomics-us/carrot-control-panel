@@ -9,6 +9,9 @@ export class LCMSComponent {
   
   data = {step: 1};
 
+  // Hack to enable access to Object.keys in view
+  Object = Object;
+
   msms_suffix = {
     'pos': ['120_700', '700_800', '800_880', '880_1200'],
     'neg': ['60_700', '700_800', '800_880', '880_1200']

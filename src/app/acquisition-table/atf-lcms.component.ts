@@ -15,10 +15,9 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
   platforms;
   instruments;
 
-  ionizationForm: FormGroup;
-
   constructor(private formBuilder: FormBuilder, private acquisitionTableService: AcquisitionTableService,
       private acquisitionDataService: AcquisitionDataService) {
+
     super();
   }
 
@@ -26,16 +25,6 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     // Get available platforms and instruments
     this.platforms = this.acquisitionDataService.getLCMSPlatforms();
     this.instruments = this.acquisitionDataService.getLCMSInstruments();
-
-    // Create the ionization + instrument sub-form
-    this.ionizationForm = this.formBuilder.group({
-      positiveMode: true,
-      positiveModeInstrument: null,
-      negativeMode: true,
-      negativeModeInstrument: null
-    }, {
-      validator: this.instrumentValidation
-    });
 
     // Initial prefix
     var studyLabel = this.data.miniXData.experiment.$.title.split(',')[0].split(' ');
@@ -51,11 +40,19 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
 
       platform: [this.platforms[0], Validators.required],
 
-      ionization: this.ionizationForm,
+      // Create the ionization + instrument sub-form
+      ionization: this.formBuilder.group({
+        positiveMode: true,
+        positiveModeInstrument: null,
+        negativeMode: true,
+        negativeModeInstrument: null
+      }, {
+        validator: this.instrumentValidation
+      }),
 
-      preInjectionEnabled: true,
-      preInjectionLabel: ['PreInj', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
-      preInjectionCount: [null, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
+      //preInjectionEnabled: true,
+      //preInjectionLabel: ['PreInj', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      //preInjectionCount: [null, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
 
       blankEnabled: true,
       blankLabel: ['MtdBlank', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
@@ -86,13 +83,13 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
   nextStep() {
     this.data.prefix = this.form.value.studyLabel;
     this.data.platform = this.form.value.platform;
-    this.data.ionizations = [];
+    this.data.ionizations = {};
 
     // Set ionization mode
     if (this.form.value.ionization.positiveMode)
-      this.data.ionizations.push('pos');
+      this.data.ionizations['pos'] = this.form.value.ionization.positiveModeInstrument;
     if (this.form.value.ionization.negativeMode)
-      this.data.ionizations.push('neg');
+      this.data.ionizations['neg'] = this.form.value.ionization.negativeModeInstrument;
 
     // Set QC parameters
     this.data.blank = {
