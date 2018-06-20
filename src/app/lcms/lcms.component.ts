@@ -19,14 +19,14 @@ export class LCMSComponent {
 
   constructor() {}
 
-  generateAcquisitionFilenames(mode) {
+  generateAcquisitionFilenames(data, mode) {
     let filenames = [];
 
-    this.data.acquisitionData.forEach((sample, i) => {
+    data.acquisitionData.forEach((sample, i) => {
       filenames.push(sample.filename);
     });
 
-    this.data.msmsData.forEach((sample, i) => {
+    data.msmsData.forEach((sample, i) => {
       filenames.push(sample.filename +'_'+ this.msms_suffix[mode][i % this.msms_suffix[mode].length]);
     });
 

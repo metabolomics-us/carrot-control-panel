@@ -20,7 +20,7 @@
       <h5>{{mode}}{{data.platform}}</h5>
 
       <table class="table table-striped mt-2 mb-5">
-        <tr *ngFor="let filename of generateAcquisitionFilenames(mode)">
+        <tr *ngFor="let filename of generateAcquisitionFilenames(data, mode)">
           <td>{{filename.replace('{METHOD}', mode + data.platform)}}</td>
         </tr>
       </table>
