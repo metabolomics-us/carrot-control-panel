@@ -7,6 +7,8 @@ import { Routes, RouterModule } from "@angular/router";
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
+import { StasisModule } from 'stasis';
+
 import { Globals } from './app.globals';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
@@ -49,7 +51,8 @@ export const ROUTES: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot(ROUTES),
-    NgbModule.forRoot()
+    NgbModule.forRoot(),
+    StasisModule
   ],
   providers: [
     Globals,
