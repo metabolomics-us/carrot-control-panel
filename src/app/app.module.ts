@@ -13,11 +13,14 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ATFMiniXComponent } from './acquisition-table/atf-minix.component';
 import { ATFLCMSComponent } from './acquisition-table/atf-lcms.component';
 import { ATFMSMSComponent } from './acquisition-table/atf-msms.component';
+import { ATFConfirmationComponent } from './acquisition-table/atf-confirm.component';
 import { LCMSComponent } from './lcms/lcms.component';
 
 import { AcquisitionDataService } from './acquisition-table/acquisition-data.service';
 import { AcquisitionTableService } from './acquisition-table/acquisition-table.service';
 import { MiniXService } from './minix/minix.service';
+
+import { StartsWithPipe } from './shared/startswith.pipe';
 
 
 export const ROUTES: Routes = [
@@ -34,7 +37,10 @@ export const ROUTES: Routes = [
     ATFMiniXComponent,
     ATFLCMSComponent,
     ATFMSMSComponent,
-    LCMSComponent
+    ATFConfirmationComponent,
+    LCMSComponent,
+
+    StartsWithPipe
   ],
   imports: [
     BrowserModule,

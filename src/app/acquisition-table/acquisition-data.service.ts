@@ -13,6 +13,16 @@ export class AcquisitionDataService {
    }
 
   /**
+   * Get a list of MS/MS file m/z ranges and filename suffixes for each mode
+   */
+  getMSMSRanges() {
+    return {
+      'pos': ['120_700', '700_800', '800_880', '880_1200'],
+      'neg': ['60_700', '700_800', '800_880', '880_1200']
+    };
+  }
+
+  /**
    * Get a list of all LCMS instruments
    */
    getLCMSInstruments(): Array<string> {

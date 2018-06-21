@@ -1,0 +1,68 @@
+<form novalidate>
+  <div class="form-row">
+    <div class="col-md-12 mb-3">
+      <h5>Confirm Sample Filenames</h5>
+      <p>
+        Please ensure that the generated filenames are correct, that the samples
+        are randomized if desired, and if the selected MS/MS samples are properly
+        ordered.  Note that only a single ionization mode is shown on this page.
+      </p>
+      <br>
+
+      <div *ngIf="data.blank.enabled">
+        <h6><b>Blank: {{data.blank.label}}</b></h6>
+        <table class="table table-striped mt-2 mb-5">
+          <tr *ngFor="let filename of filenames | startswith:data.blank.label | slice:0:3">
+            <td>{{filename}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div *ngIf="data.qc.enabled">
+        <h6><b>QC: {{data.qc.label}}</b></h6>
+        <table class="table table-striped mt-2 mb-5">
+          <tr *ngFor="let filename of filenames | startswith:data.qc.label | slice:0:3">
+            <td>{{filename}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div *ngIf="data.qc2.enabled">
+        <h6><b>QC: {{data.qc2.label}}</b></h6>
+        <table class="table table-striped mt-2 mb-5">
+          <tr *ngFor="let filename of filenames | startswith:data.qc2.label | slice:0:3">
+            <td>{{filename}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div>
+        <h6><b>Sample: {{data.prefix}} (<span *ngIf="!data.randomize">Not </span>Randomized)</b></h6>
+        <table class="table table-striped mt-2 mb-5">
+          <tr *ngFor="let filename of filenames | startswith:data.prefix | slice:0:5">
+            <td>{{filename}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div *ngIf="data.hasOwnProperty('msmsData') && data.msmsData.length > 0">
+        <h6><b>MS/MS: {{data.prefix}}_MSMS</b></h6>
+        <table class="table table-striped mt-2 mb-5">
+          <tr *ngFor="let filename of filenames | startswith:(data.prefix +'_MSMS')">
+            <td>{{filename}}</td>
+          </tr>
+        </table>
+      </div>
+      
+      <div>
+        <button type="submit" class="btn btn-info" (click)="lastStep()">
+          <i class="fa fa-arrow-left"></i> Back
+        </button>
+
+        <button type="submit" class="btn btn-primary pull-right" (click)="nextStep()">
+          Generate Acquisition Table <i class="fa fa-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
