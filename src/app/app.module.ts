@@ -16,6 +16,7 @@ import { ATFMiniXComponent } from './acquisition-table/atf-minix.component';
 import { ATFLCMSComponent } from './acquisition-table/atf-lcms.component';
 import { ATFMSMSComponent } from './acquisition-table/atf-msms.component';
 import { ATFConfirmationComponent } from './acquisition-table/atf-confirm.component';
+import { ATFSubmitComponent } from './acquisition-table/atf-submit.component';
 import { LCMSComponent } from './lcms/lcms.component';
 
 import { AcquisitionDataService } from './acquisition-table/acquisition-data.service';
