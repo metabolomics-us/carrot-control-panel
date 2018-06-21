@@ -11,4 +11,4 @@ import { StasisService } from './stasis.service'
     StasisService
   ]
 })
-export class StasisHttpModule { }
+export class StasisModule { }

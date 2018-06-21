@@ -119,6 +119,46 @@
           }
         }
       }
+    },
+    "stasis": {
+      "root": "projects/stasis",
+      "sourceRoot": "projects/stasis/src",
+      "projectType": "library",
+      "prefix": "stasis",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/stasis/tsconfig.lib.json",
+            "project": "projects/stasis/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/stasis/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/stasis/src/test.ts",
+            "tsConfig": "projects/stasis/tsconfig.spec.json",
+            "karmaConfig": "projects/stasis/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/stasis/tsconfig.lib.json",
+              "projects/stasis/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "angular-acquisition-table-generator"
