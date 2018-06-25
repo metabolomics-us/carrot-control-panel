@@ -1,20 +1,7 @@
-<form novalidate [formGroup]="form">
-  <div class="form-row">
-    <div class="col-md-12 mb-3">
-      <label>MiniX ID</label>
-      <input type="text" class="form-control" formControlName="minix"
-        [ngClass]="displayFieldCss('minix')" required>
-      <div class="invalid-feedback" *ngIf="!isValid('minix')">
-        Please enter a valid MiniX ID
-      </div>
-    </div>
-  </div>
+<div class="row">
+  <div class="col-md-12 mb-3">
+    <h5>Submitting Acquisition Table to Sample Manager... <i class="fa fa-cog fa-spin fa-3x fa-fw"></i></h5>
 
-  <div>
-    <button type="submit" class="btn btn-primary pull-right" (click)="pullMiniX()" [disabled]="!form.valid || miniXLoading">
-      Pull MiniX Data
-      <i class="fa fa-arrow-right"></i>
-      <span *ngIf="miniXLoading"><i class="fa fa-spinner fa-pulse fa-fw"></i></span>
-    </button>
+    <p><ngb-progressbar type="success" [max]="maxCount" [value]="successCount" [striped]="true"></ngb-progressbar></p>
   </div>
-</form>
+</div>
