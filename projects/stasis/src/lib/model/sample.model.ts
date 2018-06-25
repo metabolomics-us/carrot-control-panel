@@ -6,16 +6,18 @@ import { Userdata } from './sample.userdata.model';
 export class SampleData {
   id: string;
   sample: string;
+  experiment: string;
   acquisition: Acquisition;
   processing: Processing;
   metadata: Metadata;
   userdata: Userdata;
   references: Object;
 
-  constructor(sample: string, acquisition: Acquisition, processing: Processing, 
-      metadata: Metadata, userdata: Userdata, references: Object) {
+  constructor(sample: string, experiment: string, acquisition: Acquisition,
+      processing: Processing, metadata: Metadata, userdata: Userdata, references: Object) {
 
     this.sample = sample;
+    this.experiment = experiment;
     this.acquisition = acquisition;
     this.processing = processing;
     this.metadata = metadata;

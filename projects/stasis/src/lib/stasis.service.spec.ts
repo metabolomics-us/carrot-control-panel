@@ -43,6 +43,7 @@ describe('StatisService', () => {
 
     let sampleData: SampleData = new SampleData(
       filename,
+      '12345',
       new Acquisition('instrument A', 'positive', 'gcms'),
       new Processing('gcms'),
       new Metadata('123456', 'rat', 'tissue'),
