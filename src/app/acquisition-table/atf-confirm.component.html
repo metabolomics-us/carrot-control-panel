@@ -10,7 +10,7 @@
       <br>
 
       <div *ngIf="data.blank.enabled">
-        <h6><b>Blank: {{data.blank.label}}</b></h6>
+        <h6><b>Preview of Blanks: {{data.blank.label}}</b></h6>
         <table class="table table-striped mt-2 mb-5">
           <tr *ngFor="let filename of filenames | startswith:data.blank.label | slice:0:3">
             <td>{{filename}}</td>
@@ -19,7 +19,7 @@
       </div>
 
       <div *ngIf="data.qc.enabled">
-        <h6><b>QC: {{data.qc.label}}</b></h6>
+        <h6><b>Preview of QCs: {{data.qc.label}}</b></h6>
         <table class="table table-striped mt-2 mb-5">
           <tr *ngFor="let filename of filenames | startswith:data.qc.label | slice:0:3">
             <td>{{filename}}</td>
@@ -28,7 +28,7 @@
       </div>
 
       <div *ngIf="data.qc2.enabled">
-        <h6><b>QC: {{data.qc2.label}}</b></h6>
+        <h6><b>Preview of QCs: {{data.qc2.label}}</b></h6>
         <table class="table table-striped mt-2 mb-5">
           <tr *ngFor="let filename of filenames | startswith:data.qc2.label | slice:0:3">
             <td>{{filename}}</td>
@@ -37,7 +37,7 @@
       </div>
 
       <div>
-        <h6><b>Sample: {{data.prefix}} (<span *ngIf="!data.randomize">Not </span>Randomized)</b></h6>
+        <h6><b>Preview of Samples: {{data.prefix}} (<span *ngIf="!data.randomize">Not </span>Randomized)</b></h6>
         <table class="table table-striped mt-2 mb-5">
           <tr *ngFor="let filename of filenames | startswith:data.prefix | slice:0:5">
             <td>{{filename}}</td>
@@ -46,7 +46,7 @@
       </div>
 
       <div *ngIf="data.hasOwnProperty('msmsData') && data.msmsData.length > 0">
-        <h6><b>MS/MS: {{data.prefix}}_MSMS</b></h6>
+        <h6><b>Preview of MS/MS Samples: {{data.prefix}}_MSMS</b></h6>
         <table class="table table-striped mt-2 mb-5">
           <tr *ngFor="let filename of filenames | startswith:(data.prefix +'_MSMS')">
             <td>{{filename}}</td>

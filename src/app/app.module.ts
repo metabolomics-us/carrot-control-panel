@@ -41,6 +41,7 @@ export const ROUTES: Routes = [
     ATFLCMSComponent,
     ATFMSMSComponent,
     ATFConfirmationComponent,
+    ATFSubmitComponent,
     LCMSComponent,
 
     StartsWithPipe
