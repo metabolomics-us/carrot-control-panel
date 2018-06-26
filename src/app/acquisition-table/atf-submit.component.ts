@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ATFComponent } from './atf.component';
-import { Acquisition, Metadata, Processing, SampleData, StasisService } from 'stasis';
+import { Acquisition, Metadata, Processing, Reference, SampleData, StasisService, Userdata } from 'stasis';
 
 @Component({
   selector: 'app-atf-submit',
@@ -27,21 +27,22 @@ export class ATFSubmitComponent extends ATFComponent implements OnInit {
     this.data.stasisSamples = [];
 
     Object.keys(this.data.ionizations).map(mode => {
-      this.data.forEach((sample, i) => this.buildSampleData(sample, mode));
+      this.data.acquisitionData.forEach(sample => this.buildSampleData(sample, mode));
 
-      if (this.data.hasOwnProperty('msmsData')) {
-        this.data.msmsData.forEach((sample, i) => this.buildSampleData(sample, mode));
-      }
+      if (this.data.hasOwnProperty('msmsData'))
+        this.data.msmsData.forEach(sample => this.buildSampleData(sample, mode));
     });
+
+    console.log(this.data)
   }
 
   private buildSampleData(sample, mode) {
-    let ionizationMode = mode == 'pos' ? 'positive' : negative;
+    let ionizationMode = (mode == 'pos') ? 'positive' : 'negative';
 
-    let metadata = sample.hasOwnProperty('metadata') ?
-      new Metadata(sample.metadata.class, sample.metadata.species, sample.metadata.organ) : null;
-    let userdata =  sample.hasOwnProperty('userdata') ?
-      new Userdata(sample.userdata.label, sample.userdata.comment) : null;
+    let metadata = !sample.hasOwnProperty('metadata') ? null :
+      new Metadata(sample.metadata.class, sample.metadata.species, sample.metadata.organ);
+    let userdata =  !sample.hasOwnProperty('userdata') ? null :
+      new Userdata(sample.userdata.label, sample.userdata.comment) ;
 
     this.data.stasisSamples.push(
       new SampleData(
@@ -51,7 +52,9 @@ export class ATFSubmitComponent extends ATFComponent implements OnInit {
         new Processing(this.data.platform),
         metadata,
         userdata,
-        {minix: this.data.miniXID.toString()}
+        [
+          new Reference('minix', this.data.miniXID.toString())
+        ]
       )
     );
   }
