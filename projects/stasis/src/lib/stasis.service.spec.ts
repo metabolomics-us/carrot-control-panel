@@ -5,6 +5,7 @@ import { SampleData } from './model/sample.model';
 import { Acquisition } from './model/sample.acquisition.model';
 import { Processing } from './model/sample.processing.model';
 import { Metadata } from './model/sample.metadata.model';
+import { Reference } from './model/sample.reference.model';
 import { Userdata } from './model/sample.userdata.model';
 
 import { ResultData } from './model/result.model';
@@ -48,7 +49,9 @@ describe('StatisService', () => {
       new Processing('gcms'),
       new Metadata('123456', 'rat', 'tissue'),
       new Userdata('file123', ''),
-      {minix: 12345}
+      [
+        new Reference('minix', '12345')
+      ]
     );
 
     service.createAcquisition(sampleData).subscribe(
@@ -56,7 +59,7 @@ describe('StatisService', () => {
         expect(response).not.toBeNull();
         expect(response.id).toEqual(filename);
         expect(response.userdata.label).toEqual(sampleData.userdata.label);
-        expect(response.references.minix).toEqual(12345);
+        expect(response.references.find((e) => e.name == 'minix').value).toEqual('12345');
 
         // Pull created sample acquisition
         setTimeout(() => {
@@ -65,7 +68,7 @@ describe('StatisService', () => {
               expect(response).not.toBeNull();
               expect(response.id).toEqual(filename);
               expect(response.userdata.label).toEqual(sampleData.userdata.label);
-              expect(response.references.minix).toEqual(12345);
+              expect(response.references.find((e) => e.name == 'minix').value).toEqual('12345');
             },
             (error: HttpErrorResponse) =>
               fail(error.status == 0 ? 'CORS Error' : 'HTTP GET error: '+ JSON.stringify(error))

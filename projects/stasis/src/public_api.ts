@@ -6,6 +6,7 @@ export * from './lib/model/sample.model';
 export * from './lib/model/sample.acquisition.model';
 export * from './lib/model/sample.processing.model';
 export * from './lib/model/sample.metadata.model';
+export * from './lib/model/sample.reference.model';
 export * from './lib/model/sample.userdata.model';
 
 export * from './lib/model/tracking.model';

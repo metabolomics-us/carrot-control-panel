@@ -1,6 +1,7 @@
 import { Acquisition } from './sample.acquisition.model';
 import { Processing } from './sample.processing.model';
 import { Metadata } from './sample.metadata.model';
+import { Reference } from './sample.reference.model';
 import { Userdata } from './sample.userdata.model';
 
 export class SampleData {
@@ -11,10 +12,10 @@ export class SampleData {
   processing: Processing;
   metadata: Metadata;
   userdata: Userdata;
-  references: Object;
+  references: Array<Reference>;
 
   constructor(sample: string, experiment: string, acquisition: Acquisition,
-      processing: Processing, metadata: Metadata, userdata: Userdata, references: Object) {
+      processing: Processing, metadata: Metadata, userdata: Userdata, references: Array<Reference>) {
 
     this.sample = sample;
     this.experiment = experiment;
