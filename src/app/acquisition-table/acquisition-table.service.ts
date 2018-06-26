@@ -7,58 +7,64 @@ export class AcquisitionTableService {
 
   constructor() { }
 
-  generateAcquisitionTable(params) {
+  generateAcquisitionTable(data) {
     // Generate acquisition table
     let acquisitionTable = [];
 
     let pad = n => ('' + n).padStart(3, '0')
 
     let formatSampleName = (sample, i) => {
-      return params.prefix + pad(i) +'_MX'+ params.miniXID +'_{METHOD}_'+ sample.userdata.label;
+      return data.prefix + pad(i) +'_MX'+ data.miniXID +'_{METHOD}_'+ sample.userdata.label;
     }
 
     let formatQCName = (label, i, frequency) => {
-      return label + pad(i == 1 ? 1 : Math.ceil(i / frequency) + 1) +'_MX'+ params.miniXID
-        +'_{METHOD}_' + (i == 1 ? 'pre' : 'post') + params.prefix + pad(i);
+      return label + pad(i == 1 ? 1 : Math.ceil(i / frequency) + 1) +'_MX'+ data.miniXID
+        +'_{METHOD}_' + (i == 1 ? 'pre' : 'post') + data.prefix + pad(i);
     }
 
     // Randomize sample list if required
-    let sampleData = params.randomize ? this.randomizeArray(params.sampleData, params.miniXID) : params.sampleData;
-    params.acquisitionData = [];
+    let sampleData = data.randomize ? this.randomizeArray(data.sampleData, data.miniXID) : data.sampleData;
+    data.acquisitionData = [];
 
     // Loop over all samples and generate filenames
     sampleData.forEach((sample, i) => {
       // Process samples
       if (i > 0) {
         sample.filename = formatSampleName(sample, i + 1);
-        params.acquisitionData.push(sample);
+        data.acquisitionData.push(this.generateSampleNames(data, sample));
       }
 
       // Handle blanks and QCs
-      if (params.blank.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % params.blank.frequency == 0)) {
-        params.acquisitionData.push({
-          filename: formatQCName(params.blank.label, i + 1, params.blank.frequency)
-        })
-      }
-
-      if (params.qc.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % params.qc.frequency == 0)) {
-        params.acquisitionData.push({
-          filename: formatQCName(params.qc.label, i + 1, params.qc.frequency)
-        });
-      }
-
-      if (params.qc2.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % params.qc2.frequency == 0)) {
-        params.acquisitionData.push({
-          filename: formatQCName(params.qc2.label, i + 1, params.qc2.frequency)
-        });
-      }
+      [data.blank, data.qc, data.qc2].forEach((x) => {
+        if (x.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % x.frequency == 0)) {
+          data.acquisitionData.push(this.generateSampleNames(data, {
+            filename: formatQCName(x.label, i + 1, x.frequency)
+          }));
+        }
+      });
 
       // Handle first sample in list since it comes after the pre samples
       if (i == 0) {
         sample.filename = formatSampleName(sample, i + 1);
-        params.acquisitionData.push(sample);
+        data.acquisitionData.push(this.generateSampleNames(data, sample));
       }
     });
+  }
+
+  /**
+   * Creates proper sample filenames for each ionization mode from the filename format
+   */
+  generateSampleNames(data, sample) {
+    // Create an ionizations field for each sample so that we can store multiple filenames
+    if (!sample.hasOwnProperty('ionizations'))
+      sample.ionizations = {};
+
+    Object.keys(data.ionizations).map(mode => {
+        let method = mode + data.platform;
+        sample.ionizations[mode] = sample.filename.replace('{METHOD}', method);
+    });
+
+    return sample;
   }
 
   /**

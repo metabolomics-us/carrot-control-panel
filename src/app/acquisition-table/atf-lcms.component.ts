@@ -109,8 +109,7 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     this.data.randomize = this.form.value.randomize;
 
     // Generate QC pattern generic filenames for defined samples
-    var sampleNames = this.acquisitionTableService.generateAcquisitionTable(this.data);
-    this.data.sampleNames = sampleNames;
+    this.acquisitionTableService.generateAcquisitionTable(this.data);
 
     window.scroll(0, 0);
     this.data.step += 1;

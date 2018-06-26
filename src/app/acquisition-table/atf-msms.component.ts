@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ATFComponent } from './atf.component';
+import { AcquisitionDataService } from './acquisition-data.service';
 import { AcquisitionTableService } from './acquisition-table.service';
 
 import * as cloneDeep from 'lodash/cloneDeep';
@@ -16,7 +17,9 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
 
   msmsSelectedCount: number;
 
-  constructor(private formBuilder: FormBuilder, private acquisitionTableService: AcquisitionTableService) {
+  constructor(private formBuilder: FormBuilder, private acquisitionTableService: AcquisitionTableService,
+      private acquisitionDataService: AcquisitionDataService) {
+
     super();
   }
 
@@ -71,13 +74,25 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
   }
 
   nextStep() {
+    let msms_suffixes = this.acquisitionDataService.getMSMSRanges();
+
     // Add MS/MS samples
     this.data.msmsData = this.acquisitionTableService.generateSampleNumbers(this.msmsSelectedCount - 1);
 
     this.data.msmsSelection.forEach((x, i) => {
       if (x.selected) {
+        // Clone the selected sample and modify update filename for MS/MS 
         let sample = cloneDeep(this.data.acquisitionData[i]);
         sample.filename = this.data.prefix +'_MSMS_MX'+ sample.filename.split('_MX')[1];
+
+        // Generate sample names for each ionization mode and add MS/MS suffix
+        this.acquisitionTableService.generateSampleNames(this.data, sample);
+
+        Object.keys(sample.ionizations).map(mode => {
+          let msms_suffix = msms_suffixes[mode][(x.order - 1) % msms_suffixes[mode].length];
+          sample.ionizations[mode] += '_'+ msms_suffix;
+        });
+
         this.data.msmsData[x.order - 1] = sample;
       }
     });
