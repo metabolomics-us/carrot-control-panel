@@ -22,3 +22,7 @@ body {
 form {
 	margin-bottom: 2em;
 }
+
+a {
+  cursor: pointer;
+}
