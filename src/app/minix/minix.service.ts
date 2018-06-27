@@ -17,12 +17,12 @@ export class MiniXService {
   }
 
   parseMiniXSamples(miniXData) {
-    var miniXID = miniXData.experiment.$.id;
-    var sampleData = [];
+    let miniXID = miniXData.experiment.$.id;
+    let sampleData = [];
 
     // Compile sample data
     miniXData.experiment.classes[0].class.forEach(c => {
-      var samples = c.samples[0].sample;
+      let samples = c.samples[0].sample;
       samples.sort((a, b) => a.$.id - b.$.id);
 
       samples.forEach(sample => {
