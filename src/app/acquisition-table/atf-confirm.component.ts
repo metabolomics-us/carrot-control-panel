@@ -17,6 +17,8 @@ export class ATFConfirmationComponent extends ATFComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.data.exportFilenames = {}
+
     // Pull filenames for each ionization mode
     Object.keys(this.data.ionizations).map(mode => {
       this.filenames = [];
@@ -27,6 +29,8 @@ export class ATFConfirmationComponent extends ATFComponent implements OnInit {
       if (this.data.hasOwnProperty('msmsData')) {
         this.data.msmsData.forEach(x => this.filenames.push(x.ionizations[mode]));
       }
+
+      this.data.exportFilenames[mode] = this.filenames;
     });
   }
 
