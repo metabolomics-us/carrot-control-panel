@@ -9,27 +9,19 @@
   <h5 class="mb-5">{{data.miniXData.experiment.$.title}}</h5>
 </div>
 
-<app-atf-minix *ngIf="data.step == 1" [data]="data"></app-atf-minix>
+<app-atf-minix *ngIf="data.step == 1" [(data)]="data"></app-atf-minix>
 
-<app-atf-lcms *ngIf="data.step == 2" [data]="data"></app-atf-lcms>
+<app-atf-lcms *ngIf="data.step == 2" [(data)]="data"></app-atf-lcms>
 
-<app-atf-msms *ngIf="data.step == 3" [data]="data"></app-atf-msms>
+<!--
+<app-atf-msms *ngIf="data.step == 3" [(data)]="data"></app-atf-msms>
 
-<app-atf-confirm *ngIf="data.step == 4" [data]="data"></app-atf-confirm>
+-->
+<app-atf-confirm *ngIf="data.step == 3" [(data)]="data"></app-atf-confirm>
 
-<app-atf-submit *ngIf="data.step == 5" [data]="data"></app-atf-submit>
+<!--
+<app-atf-submit *ngIf="data.step == 5" [(data)]="data"></app-atf-submit>
 
-<div class="row" *ngIf="data.step == 6">
-  <div class="col" *ngFor="let mode of Object.keys(data.ionizations)">
-    <h5>{{mode}}{{data.platform}}</h5>
+-->
 
-    <table class="table table-striped mt-2 mb-5">
-      <tr *ngFor="let sample of data.acquisitionData">
-        <td>{{sample.ionizations[mode]}}</td>
-      </tr>
-      <tr *ngFor="let sample of data.msmsData">
-        <td>{{sample.ionizations[mode]}}</td>
-      </tr>
-    </table>
-  </div>
-</div>
+<app-atf-display *ngIf="data.step == 4" [(data)]="data"></app-atf-display>

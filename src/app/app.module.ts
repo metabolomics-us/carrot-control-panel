@@ -17,6 +17,7 @@ import { ATFLCMSComponent } from './acquisition-table/atf-lcms.component';
 import { ATFMSMSComponent } from './acquisition-table/atf-msms.component';
 import { ATFConfirmationComponent } from './acquisition-table/atf-confirm.component';
 import { ATFSubmitComponent } from './acquisition-table/atf-submit.component';
+import { ATFDisplayComponent } from './acquisition-table/atf-display.component';
 import { LCMSComponent } from './lcms/lcms.component';
 
 import { AcquisitionDataService } from './acquisition-table/acquisition-data.service';
@@ -42,6 +43,7 @@ export const ROUTES: Routes = [
     ATFMSMSComponent,
     ATFConfirmationComponent,
     ATFSubmitComponent,
+    ATFDisplayComponent,
     LCMSComponent,
 
     StartsWithPipe

@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col" *ngFor="let mode of Object.keys(data.ionizations)">
+    <h5>
+      {{mode}}{{data.platform}}
+      &nbsp;
+      <a ngbTooltip="Copied!" triggers="click:mouseleave" placement="top" (click)="copy(mode)">
+        <i class="fa fa-clipboard" ngbTooltip="Copy to Clipboard" placement="top" triggers="mouseenter:mouseleave click"></i>
+      </a>
+      &nbsp;
+      <a ngbTooltip="Download as CSV" placement="top" [href]="downloadURL(mode)" [download]="downloadFilename(mode)">
+        <i class="fa fa-download" aria-hidden="true"></i>
+      </a>
+    </h5>
+
+    <table class="table table-striped mt-2 mb-5">
+      <tr *ngFor="let sample of data.acquisitionData">
+        <td>{{sample.ionizations[mode]}}</td>
+      </tr>
+      <tr *ngFor="let sample of data.msmsData">
+        <td>{{sample.ionizations[mode]}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
