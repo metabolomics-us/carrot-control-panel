@@ -5,7 +5,6 @@ import { Reference } from './sample.reference.model';
 import { Userdata } from './sample.userdata.model';
 
 export class SampleData {
-  id: string;
   sample: string;
   experiment: string;
   acquisition: Acquisition;
