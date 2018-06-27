@@ -34,6 +34,10 @@ export class ATFMiniXComponent extends ATFComponent implements OnInit {
       // Update form data
       this.data.miniXID = this.form.value.minix;
 
+      // Initial prefix
+      let studyLabel = result.experiment.$.title.split(',')[0].split(' ');
+      this.data.prefix = studyLabel.length > 0 ? studyLabel[studyLabel.length - 1] : null;
+
       // Store raw MiniX data and parsed samples
       this.data.miniXData = result;
       this.data.sampleData = this.miniXService.parseMiniXSamples(result);

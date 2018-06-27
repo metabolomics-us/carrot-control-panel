@@ -26,13 +26,9 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     this.platforms = this.acquisitionDataService.getLCMSPlatforms();
     this.instruments = this.acquisitionDataService.getLCMSInstruments();
 
-    // Initial prefix
-    var studyLabel = this.data.miniXData.experiment.$.title.split(',')[0].split(' ');
-    studyLabel = studyLabel.length > 0 ? studyLabel[studyLabel.length - 1] : null;
-
     // Combination of form groups, using existing data from model if available
     this.form = this.formBuilder.group({
-      studyLabel: [this.data.prefix ? this.data.prefix : studyLabel, [
+      studyLabel: [this.data.prefix ? this.data.prefix : null, [
         Validators.required,
         Validators.minLength(1),
         Validators.maxLength(16)
