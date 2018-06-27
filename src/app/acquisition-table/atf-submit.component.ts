@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterContentInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ATFComponent } from './atf.component';
@@ -9,22 +9,26 @@ import { Acquisition, Metadata, Processing, Reference, SampleData, StasisService
   templateUrl: './atf-submit.component.html',
   styleUrls: []
 })
-export class ATFSubmitComponent extends ATFComponent implements OnInit {
+export class ATFSubmitComponent extends ATFComponent implements AfterContentInit {
 
+  running: boolean;
   maxCount: number;
   successCount: number;
-  errorCount: number;
+  errors;
 
-  constructor(private formBuilder: FormBuilder, private StasisService: StasisService) {
+  stasisSamples;
+
+  constructor(private formBuilder: FormBuilder, private stasisService: StasisService) {
     super();
   }
 
-  ngOnInit() {
+  ngAfterContentInit() {
+    this.running = false;
     this.maxCount = this.data.acquisitionData.length + this.data.msmsData.length;
     this.successCount = 0;
-    this.errorCount = 0;
 
-    this.data.stasisSamples = [];
+    // Build a list of all samples to submit to stasis
+    this.stasisSamples = [];
 
     Object.keys(this.data.ionizations).map(mode => {
       this.data.acquisitionData.forEach(sample => this.buildSampleData(sample, mode));
@@ -33,8 +37,8 @@ export class ATFSubmitComponent extends ATFComponent implements OnInit {
         this.data.msmsData.forEach(sample => this.buildSampleData(sample, mode));
     });
 
-    console.log(this.data)
-  }
+    this.submitSamples();
+   }
 
   private buildSampleData(sample, mode) {
     let ionizationMode = (mode == 'pos') ? 'positive' : 'negative';
@@ -44,7 +48,7 @@ export class ATFSubmitComponent extends ATFComponent implements OnInit {
     let userdata =  !sample.hasOwnProperty('userdata') ? null :
       new Userdata(sample.userdata.label, sample.userdata.comment) ;
 
-    this.data.stasisSamples.push(
+    this.stasisSamples.push(
       new SampleData(
         sample.ionizations[mode],
         this.data.miniXID.toString(),
@@ -57,5 +61,32 @@ export class ATFSubmitComponent extends ATFComponent implements OnInit {
         ]
       )
     );
+  }
+
+  private submitSamples() {
+    this.errors = [];
+    this.running = true;
+
+    // Submit samples to stasis
+    this.stasisSamples.forEach(sample => {
+      console.log(`Submitting ${sample.sample}`);
+
+      this.stasisService.createAcquisition(sample).subscribe(
+        response => {
+          this.successCount++;
+        },
+        error => {
+          console.error(error);
+          this.errors.push(sample.id);
+        }
+      );
+    });
+
+    if (this.errors.length == 0) {
+      // Used to avoid ExpressionChangedAfterItHasBeenCheckedError
+      setTimeout(() => {
+          this.data.step++;
+      });
+    }
   }
 }
