@@ -2,7 +2,7 @@
   <div class="form-row">
     <div class="col-md-12 mb-3">
       <label>MiniX ID</label>
-      <input type="text" class="form-control" formControlName="minix"
+      <input type="number" class="form-control" formControlName="minix"
         [ngClass]="displayFieldCss('minix')" required>
       <div class="invalid-feedback" *ngIf="!isValid('minix')">
         Please enter a valid MiniX ID
