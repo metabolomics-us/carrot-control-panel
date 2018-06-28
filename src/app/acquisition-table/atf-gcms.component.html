@@ -1,0 +1,115 @@
+<form novalidate [formGroup]="form">
+  <div class="form-row">
+    <div class="col-md-12 mb-5">
+      <label>Study Identifier (Sample filename prefix, e.g. <b>Fiehn</b>001_posHILIC_C1_020):</label>
+      <input type="text" class="form-control" formControlName="studyLabel"
+        [ngClass]="displayFieldCss('studyLabel')" required>
+      <div class="invalid-feedback" *ngIf="!isValid('studyLabel')">
+        Please enter a filename prefix for this study (between 1 and 16 characters)
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row text-center">
+    <div class="col mb-3" *ngFor="let platform of platforms">
+      <label>{{platform}}</label><br>
+      <input type="radio" name="platform" [value]="platform" formControlName="platform">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-12 mb-5">
+      <label>Instrument:</label>
+      <select class="form-control" formControlName="instrument">
+        <option [ngValue]="null">Select Instrument</option>
+        <option *ngFor="let instrument of instruments" [ngValue]="instrument">{{instrument}}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-sm-3 mb-3">
+      <label>Reaction Blanks</label><br>
+      <input type="checkbox" class="form-control-lg" formControlName="blankEnabled">
+    </div>
+    <div class="col-sm-5 mb-3">
+      <label>Label</label>
+      <input type="text" class="form-control" formControlName="blankLabel"
+        [ngClass]="displayFieldCss('blankLabel')">
+      <div class="invalid-feedback" *ngIf="!isValid('blankLabel')">
+        Please enter a blank label
+      </div>
+    </div>
+    <div class="col-sm-4 mb-3">
+      <label>Frequency</label>
+      <input type="text" class="form-control" formControlName="blankFrequency"
+        [ngClass]="displayFieldCss('blankFrequency')">
+      <div class="invalid-feedback" *ngIf="!isValid('blankFrequency')">
+        Frequency must be at least 1
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-sm-3 mb-3">
+      <label>Primary QC</label><br>
+      <input type="checkbox" formControlName="qcEnabled">
+    </div>
+    <div class="col-sm-5 mb-3">
+      <label>QC</label>
+      <input type="text" class="form-control" formControlName="qcLabel"
+        [ngClass]="displayFieldCss('qcLabel')">
+      <div class="invalid-feedback" *ngIf="!isValid('qcLabel')">
+        Please enter a primary QC label
+      </div>
+    </div>
+    <div class="col-sm-4 mb-3">
+      <label>Frequency</label>
+      <input type="text" class="form-control" formControlName="qcFrequency"
+        [ngClass]="displayFieldCss('qcFrequency')">
+      <div class="invalid-feedback" *ngIf="!isValid('qcFrequency')">
+        Frequency must be at least 1
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-md-3 mb-3">
+      <label>Secondary QC</label><br>
+      <input type="checkbox" formControlName="qc2Enabled">
+    </div>
+    <div class="col-sm-5 mb-3">
+      <label>Label</label>
+      <input type="text" class="form-control" formControlName="qc2Label"
+             [ngClass]="displayFieldCss('qc2Label')">
+      <div class="invalid-feedback" *ngIf="!isValid('qc2Label')">
+        Please enter a Secondary QC label
+      </div>
+    </div>
+    <div class="col-sm-4 mb-3">
+      <label>Frequency</label>
+      <input type="text" class="form-control" formControlName="qc2Frequency"
+             [ngClass]="displayFieldCss('qc2Frequency')">
+      <div class="invalid-feedback" *ngIf="!isValid('qc2Frequency')">
+        Frequency must be at least 1
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-sm-12 mt-3 mb-3">
+      <label>Randomize Samples</label><br>
+      <input type="checkbox" formControlName="randomize">
+    </div>
+  </div>
+
+  <div>
+    <button type="submit" class="btn btn-warning" (click)="reset()">
+      <i class="fa fa-repeat"></i> Restart
+    </button>
+
+    <button type="submit" class="btn btn-primary pull-right" (click)="nextStep()" [disabled]="!form.valid">
+      Build File List <i class="fa fa-arrow-right"></i>
+    </button>
+  </div>
+</form>

@@ -1,0 +1,22 @@
+<h3>
+  <i class="fa fa-table"></i> Generate LC-MS Acquisition Table<br>
+  <small class="text-muted">Update MiniX studies with filenames based on your acquisition properties</small>
+</h3>
+<br>
+
+<div *ngIf="data.step > 1">
+  <h4>MiniX ID: <a href="http://minix.fiehnlab.ucdavis.edu/studie/show/{{data.miniXID}}" target="_blank">{{data.miniXID}}</a></h4>
+  <h5 class="mb-5">{{data.miniXData.experiment.$.title}}</h5>
+</div>
+
+<app-atf-minix *ngIf="data.step == 1" [(data)]="data"></app-atf-minix>
+
+<app-atf-lcms *ngIf="data.step == 2" [(data)]="data"></app-atf-lcms>
+
+<app-atf-msms *ngIf="data.step == 3" [(data)]="data"></app-atf-msms>
+
+<app-atf-confirm *ngIf="data.step == 4" [(data)]="data"></app-atf-confirm>
+
+<app-atf-submit *ngIf="data.step == 5" [(data)]="data"></app-atf-submit>
+
+<app-atf-display *ngIf="data.step == 6" [(data)]="data"></app-atf-display>

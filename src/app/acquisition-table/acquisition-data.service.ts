@@ -39,6 +39,13 @@ export class AcquisitionDataService {
   }
 
   /**
+   * Get a list of all GCMS methods
+   */
+  getGCMSPlatforms(): Array<string> {
+    return ['GCTOF', 'BT'];
+  }
+
+  /**
    * Get a list of all GCMS instruments
    */
   getGCMSInstruments(): Array<string> {

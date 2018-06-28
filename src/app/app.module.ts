@@ -14,11 +14,14 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ATFMiniXComponent } from './acquisition-table/atf-minix.component';
 import { ATFLCMSComponent } from './acquisition-table/atf-lcms.component';
+import { ATFGCMSComponent } from './acquisition-table/atf-gcms.component';
 import { ATFMSMSComponent } from './acquisition-table/atf-msms.component';
 import { ATFConfirmationComponent } from './acquisition-table/atf-confirm.component';
 import { ATFSubmitComponent } from './acquisition-table/atf-submit.component';
 import { ATFDisplayComponent } from './acquisition-table/atf-display.component';
-import { LCMSComponent } from './lcms/lcms.component';
+
+import { LCMSComponent } from './pages/lcms/lcms.component';
+import { GCMSComponent } from './pages/gcms/gcms.component';
 
 import { AcquisitionDataService } from './acquisition-table/acquisition-data.service';
 import { AcquisitionTableService } from './acquisition-table/acquisition-table.service';
@@ -30,7 +33,7 @@ import { StartsWithPipe } from './shared/startswith.pipe';
 export const ROUTES: Routes = [
   {path: '', redirectTo: '/lcms', pathMatch: 'full'},
   {path: 'lcms', component: LCMSComponent},
-  {path: 'gcms', component: LCMSComponent}
+  {path: 'gcms', component: GCMSComponent}
 ];
 
 
@@ -40,11 +43,13 @@ export const ROUTES: Routes = [
     NavbarComponent,
     ATFMiniXComponent,
     ATFLCMSComponent,
+    ATFGCMSComponent,
     ATFMSMSComponent,
     ATFConfirmationComponent,
     ATFSubmitComponent,
     ATFDisplayComponent,
     LCMSComponent,
+    GCMSComponent,
 
     StartsWithPipe
   ],

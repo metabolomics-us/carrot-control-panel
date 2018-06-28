@@ -6,11 +6,11 @@ import { AcquisitionDataService } from './acquisition-data.service';
 import { AcquisitionTableService } from './acquisition-table.service';
 
 @Component({
-  selector: 'app-atf-lcms',
-  templateUrl: './atf-lcms.component.html',
+  selector: 'app-atf-gcms',
+  templateUrl: './atf-gcms.component.html',
   styleUrls: []
 })
-export class ATFLCMSComponent extends ATFComponent implements OnInit {
+export class ATFGCMSComponent extends ATFComponent implements OnInit {
 
   platforms;
   instruments;
@@ -23,8 +23,8 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
 
   ngOnInit() {
     // Get available platforms and instruments
-    this.platforms = this.acquisitionDataService.getLCMSPlatforms();
-    this.instruments = this.acquisitionDataService.getLCMSInstruments();
+    this.platforms = this.acquisitionDataService.getGCMSPlatforms();
+    this.instruments = this.acquisitionDataService.getGCMSInstruments();
 
     // Combination of form groups, using existing data from model if available
     this.form = this.formBuilder.group({
@@ -36,15 +36,7 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
 
       platform: [this.data.platform ? this.data.platform : this.platforms[0], Validators.required],
 
-      // Create the ionization + instrument sub-form
-      ionization: this.formBuilder.group({
-        positiveMode: this.data.ionizations ? this.data.ionizations.hasOwnProperty('pos') : true,
-        positiveModeInstrument: this.data.ionizations && this.data.ionizations.hasOwnProperty('pos') ? this.data.ionizations['pos'] : null,
-        negativeMode: this.data.ionizations ? this.data.ionizations.hasOwnProperty('neg') : true,
-        negativeModeInstrument: this.data.ionizations && this.data.ionizations.hasOwnProperty('neg') ? this.data.ionizations['neg'] : null
-      }, {
-        validator: this.instrumentValidation
-      }),
+      instrument: [this.data.ionizations && this.data.ionizations.hasOwnProperty('pos') ? this.data.ionizations['pos'] : null, Validators.required],
 
       blankEnabled: this.data.blank ? this.data.blank.enabled : true,
       blankLabel: [this.data.blank ? this.data.blank.label : 'MtdBlank', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
@@ -62,26 +54,13 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     });
   }
 
-  instrumentValidation(control: FormGroup) {
-    if (!control.value.positiveMode && !control.value.negativeMode)
-      return {required: true};
-    if (control.value.positiveMode && !control.value.positiveModeInstrument)
-      return {required: true};
-    if (control.value.negativeMode && !control.value.negativeModeInstrument)
-      return {required: true};
-    return null;
-  }
-
   nextStep() {
     this.data.prefix = this.form.value.studyLabel;
     this.data.platform = this.form.value.platform;
-    this.data.ionizations = {};
 
     // Set ionization mode
-    if (this.form.value.ionization.positiveMode)
-      this.data.ionizations['pos'] = this.form.value.ionization.positiveModeInstrument;
-    if (this.form.value.ionization.negativeMode)
-      this.data.ionizations['neg'] = this.form.value.ionization.negativeModeInstrument;
+    this.data.ionizations = {};
+    this.data.ionizations['pos'] = this.form.value.instrument;
 
     // Set QC parameters
     this.data.blank = {
