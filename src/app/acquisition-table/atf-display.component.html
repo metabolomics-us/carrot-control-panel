@@ -7,7 +7,7 @@
         <i class="fa fa-clipboard" ngbTooltip="Copy to Clipboard" placement="top" triggers="mouseenter:mouseleave click"></i>
       </a>
       &nbsp;
-      <a ngbTooltip="Download as CSV" placement="top" [href]="downloadURL(mode)" [download]="downloadFilename(mode)">
+      <a ngbTooltip="Download as CSV" placement="top" (click)="download(mode)" download>
         <i class="fa fa-download" aria-hidden="true"></i>
       </a>
     </h5>

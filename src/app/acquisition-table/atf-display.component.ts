@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { saveAs } from 'file-saver/FileSaver';
 
 import { ATFComponent } from './atf.component';
 
@@ -16,9 +17,8 @@ export class ATFDisplayComponent extends ATFComponent {
     super();
   }
 
-
   buildExport(mode: string): string {
-    return mode + this.data.platform +'\n' + this.data.exportFilenames[mode].join('\n');
+    return this.data.exportFilenames[mode].join('\n');
   }
 
   copy(mode: string) {
@@ -31,14 +31,11 @@ export class ATFDisplayComponent extends ATFComponent {
     document.body.removeChild(el);
   }
 
-  downloadURL(mode: string) {
+  download(mode: string) {
     let content = this.buildExport(mode);
+    let filename = 'MX'+ this.data.miniXID +'_'+ mode + this.data.platform +'.csv';
     let blob = new Blob([content], {type: 'text/csv'});
 
-    return window.URL.createObjectURL(blob);
-  }
-
-  downloadFilename(mode: string) {
-    return 'MX'+ this.data.miniXID +'_'+ mode + this.data.platform +'.csv';
+    saveAs(blob, filename);
   }
 }
