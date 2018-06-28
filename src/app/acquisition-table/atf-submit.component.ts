@@ -17,6 +17,9 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
   successCount: number;
   errors;
 
+  previousBlank;
+  previousQC;
+
   stasisSamples;
 
   constructor(private formBuilder: FormBuilder, private stasisService: StasisService) {
@@ -47,7 +50,23 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
     let metadata = !sample.hasOwnProperty('metadata') ? null :
       new Metadata(sample.metadata.class, sample.metadata.species, sample.metadata.organ);
     let userdata =  !sample.hasOwnProperty('userdata') ? null :
-      new Userdata(sample.userdata.label, sample.userdata.comment) ;
+      new Userdata(sample.userdata.label, sample.userdata.comment);
+
+    let references = [
+      new Reference('minix', this.data.miniXID.toString())
+    ];
+
+    // Add nearest blank/qc
+    if (this.data.blank.enabled && sample.ionizations[mode].startsWith(this.data.blank.label)) {
+      this.previousBlank = sample.ionizations[mode];
+    } else if (this.data.qc.enabled && sample.ionizations[mode].startsWith(this.data.qc.label)) {
+      this.previousQC = sample.ionizations[mode];
+    } else {
+      if (this.previousBlank)
+        references.push(new Reference('previousBlank', this.previousBlank));
+      if (this.previousQC)
+        references.push(new Reference('previousQC', this.previousQC));
+    }
 
     this.stasisSamples.push(
       new SampleData(
@@ -57,9 +76,7 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
         new Processing(this.data.platform),
         metadata,
         userdata,
-        [
-          new Reference('minix', this.data.miniXID.toString())
-        ]
+        references
       )
     );
   }
