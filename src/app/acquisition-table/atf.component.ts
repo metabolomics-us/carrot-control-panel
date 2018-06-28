@@ -44,6 +44,10 @@ export class ATFComponent {
   }
 
   reset() {
+    for (const prop of Object.getOwnPropertyNames(this.data)) {
+      delete this.data[prop];
+    }
+    
     this.data.step = 1;
   }
 }
