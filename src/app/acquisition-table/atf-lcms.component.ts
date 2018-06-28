@@ -108,6 +108,6 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     this.acquisitionTableService.generateAcquisitionTable(this.data);
 
     window.scroll(0, 0);
-    this.data.step += 1;
+    this.data.step++;
   }
 }

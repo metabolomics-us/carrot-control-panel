@@ -122,6 +122,6 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
     });
 
     window.scroll(0, 0);
-    this.data.step += 1;
+    this.data.step++;
   }
 }

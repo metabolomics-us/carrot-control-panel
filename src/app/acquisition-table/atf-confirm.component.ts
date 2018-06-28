@@ -36,6 +36,5 @@ export class ATFConfirmationComponent extends ATFComponent implements OnInit {
 
   nextStep() {
     window.scroll(0, 0);
-    this.data.step += 1;
-  }
+    this.data.step++;
 }

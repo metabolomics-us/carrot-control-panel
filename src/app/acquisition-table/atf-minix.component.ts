@@ -43,7 +43,7 @@ export class ATFMiniXComponent extends ATFComponent implements OnInit {
       this.data.sampleData = this.miniXService.parseMiniXSamples(result);
 
       window.scroll(0, 0);
-      this.data.step += 1;
+      this.data.step++;
     });
   }
 }

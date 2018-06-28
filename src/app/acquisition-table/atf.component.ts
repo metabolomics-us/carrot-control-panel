@@ -40,7 +40,7 @@ export class ATFComponent {
   }
 
   lastStep() {
-    this.data.step -= 1;
+    this.data.step--;
   }
 
   reset() {
