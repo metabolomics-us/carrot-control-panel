@@ -59,12 +59,12 @@ describe('Service: AcquisitionTableService', () => {
       const expectedFilenames = [
         "MtdBlank001_MX373065_{METHOD}_preConnor001",
         "BioRec001_MX373065_{METHOD}_preConnor001",
-        "Connor001_MX373065_{METHOD}_LGG-W_001",
-        "Connor002_MX373065_{METHOD}_LGG-W_002",
-        "Connor003_MX373065_{METHOD}_LGG-G_004",
-        "Connor004_MX373065_{METHOD}_LGG-G_005",
-        "Connor005_MX373065_{METHOD}_LGG-G_006",
-        "Connor006_MX373065_{METHOD}_LGG-W_003",
+        "Connor001_MX373065_{METHOD}_LGG-W-001",
+        "Connor002_MX373065_{METHOD}_LGG-W-002",
+        "Connor003_MX373065_{METHOD}_LGG-G-004",
+        "Connor004_MX373065_{METHOD}_LGG-G-005",
+        "Connor005_MX373065_{METHOD}_LGG-G-006",
+        "Connor006_MX373065_{METHOD}_LGG-W-003",
         "MtdBlank002_MX373065_{METHOD}_postConnor006",
         "BioRec002_MX373065_{METHOD}_postConnor006"
       ];
@@ -80,12 +80,12 @@ describe('Service: AcquisitionTableService', () => {
       const expectedFilenames = [
         "MtdBlank001_MX373065_{METHOD}_preConnor001",
         "BioRec001_MX373065_{METHOD}_preConnor001",
-        "Connor001_MX373065_{METHOD}_LGG-W_001",
-        "Connor002_MX373065_{METHOD}_LGG-W_002",
-        "Connor003_MX373065_{METHOD}_LGG-W_003",
-        "Connor004_MX373065_{METHOD}_LGG-G_004",
-        "Connor005_MX373065_{METHOD}_LGG-G_005",
-        "Connor006_MX373065_{METHOD}_LGG-G_006",
+        "Connor001_MX373065_{METHOD}_LGG-W-001",
+        "Connor002_MX373065_{METHOD}_LGG-W-002",
+        "Connor003_MX373065_{METHOD}_LGG-W-003",
+        "Connor004_MX373065_{METHOD}_LGG-G-004",
+        "Connor005_MX373065_{METHOD}_LGG-G-005",
+        "Connor006_MX373065_{METHOD}_LGG-G-006",
         "MtdBlank002_MX373065_{METHOD}_postConnor006",
         "BioRec002_MX373065_{METHOD}_postConnor006"
       ];

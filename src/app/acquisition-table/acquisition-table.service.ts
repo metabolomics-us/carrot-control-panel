@@ -13,8 +13,11 @@ export class AcquisitionTableService {
 
     let pad = n => ('' + n).padStart(3, '0')
 
+    // Filenames should match:
+    //   [A-Za-z]+(\d{3,4}|_MSMS)_MX\d+_[A-Za-z]+_[A-Za-z0-9-]+(_\d+_\d+)?
     let formatSampleName = (sample, i) => {
-      return data.prefix + pad(i) +'_MX'+ data.miniXID +'_{METHOD}_'+ sample.userdata.label;
+      return data.prefix + pad(i) +'_MX'+ data.miniXID +'_{METHOD}_'+
+        sample.userdata.label.replace(/[^A-Za-z0-9]/g, '-');
     }
 
     let formatQCName = (label, i, frequency) => {
