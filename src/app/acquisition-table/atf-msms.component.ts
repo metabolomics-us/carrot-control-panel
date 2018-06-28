@@ -73,11 +73,35 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
     });
   }
 
+  /**
+   * Select last n samples for MS/MS
+   */
+  select(n: number) {
+    this.resetMSMS();
+
+    let indices = [];
+
+    for (let i = this.data.msmsSelection.length - 1; i >= 0; i--) {
+      if (indices.length >= n)
+        break;
+
+      if (this.data.acquisitionData[i].userdata) {
+        indices.unshift(i);
+      }
+    }
+
+    indices.forEach(i => {
+      this.data.msmsSelection[i].selected = true;
+      this.selectMSMS({target: {checked: true}}, i)
+    });
+  }
+
   nextStep() {
     let msms_suffixes = this.acquisitionDataService.getMSMSRanges();
 
     // Add MS/MS samples
-    this.data.msmsData = this.acquisitionTableService.generateSampleNumbers(this.msmsSelectedCount - 1);
+    this.data.msmsData = this.acquisitionTableService.generateSampleNumbers(this.msmsSelectedCount);
+
 
     this.data.msmsSelection.forEach((x, i) => {
       if (x.selected) {
