@@ -2,6 +2,37 @@
   <div class="col-md-12 mb-3">
     <h4><i class="fa fa-cog fa-spin fa-fw"></i> Submitting Acquisition Table to Stasis Sample Manager...</h4>
 
-    <p><ngb-progressbar type="success" [max]="maxCount" [value]="successCount" [striped]="true" [animated]="true"></ngb-progressbar></p>
+    <p class="mb-3">
+      <ngb-progressbar type="success" [max]="maxCount" [value]="successCount" [striped]="true" [animated]="true">
+        {{successCount}} / {{maxCount}}
+      </ngb-progressbar>
+    </p>
+
+    <div *ngIf="errors.length > 0">
+      <h4 class="text-danger">Errors!</h4>
+
+      <div class="mb-5" *ngIf="successCount + errors.length >= maxCount">
+        Errors were encountered when submitting this acquisition table. 
+        Please download the following file and send it to the development team
+        or wohlgemuth@ucdavis.edu.  Then go to the next page to download your
+        acquisition table.
+
+        <div class="text-center mt-5">
+          <button class="btn btn-warning" (click)="download()">
+            <i class="fa fa-download" aria-hidden="true"></i> 
+            Download Error Log
+          </button>
+          &nbsp;
+
+          <button class="btn btn-primary" (click)="nextStep()">
+            View Acquisition Table <i class="fa fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <ol>
+        <li *ngFor="let error of errors">{{error}}</li>
+      </ol>
+    </div>
   </div>
 </div>

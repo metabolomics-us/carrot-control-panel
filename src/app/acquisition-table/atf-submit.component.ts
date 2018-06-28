@@ -1,5 +1,6 @@
 import { Component, AfterContentInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { saveAs } from 'file-saver/FileSaver';
 
 import { ATFComponent } from './atf.component';
 import { Acquisition, Metadata, Processing, Reference, SampleData, StasisService, Userdata } from 'stasis';
@@ -23,10 +24,6 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
   }
 
   ngAfterContentInit() {
-    this.running = false;
-    this.maxCount = this.data.acquisitionData.length + this.data.msmsData.length;
-    this.successCount = 0;
-
     // Build a list of all samples to submit to stasis
     this.stasisSamples = [];
 
@@ -36,6 +33,10 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
       if (this.data.hasOwnProperty('msmsData'))
         this.data.msmsData.forEach(sample => this.buildSampleData(sample, mode));
     });
+
+    this.running = false;
+    this.maxCount = this.stasisSamples.length;
+    this.successCount = 0;
 
     this.submitSamples();
    }
@@ -77,16 +78,38 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
         },
         error => {
           console.error(error);
-          this.errors.push(sample.id);
+          this.errors.push(sample.sample);
         }
       );
     });
 
-    if (this.errors.length == 0) {
-      // Used to avoid ExpressionChangedAfterItHasBeenCheckedError
-      setTimeout(() => {
+    let watchTask = () => {
+      if (this.successCount + this.errors.length < this.maxCount) {
+        setTimeout(() => {
+          watchTask();
+        }, 1000)
+      }
+
+       if (this.successCount + this.errors.length == this.maxCount && this.errors.length == 0) {
+        // Used to avoid ExpressionChangedAfterItHasBeenCheckedError
+        setTimeout(() => {
           this.data.step++;
-      });
+        });
+      }
     }
+
+    watchTask();
+  }
+
+  private download() {
+    let content = JSON.stringify(this.stasisSamples);
+    let filename = 'MX'+ this.data.miniXID +'_'+ this.data.platform +'.json';
+    let blob = new Blob([content], {type: 'application/json'});
+
+    saveAs(blob, filename);
+  }
+
+  private nextStep() {
+    this.data.step++;
   }
 }
