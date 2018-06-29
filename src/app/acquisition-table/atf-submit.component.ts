@@ -2,6 +2,9 @@ import { Component, AfterContentInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { saveAs } from 'file-saver/FileSaver';
 
+import { from, concat, of } from 'rxjs';
+import { flatMap, mergeMap, map } from 'rxjs/operators';
+
 import { ATFComponent } from './atf.component';
 import { Acquisition, Metadata, Processing, Reference, SampleData, StasisService, Userdata } from 'stasis';
 
@@ -40,6 +43,7 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
     this.running = false;
     this.maxCount = this.stasisSamples.length;
     this.successCount = 0;
+    this.errors = [];
 
     this.submitSamples();
    }
@@ -86,19 +90,16 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
     this.running = true;
 
     // Submit samples to stasis
-    this.stasisSamples.forEach(sample => {
-      console.log(`Submitting ${sample.sample}`);
-
-      this.stasisService.createAcquisition(sample).subscribe(
+    concat(...this.stasisSamples.map(x => this.stasisService.createAcquisition(x)))
+      .subscribe(
         response => {
           this.successCount++;
         },
         error => {
           console.error(error);
-          this.errors.push(sample.sample);
+          this.errors.push('error');
         }
       );
-    });
 
     let watchTask = () => {
       if (this.successCount + this.errors.length < this.maxCount) {
