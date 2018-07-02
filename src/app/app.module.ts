@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from "@angular/router";
 
+import { environment } from "../environments/environment";
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { StasisModule } from 'stasis';
@@ -61,7 +63,7 @@ export const ROUTES: Routes = [
     HttpClientModule,
     RouterModule.forRoot(ROUTES),
     NgbModule.forRoot(),
-    StasisModule
+    StasisModule.forRoot(environment)
   ],
   providers: [
     Globals,
