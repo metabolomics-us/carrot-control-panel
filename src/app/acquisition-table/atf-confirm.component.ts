@@ -12,6 +12,8 @@ export class ATFConfirmationComponent extends ATFComponent implements OnInit {
 
   filenames;
 
+  Object = Object;
+
   constructor(private formBuilder: FormBuilder) {
     super();
   }

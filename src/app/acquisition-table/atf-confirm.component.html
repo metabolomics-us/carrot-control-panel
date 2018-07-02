@@ -1,6 +1,16 @@
 <form novalidate>
   <div class="form-row">
     <div class="col-md-12 mb-3">
+      <h5>Confirm Acquisition Information</h5>
+
+      <h6 class="ml-5"><b>Method: {{data.platform}}</b></h6>
+
+      <h6 class="ml-5" *ngFor="let mode of Object.keys(data.ionizations)">
+        <b>{{mode == 'pos' ? 'Positive' : 'Negative'}} Mode: {{data.ionizations[mode]}}</b>
+      </h6>
+      <br>
+
+
       <h5>Confirm Sample Filenames</h5>
       <p>
         Please ensure that the generated filenames are correct, that the samples
