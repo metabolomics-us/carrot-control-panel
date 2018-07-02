@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -9,13 +9,19 @@ import { TrackingData } from './model/tracking.model';
 @Injectable()
 export class StasisService {
 
-  private URL: string = 'https://test-api.metabolomics.us/stasis';
+  private URL: string;
 
   private trackingPath: string = "tracking";
   private resultPath: string = "result";
   private acquisitionPath: string = "acquisition";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject('env') private env) {
+    if (env.hasOwnProperty('production') && env.production) {
+      this.URL = 'https://api.metabolomics.us/stasis';
+    } else {
+      this.URL = 'https://test-api.metabolomics.us/stasis';
+    }
+  }
 
   getTracking(sample: string): Observable<TrackingData>  {
     return this.http.get<TrackingData>(this.URL +'/'+ this.trackingPath +'/'+ sample);

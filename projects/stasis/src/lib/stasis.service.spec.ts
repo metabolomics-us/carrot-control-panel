@@ -29,7 +29,13 @@ describe('StatisService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientModule ],
-      providers: [ StasisService ]
+      providers: [
+        StasisService,
+        {
+          provide: 'env',
+          useValue: {production: false}
+        }
+      ]
     });
 
     service = TestBed.get(StasisService);
