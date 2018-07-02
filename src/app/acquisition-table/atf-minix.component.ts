@@ -11,6 +11,7 @@ import { MiniXService } from '../minix/minix.service';
 })
 export class ATFMiniXComponent extends ATFComponent implements OnInit {
 
+  error: string;
   miniXLoading: boolean;
 
   constructor(private formBuilder: FormBuilder, private miniXService: MiniXService) {
@@ -26,24 +27,31 @@ export class ATFMiniXComponent extends ATFComponent implements OnInit {
   }
 
   pullMiniX() {
+    this.error = null;
     this.miniXLoading = true;
 
-    this.miniXService.getMiniXExport(this.form.value.minix, (error, result) => {
-      this.miniXLoading = false;
+    this.miniXService.getMiniXExport(this.form.value.minix,
+      (error, result) => {
+        this.miniXLoading = false;
 
-      // Update form data
-      this.data.miniXID = this.form.value.minix;
+        // Update form data
+        this.data.miniXID = this.form.value.minix;
 
-      // Initial prefix
-      let studyLabel = result.experiment.$.title.split(',')[0].split(' ');
-      this.data.prefix = studyLabel.length > 0 ? studyLabel[studyLabel.length - 1] : null;
+        // Initial prefix
+        let studyLabel = result.experiment.$.title.split(',')[0].split(' ');
+        this.data.prefix = studyLabel.length > 0 ? studyLabel[studyLabel.length - 1] : null;
 
-      // Store raw MiniX data and parsed samples
-      this.data.miniXData = result;
-      this.data.sampleData = this.miniXService.parseMiniXSamples(result);
+        // Store raw MiniX data and parsed samples
+        this.data.miniXData = result;
+        this.data.sampleData = this.miniXService.parseMiniXSamples(result);
 
-      window.scroll(0, 0);
-      this.data.step++;
-    });
+        window.scroll(0, 0);
+        this.data.step++;
+      },
+      error => {
+        this.error = 'Invalid MiniX ID!';
+        this.miniXLoading = false;
+      }
+    );
   }
 }
