@@ -14,5 +14,6 @@ mv dist/carrot-control-panel docker/dist
 cd docker
 
 docker build -t metabolomics/carrot-control-panel . || exit 1
+rm -rf dist
 
 # Deploy image
