@@ -8,8 +8,18 @@ import { Routes, RouterModule } from "@angular/router";
 import { environment } from "../environments/environment";
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HotTableModule } from '@handsontable/angular';
 
 import { StasisModule } from 'stasis';
+
+import { StartsWithPipe } from './shared/startswith.pipe';
+import { MiniXService } from './shared/services/minix/minix.service';
+
+import { AcquisitionDataService } from './components/acquisition-table/acquisition-data.service';
+import { AcquisitionTableService } from './components/acquisition-table/acquisition-table.service';
+
+import { LCMSComponent } from './pages/acquisition-lcms/lcms.component';
+import { GCMSComponent } from './pages/acquisition-gcms/gcms.component';
 
 import { Globals } from './app.globals';
 import { AppComponent } from './app.component';
@@ -22,14 +32,7 @@ import { ATFConfirmationComponent } from './components/acquisition-table/atf-con
 import { ATFSubmitComponent } from './components/acquisition-table/atf-submit.component';
 import { ATFDisplayComponent } from './components/acquisition-table/atf-display.component';
 
-import { LCMSComponent } from './pages/acquisition-lcms/lcms.component';
-import { GCMSComponent } from './pages/acquisition-gcms/gcms.component';
-
-import { AcquisitionDataService } from './components/acquisition-table/acquisition-data.service';
-import { AcquisitionTableService } from './components/acquisition-table/acquisition-table.service';
-
-import { StartsWithPipe } from './shared/startswith.pipe';
-import { MiniXService } from './shared/services/minix/minix.service';
+import { ScheduleComponent } from './pages/schedule/schedule.component';
 
 
 export const ROUTES: Routes = [
@@ -41,6 +44,8 @@ export const ROUTES: Routes = [
 
 @NgModule({
   declarations: [
+    StartsWithPipe,
+
     AppComponent,
     NavbarComponent,
     ATFMiniXComponent,
@@ -53,7 +58,7 @@ export const ROUTES: Routes = [
     LCMSComponent,
     GCMSComponent,
 
-    StartsWithPipe
+    ScheduleComponent
   ],
   imports: [
     BrowserModule,
@@ -63,7 +68,8 @@ export const ROUTES: Routes = [
     HttpClientModule,
     RouterModule.forRoot(ROUTES),
     NgbModule.forRoot(),
-    StasisModule.forRoot(environment)
+    StasisModule.forRoot(environment),
+    HotTableModule
   ],
   providers: [
     Globals,
