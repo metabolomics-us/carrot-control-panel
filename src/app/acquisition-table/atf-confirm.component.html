@@ -25,6 +25,9 @@
           <tr *ngFor="let filename of filenames | startswith:data.blank.label | slice:0:3">
             <td>{{filename}}</td>
           </tr>
+          <tr *ngFor="let filename of filenames | startswith:(data.filename_prefix +'bl') | slice:0:3">
+            <td>{{filename}}</td>
+          </tr>
         </table>
       </div>
 
@@ -34,10 +37,13 @@
           <tr *ngFor="let filename of filenames | startswith:data.qc.label | slice:0:3">
             <td>{{filename}}</td>
           </tr>
+          <tr *ngFor="let filename of filenames | startswith:(data.filename_prefix +'qc') | slice:0:3">
+            <td>{{filename}}</td>
+          </tr>
         </table>
       </div>
 
-      <div *ngIf="data.qc2.enabled">
+      <div *ngIf="data.qc2 && data.qc2.enabled">
         <h6><b>Preview of QCs: {{data.qc2.label}}</b></h6>
         <table class="table table-striped mt-2 mb-5">
           <tr *ngFor="let filename of filenames | startswith:data.qc2.label | slice:0:3">
@@ -47,9 +53,12 @@
       </div>
 
       <div>
-        <h6><b>Preview of Samples: {{data.prefix}} (<span *ngIf="!data.randomize">Not </span>Randomized)</b></h6>
+        <h6><b>Preview of Samples (<span *ngIf="!data.randomize">Not </span>Randomized):</b></h6>
         <table class="table table-striped mt-2 mb-5">
           <tr *ngFor="let filename of filenames | startswith:data.prefix | slice:0:5">
+            <td>{{filename}}</td>
+          </tr>
+          <tr *ngFor="let filename of filenames | startswith:(data.filename_prefix +'sa') | slice:0:5">
             <td>{{filename}}</td>
           </tr>
         </table>

@@ -62,12 +62,14 @@ export class ATFGCMSComponent extends ATFComponent implements OnInit {
     this.data.blank = {
       enabled: this.form.value.blankEnabled,
       pre: this.form.value.blankPre,
+      label: 'Blank',
       frequency: this.form.value.blankFrequency
     };
 
     this.data.qc = {
       enabled: this.form.value.qcEnabled,
       pre: this.form.value.qcPre,
+      label: 'QC',
       frequency: this.form.value.qcFrequency
     };
 

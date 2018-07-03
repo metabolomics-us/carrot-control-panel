@@ -61,10 +61,12 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
     ];
 
     // Add nearest blank/qc
-    if (this.data.blank.enabled && sample.ionizations[mode].startsWith(this.data.blank.label)) {
-      this.previousBlank = sample.ionizations[mode];
-    } else if (this.data.qc.enabled && sample.ionizations[mode].startsWith(this.data.qc.label)) {
-      this.previousQC = sample.ionizations[mode];
+    let filename = sample.ionizations[mode];
+
+    if (this.data.blank.enabled && (filename.startsWith(this.data.blank.label) || filename.startsWith(this.data.filename_prefix +'bl'))) {
+      this.previousBlank = filename;
+    } else if (this.data.qc.enabled && (filename.startsWith(this.data.qc.label) || filename.startsWith(this.data.filename_prefix +'qc'))) {
+      this.previousQC = filename;
     } else {
       if (this.previousBlank)
         references.push(new Reference('previousBlank', this.previousBlank));
@@ -74,7 +76,7 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
 
     this.stasisSamples.push(
       new SampleData(
-        sample.ionizations[mode],
+        filename,
         this.data.miniXID.toString(),
         new Acquisition(this.data.ionizations[mode], ionizationMode, this.data.platform),
         new Processing(this.data.processingMethod),
