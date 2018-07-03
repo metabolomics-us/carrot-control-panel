@@ -77,7 +77,7 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
         sample.ionizations[mode],
         this.data.miniXID.toString(),
         new Acquisition(this.data.ionizations[mode], ionizationMode, this.data.platform),
-        new Processing(this.data.platform),
+        new Processing(this.data.processingMethod),
         metadata,
         userdata,
         references

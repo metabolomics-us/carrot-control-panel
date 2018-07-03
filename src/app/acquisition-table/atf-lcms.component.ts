@@ -75,6 +75,7 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
   nextStep() {
     this.data.prefix = this.form.value.studyLabel;
     this.data.platform = this.form.value.platform;
+    this.data.processingMethod = 'lcms';
     this.data.ionizations = {};
 
     // Set ionization mode

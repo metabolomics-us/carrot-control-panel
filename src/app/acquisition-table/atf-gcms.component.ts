@@ -57,6 +57,7 @@ export class ATFGCMSComponent extends ATFComponent implements OnInit {
   nextStep() {
     this.data.prefix = this.form.value.studyLabel;
     this.data.platform = this.form.value.platform;
+    this.data.processingMethod = 'gcms';
 
     // Set ionization mode
     this.data.ionizations = {};
