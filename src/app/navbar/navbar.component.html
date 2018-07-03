@@ -8,14 +8,13 @@
   
   <div class="collapse navbar-collapse" id="navbarContent" [ngbCollapse]="navbarCollapsed">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" [routerLink]="['lcms']" routerLinkActive="active" title="lcms">LC-MS</a>
+      <li class="nav-item" ngbDropdown>
+        <a class="nav-link" ngbDropdownToggle aria-haspopup="true" aria-expanded="false">Acquisition</a>
+        <div class="dropdown-menu" ngbDropdownMenu>
+          <a class="dropdown-item" [routerLink]="['lcms']">LC-MS</a>
+          <a class="dropdown-item" [routerLink]="['gcms']">GC-MS</a>
+        </div>
       </li>
-      <!--
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['gcms']">GC-MS</a>
-      </li>
-      -->
     </ul>
   </div>
 </nav>
