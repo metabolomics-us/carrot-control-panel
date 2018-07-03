@@ -54,7 +54,7 @@ export class AcquisitionDataService {
       'Research GC-TOF (b)',
       'GC-TOF (c)',
       'GC-TOF (d)',
-      'GC-TOF BT (t)'
+      'GC-TOF BT (T)'
     ];
   }
 }
