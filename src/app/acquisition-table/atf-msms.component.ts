@@ -110,7 +110,7 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
         sample.filename = this.data.prefix +'_MSMS_MX'+ sample.filename.split('_MX')[1];
 
         // Generate sample names for each ionization mode and add MS/MS suffix
-        this.acquisitionTableService.generateSampleNames(this.data, sample);
+        this.acquisitionTableService.generateLCMSSampleNames(this.data, sample);
 
         Object.keys(sample.ionizations).map(mode => {
           let msms_suffix = msms_suffixes[mode][(x.order - 1) % msms_suffixes[mode].length];

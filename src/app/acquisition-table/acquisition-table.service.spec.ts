@@ -69,7 +69,7 @@ describe('Service: AcquisitionTableService', () => {
         "BioRec002_MX373065_{METHOD}_postConnor006"
       ];
 
-      service.generateAcquisitionTable(data);
+      service.generateLCMSAcquisitionTable(data);
       expect(data.acquisitionData.map(x => x.filename)).toEqual(expectedFilenames);
     });
 
@@ -91,7 +91,7 @@ describe('Service: AcquisitionTableService', () => {
       ];
 
       data.randomize = false;
-      service.generateAcquisitionTable(data);
+      service.generateLCMSAcquisitionTable(data);
       expect(data.acquisitionData.map(x => x.filename)).toEqual(expectedFilenames);
     });
   }));

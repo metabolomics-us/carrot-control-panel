@@ -1,11 +1,11 @@
 <form novalidate [formGroup]="form">
   <div class="form-row">
     <div class="col-md-12 mb-5">
-      <label>Study Identifier (Sample filename prefix, e.g. <b>Fiehn</b>001_posHILIC_C1_020):</label>
-      <input type="text" class="form-control" formControlName="studyLabel"
-        [ngClass]="displayFieldCss('studyLabel')" required>
-      <div class="invalid-feedback" *ngIf="!isValid('studyLabel')">
-        Please enter a filename prefix for this study (between 1 and 16 characters)
+      <label>Operator Initials (2 letters only):</label>
+      <input type="text" class="form-control" formControlName="operator"
+        [ngClass]="displayFieldCss('operator')" required maxlength="2">
+      <div class="invalid-feedback" *ngIf="!isValid('operator')">
+        Please enter your 2-character initials
       </div>
     </div>
   </div>
@@ -33,11 +33,11 @@
       <input type="checkbox" class="form-control-lg" formControlName="blankEnabled">
     </div>
     <div class="col-sm-5 mb-3">
-      <label>Label</label>
-      <input type="text" class="form-control" formControlName="blankLabel"
-        [ngClass]="displayFieldCss('blankLabel')">
-      <div class="invalid-feedback" *ngIf="!isValid('blankLabel')">
-        Please enter a blank label
+      <label>Pre-injections</label>
+      <input type="text" class="form-control" formControlName="blankPre"
+             [ngClass]="displayFieldCss('blankPre')">
+      <div class="invalid-feedback" *ngIf="!isValid('blankPre')">
+        Number of pre-injections must be at least 1 (default: 1)
       </div>
     </div>
     <div class="col-sm-4 mb-3">
@@ -52,15 +52,15 @@
 
   <div class="form-row">
     <div class="col-sm-3 mb-3">
-      <label>Primary QC</label><br>
+      <label>QC</label><br>
       <input type="checkbox" formControlName="qcEnabled">
     </div>
     <div class="col-sm-5 mb-3">
-      <label>QC</label>
-      <input type="text" class="form-control" formControlName="qcLabel"
-        [ngClass]="displayFieldCss('qcLabel')">
-      <div class="invalid-feedback" *ngIf="!isValid('qcLabel')">
-        Please enter a primary QC label
+      <label>Pre-injections</label>
+      <input type="text" class="form-control" formControlName="qcPre"
+             [ngClass]="displayFieldCss('qcPre')">
+      <div class="invalid-feedback" *ngIf="!isValid('qcPre')">
+        Number of pre-injections must be at least 1 (default: 1)
       </div>
     </div>
     <div class="col-sm-4 mb-3">
@@ -68,29 +68,6 @@
       <input type="text" class="form-control" formControlName="qcFrequency"
         [ngClass]="displayFieldCss('qcFrequency')">
       <div class="invalid-feedback" *ngIf="!isValid('qcFrequency')">
-        Frequency must be at least 1
-      </div>
-    </div>
-  </div>
-
-  <div class="form-row">
-    <div class="col-md-3 mb-3">
-      <label>Secondary QC</label><br>
-      <input type="checkbox" formControlName="qc2Enabled">
-    </div>
-    <div class="col-sm-5 mb-3">
-      <label>Label</label>
-      <input type="text" class="form-control" formControlName="qc2Label"
-             [ngClass]="displayFieldCss('qc2Label')">
-      <div class="invalid-feedback" *ngIf="!isValid('qc2Label')">
-        Please enter a Secondary QC label
-      </div>
-    </div>
-    <div class="col-sm-4 mb-3">
-      <label>Frequency</label>
-      <input type="text" class="form-control" formControlName="qc2Frequency"
-             [ngClass]="displayFieldCss('qc2Frequency')">
-      <div class="invalid-feedback" *ngIf="!isValid('qc2Frequency')">
         Frequency must be at least 1
       </div>
     </div>
