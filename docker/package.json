@@ -1,0 +1,9 @@
+{
+  "name": "carrot-control-panel-deployment",
+  "version": "0.0.0",
+  "private": true,
+  "dependencies": {
+    "express": "^4.16.0",
+    "http-proxy-middleware": "^0.18.0"
+  }
+}
