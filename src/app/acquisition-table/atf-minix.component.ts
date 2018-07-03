@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { ATFComponent } from './atf.component';
-import { MiniXService } from '../minix/minix.service';
+import { MiniXService } from '../shared/services/minix/minix.service';
 
 @Component({
   selector: 'app-atf-minix',

@@ -22,14 +22,14 @@ import { ATFConfirmationComponent } from './acquisition-table/atf-confirm.compon
 import { ATFSubmitComponent } from './acquisition-table/atf-submit.component';
 import { ATFDisplayComponent } from './acquisition-table/atf-display.component';
 
-import { LCMSComponent } from './pages/lcms/lcms.component';
-import { GCMSComponent } from './pages/gcms/gcms.component';
+import { LCMSComponent } from './pages/acquisition-lcms/lcms.component';
+import { GCMSComponent } from './pages/acquisition-gcms/gcms.component';
 
 import { AcquisitionDataService } from './acquisition-table/acquisition-data.service';
 import { AcquisitionTableService } from './acquisition-table/acquisition-table.service';
-import { MiniXService } from './minix/minix.service';
 
 import { StartsWithPipe } from './shared/startswith.pipe';
+import { MiniXService } from './shared/services/minix/minix.service';
 
 
 export const ROUTES: Routes = [
