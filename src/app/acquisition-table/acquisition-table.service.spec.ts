@@ -2,7 +2,7 @@ import {async, TestBed} from '@angular/core/testing';
 import {HttpClientModule} from '@angular/common/http';
 
 import {AcquisitionTableService} from './acquisition-table.service';
-import {MiniXService} from '../minix/minix.service';
+import {MiniXService} from '../shared/services/minix/minix.service';
 
 describe('Service: AcquisitionTableService', () => {
   let service;

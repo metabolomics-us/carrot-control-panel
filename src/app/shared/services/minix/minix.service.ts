@@ -11,7 +11,7 @@ export class MiniXService {
 
   getMiniXExport(minixID: number, callback: Function, errorCallback: (error: any) => void) {
     return this.http.get(
-      'https://api.metabolomics.us/proxy/minix/export/'+ minixID,
+      '/rest/export/'+ minixID,
       {responseType: 'text'}
     ).subscribe((result: string) => parseString(result, callback), errorCallback);
   }
