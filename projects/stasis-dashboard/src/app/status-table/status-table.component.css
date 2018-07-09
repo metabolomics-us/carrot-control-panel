@@ -1,0 +1,16 @@
+.fa.success {
+	color: green;
+  background: white;
+  border-radius: 50%;
+}
+
+.fa.warning {
+	color: orange;
+  background: white;
+  border-radius: 50%;
+}
+
+.fa.muted, .fas.muted, .far.muted {
+  color: gray;
+  border-radius: 50%;
+}

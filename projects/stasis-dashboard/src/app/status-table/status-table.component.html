@@ -1,0 +1,30 @@
+<div *ngIf="data$ | async as data">
+  <table class="table table-hover table-responsive-lg" aria-label="Status Table">
+    <thead>
+      <tr>
+        <th>Sample</th>
+        <th colspan="10">Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of data | slice: 10 * (page - 1) : (10 * page) - 1">
+        <td>{{ row.sample }}</td>
+        <td *ngFor="let status of statuses; let i = index;">
+          <i *ngIf="row.status.length > i" class="fa fa-check-circle fa-2x success" placement="top" containter="body" ngbTooltip="{{ row.status[i].value }}"></i>
+          <i *ngIf="row.status.length === i" class="fa fa-cog fa-spin fa-2x muted" placement="top" containter="body" ngbTooltip="in progress"></i>
+          <i *ngIf="row.status.length < i" class="far fa-circle fa-2x muted" placement="top" containter="body" ngbTooltip="not started"></i>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ngb-pagination class="d-flex justify-content-center" 
+    [collectionSize]="data.length" 
+    [pageSize]="pageSize"
+    [(page)]="page" 
+    [maxSize]="5" 
+    [rotate]="true" 
+    [ellipses]="false" 
+    [boundaryLinks]="true">
+  </ngb-pagination>
+<div>

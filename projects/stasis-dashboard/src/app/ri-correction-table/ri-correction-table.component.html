@@ -1,0 +1,26 @@
+<div *ngIf="data$ | async as data">
+  <table class="table table-hover table-responsive-sm" aria-label="RI Correction Table">
+    <thead>
+      <tr>
+        <th>Original Value</th>
+        <th>Corrected Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of data | slice: 10 * (page - 1) : (10 * page) - 1">
+        <td>{{ row.x }}</td>
+        <td>{{ row.y }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ngb-pagination class="d-flex justify-content-center" 
+    [collectionSize]="data.length" 
+    [pageSize]="pageSize"
+    [(page)]="page" 
+    [maxSize]="5" 
+    [rotate]="true" 
+    [ellipses]="false" 
+    [boundaryLinks]="true">
+  </ngb-pagination>
+</div>
