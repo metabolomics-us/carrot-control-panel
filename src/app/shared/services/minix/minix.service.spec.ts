@@ -18,6 +18,10 @@ describe('Service: MiniXService', () => {
     service = TestBed.get(MiniXService);
   });
 
+  it('should be created', async(() => {
+    expect(service).toBeTruthy();
+  }));
+
   it('should return a JSON converted MiniX export', async(() => {
     service.getMiniXExport(400333, (error, result) => {
       expect(result).not.toBeNull();
