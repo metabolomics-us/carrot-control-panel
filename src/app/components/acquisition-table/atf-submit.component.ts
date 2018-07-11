@@ -2,8 +2,8 @@ import { Component, AfterContentInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { saveAs } from 'file-saver/FileSaver';
 
-import { from, concat, of } from 'rxjs';
-import { flatMap, mergeMap, map } from 'rxjs/operators';
+import { from, of, forkJoin } from 'rxjs';
+import { flatMap, bufferCount, concatMap, catchError } from 'rxjs/operators';
 
 import { ATFComponent } from './atf.component';
 import { Acquisition, Metadata, Processing, Reference, SampleData, StasisService, Userdata } from 'stasis';
@@ -17,7 +17,7 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
 
   running: boolean;
   maxCount: number;
-  successCount: number;
+  submitCount: number;
   errors;
 
   previousBlank;
@@ -42,7 +42,7 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
 
     this.running = false;
     this.maxCount = this.stasisSamples.length;
-    this.successCount = 0;
+    this.submitCount = 0;
     this.errors = [];
 
     this.submitSamples();
@@ -92,25 +92,27 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
     this.running = true;
 
     // Submit samples to stasis
-    concat(...this.stasisSamples.map(x => this.stasisService.createAcquisition(x)))
-      .subscribe(
-        response => {
-          this.successCount++;
-        },
-        error => {
-          console.error(error);
-          this.errors.push('error');
-        }
-      );
+    // Uses flatMap to group requests into groups of 2, and each http request
+    // needs a catchError in order to avoid blocking the queue
+    from(this.stasisSamples).pipe(
+      flatMap((x: any) => {
+        return this.stasisService.createAcquisition(x).pipe(
+          catchError(error => {
+            this.errors.push(error);
+            return of(error);
+          })
+        )
+      }, null, 2)
+    ).subscribe(response => this.submitCount++);
 
     let watchTask = () => {
-      if (this.successCount + this.errors.length < this.maxCount) {
+      if (this.submitCount < this.maxCount) {
         setTimeout(() => {
           watchTask();
         }, 1000)
       }
 
-       if (this.successCount + this.errors.length == this.maxCount && this.errors.length == 0) {
+       if (this.submitCount == this.maxCount && this.errors.length == 0) {
         // Used to avoid ExpressionChangedAfterItHasBeenCheckedError
         setTimeout(() => {
           this.data.step++;
