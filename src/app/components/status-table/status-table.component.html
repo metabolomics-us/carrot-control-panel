@@ -1,5 +1,5 @@
 <div *ngIf="data$ | async as data">
-  <table class="table table-hover table-responsive-lg" aria-label="Status Table">
+  <table class="table table-hover table-responsive-md" aria-label="Status Table">
     <thead>
       <tr>
         <th>Sample</th>
@@ -12,7 +12,7 @@
         <td *ngFor="let status of statuses; let i = index;">
           <i *ngIf="row.status.length > i" class="fa fa-check-circle fa-2x success" placement="top" containter="body" ngbTooltip="{{ row.status[i].value }}"></i>
           <i *ngIf="row.status.length === i" class="fa fa-cog fa-spin fa-2x muted" placement="top" containter="body" ngbTooltip="in progress"></i>
-          <i *ngIf="row.status.length < i" class="far fa-circle fa-2x muted" placement="top" containter="body" ngbTooltip="not started"></i>
+          <i *ngIf="row.status.length < i" class="fa fa-circle-o fa-2x muted" placement="top" containter="body" ngbTooltip="not started"></i>
         </td>
       </tr>
     </tbody>

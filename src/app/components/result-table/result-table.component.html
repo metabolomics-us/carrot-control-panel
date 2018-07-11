@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of data | slice: 10 * (page - 1) : (10 * page) - 1">
+      <tr *ngFor="let row of data.injections[data.sample].results | slice: 10 * (page - 1) : (10 * page) - 1">
         <td>{{ row.target.name }}</td>
         <td>{{ row.target.retentionIndex | number: '1.2-2' }}</td>
         <td>{{ row.target.mass | number: '1.2-2' }}</td>
@@ -25,7 +25,7 @@
   </table>
   
   <ngb-pagination class="d-flex justify-content-center" 
-    [collectionSize]="(data$ | async).length" 
+    [collectionSize]="data.injections[data.sample].results.length" 
     [pageSize]="pageSize"
     [(page)]="page" 
     [maxSize]="5" 

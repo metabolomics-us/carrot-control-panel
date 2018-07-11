@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Observable, of as observableOf } from 'rxjs';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-import { RICurveGraphDataSource, RiCurveGraphItem } from './ri-curve-graph-datasource';
 
 @Component({
   selector: 'app-ri-curve-graph',
@@ -11,13 +10,14 @@ import { RICurveGraphDataSource, RiCurveGraphItem } from './ri-curve-graph-datas
   styleUrls: ['./ri-curve-graph.component.css']
 })
 export class RiCurveGraphComponent implements OnInit {
-  dataSource: RICurveGraphDataSource;
-  data$: Observable<RiCurveGraphItem[]>;
-  data: Object[];
-
-  view: any[] = [700, 400];
+  @Input() data$: Observable<any>;
+  @Input() width?: number;
+  @Input() height?: number;
+  
+  data: any[];
 
   // options
+  view = [this.width || 700, this.height || 400];
   showXAxis = true;
   showYAxis = true;
   gradient = false;
@@ -36,12 +36,10 @@ export class RiCurveGraphComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dataSource = new RICurveGraphDataSource();
-    this.data$ = this.dataSource.connect();
-    this.data$.subscribe(dataPoints => {
+    this.data$.subscribe(result => {
       this.data = [{
-        "name": "RI Curve",
-        "series": (dataPoints).map((x) => { return { 'name': x.x, 'value': x.y } })
+        "name": result.sample,
+        "series": (result.injections[result.sample].correction.curve).map((point) => { return { 'name': point.x, 'value': point.y } })
       }]
     });
   }

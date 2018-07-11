@@ -1,5 +1,5 @@
 <div *ngIf="data$ | async as data">
-  <table class="table table-hover table-responsive-sm" aria-label="RI Correction Table">
+  <table class="table table-hover" aria-label="RI Correction Table">
     <thead>
       <tr>
         <th>Original Value</th>
@@ -7,15 +7,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of data | slice: 10 * (page - 1) : (10 * page) - 1">
-        <td>{{ row.x }}</td>
-        <td>{{ row.y }}</td>
+      <tr *ngFor="let row of data.injections[data.sample].correction.curve | slice: 10 * (page - 1) : (10 * page) - 1">
+        <td>{{ row.x | number: '1.2-2' }}</td>
+        <td>{{ row.y | number: '1.2-2' }}</td>
       </tr>
     </tbody>
   </table>
 
   <ngb-pagination class="d-flex justify-content-center" 
-    [collectionSize]="data.length" 
+    [collectionSize]="data.injections[data.sample].correction.curve.length" 
     [pageSize]="pageSize"
     [(page)]="page" 
     [maxSize]="5" 
