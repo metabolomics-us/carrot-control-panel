@@ -29,7 +29,7 @@
           </button>
           &nbsp;
 
-          <button class="btn btn-primary" (click)="nextStep()">
+          <button class="btn btn-primary" (click)="nextStep()" [disabled]="!logDownloaded">
             View Acquisition Table <i class="fa fa-arrow-right"></i>
           </button>
         </div>

@@ -19,6 +19,7 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
   maxCount: number;
   submitCount: number;
   errors;
+  logDownloaded: boolean;
 
   previousBlank;
   previousQC;
@@ -44,6 +45,7 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
     this.maxCount = this.stasisSamples.length;
     this.submitCount = 0;
     this.errors = [];
+    this.logDownloaded = false;
 
     this.submitSamples();
    }
@@ -129,6 +131,7 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
     let blob = new Blob([content], {type: 'application/json'});
 
     saveAs(blob, filename);
+    this.logDownloaded = true;
   }
 
   private nextStep() {
