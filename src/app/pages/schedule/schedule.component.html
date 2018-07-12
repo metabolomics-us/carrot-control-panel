@@ -6,21 +6,21 @@
 
 <!-- Status and error messages -->
 <div class="alert alert-info" role="alert" *ngIf="status.checkingFiles">
-    <h4><i class="fa fa-spinner fa-spin fa-fw"></i> Checking files...</h4>
+  <h4><i class="fa fa-spinner fa-spin fa-fw"></i> Checking files...</h4>
 </div>
 
 <div class="alert alert-info" role="alert" *ngIf="status.submitting">
-    <h4><i class="fa fa-spinner fa-spin fa-fw"></i> Submitting...</h4>
+  <h4><i class="fa fa-spinner fa-spin fa-fw"></i> Submitting...</h4>
 </div>
 
 <div class="alert alert-danger" role="alert" *ngIf="status.error || status.checkFileError || status.miniXError">
-    <h4 class="text-danger"><i class="fa fa-exclamation-triangle"></i> Error!</h4>
-    {{status.error}}{{status.checkFileError}}{{status.miniXError}}
+  <h4 class="text-danger"><i class="fa fa-exclamation-triangle"></i> Error!</h4>
+  {{status.error}}{{status.checkFileError}}{{status.miniXError}}
 </div>
 
 <div class="alert alert-success" role="alert" *ngIf="status.success">
-    <h4 class="text-success"><i class="fa fa-check-circle-o"></i> Success!</h4>
-    Your processing task was submitted successfully with task ID: {{status.success.result}}
+  <h4 class="text-success"><i class="fa fa-check-circle-o"></i> Success!</h4>
+  Your processing task was submitted successfully with task ID: {{status.success.result}}
 </div>
 
 

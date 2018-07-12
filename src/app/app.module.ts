@@ -34,13 +34,15 @@ import { ATFSubmitComponent } from './components/acquisition-table/atf-submit.co
 import { ATFDisplayComponent } from './components/acquisition-table/atf-display.component';
 
 import { ScheduleComponent } from './pages/schedule/schedule.component';
+import { DownloadComponent } from './pages/download/download.component';
 
 
 export const ROUTES: Routes = [
   {path: '', redirectTo: '/lcms', pathMatch: 'full'},
   {path: 'lcms', component: LCMSComponent},
   {path: 'gcms', component: GCMSComponent},
-  {path: 'schedule', component: ScheduleComponent}
+  {path: 'schedule', component: ScheduleComponent},
+  {path: 'download', component: DownloadComponent}
 ];
 
 
@@ -60,7 +62,8 @@ export const ROUTES: Routes = [
     LCMSComponent,
     GCMSComponent,
 
-    ScheduleComponent
+    ScheduleComponent,
+    DownloadComponent
   ],
   imports: [
     BrowserModule,
