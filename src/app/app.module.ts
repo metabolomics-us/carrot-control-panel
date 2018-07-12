@@ -14,6 +14,7 @@ import { StasisModule } from 'stasis';
 
 import { StartsWithPipe } from './shared/startswith.pipe';
 import { MiniXService } from './shared/services/minix/minix.service';
+import { CarrotHttpService } from './shared/services/carrot/carrot.http.service';
 
 import { AcquisitionDataService } from './components/acquisition-table/acquisition-data.service';
 import { AcquisitionTableService } from './components/acquisition-table/acquisition-table.service';
@@ -38,7 +39,8 @@ import { ScheduleComponent } from './pages/schedule/schedule.component';
 export const ROUTES: Routes = [
   {path: '', redirectTo: '/lcms', pathMatch: 'full'},
   {path: 'lcms', component: LCMSComponent},
-  {path: 'gcms', component: GCMSComponent}
+  {path: 'gcms', component: GCMSComponent},
+  {path: 'schedule', component: ScheduleComponent}
 ];
 
 
@@ -69,11 +71,12 @@ export const ROUTES: Routes = [
     RouterModule.forRoot(ROUTES),
     NgbModule.forRoot(),
     StasisModule.forRoot(environment),
-    HotTableModule
+    HotTableModule.forRoot()
   ],
   providers: [
     Globals,
     MiniXService,
+    CarrotHttpService,
     AcquisitionDataService,
     AcquisitionTableService
   ],
