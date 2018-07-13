@@ -17,3 +17,4 @@ docker build -t metabolomics/carrot-control-panel . || exit 1
 rm -rf dist
 
 # Deploy image
+docker push metabolomics/carrot-control-panel
