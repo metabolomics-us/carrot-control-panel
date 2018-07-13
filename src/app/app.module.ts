@@ -13,6 +13,7 @@ import { HotTableModule } from '@handsontable/angular';
 import { StasisModule } from 'stasis';
 
 import { StartsWithPipe } from './shared/startswith.pipe';
+import { GetTypePipe } from './shared/gettype.pipe';
 import { MiniXService } from './shared/services/minix/minix.service';
 import { CarrotHttpService } from './shared/services/carrot/carrot.http.service';
 
@@ -49,6 +50,7 @@ export const ROUTES: Routes = [
 @NgModule({
   declarations: [
     StartsWithPipe,
+    GetTypePipe,
 
     AppComponent,
     NavbarComponent,
