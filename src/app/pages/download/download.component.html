@@ -18,14 +18,16 @@
 </div>
 
 
-<div class="form-group">
-  <label for="filename">Filename to search:</label>
-  <input type="text" class="form-control" id="filename" placeholder="Filename" [(ngModel)]="task.filename">
-</div>
+<form>
+  <div class="form-group">
+    <label for="filename">Filename to search:</label>
+    <input type="text" name="filename" class="form-control" id="filename" placeholder="Filename" [(ngModel)]="task.filename">
+  </div>
 
-<div>
-  <button type="button" class="btn btn-primary" (click)="download()" [disabled]="status.checkingFile">
-    <span *ngIf="status.running" class="checkingFile"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>
-    <span>Download</span>
-  </button>
-</div>
+  <div>
+    <button type="submit" class="btn btn-primary" (click)="download()" [disabled]="status.checkingFile">
+      <span *ngIf="status.running" class="checkingFile"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>
+      <span>Download</span>
+    </button>
+  </div>
+</form>
