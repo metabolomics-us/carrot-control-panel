@@ -35,6 +35,8 @@ import { ATFSubmitComponent } from './components/acquisition-table/atf-submit.co
 import { ATFDisplayComponent } from './components/acquisition-table/atf-display.component';
 
 import { ScheduleComponent } from './pages/schedule/schedule.component';
+import { AddTargetComponent } from './pages/library/addtarget.component';
+import { AddLibraryComponent } from './pages/library/addlibrary.component';
 import { DownloadComponent } from './pages/download/download.component';
 
 
@@ -43,6 +45,8 @@ export const ROUTES: Routes = [
   {path: 'lcms', component: LCMSComponent},
   {path: 'gcms', component: GCMSComponent},
   {path: 'schedule', component: ScheduleComponent},
+  {path: 'addtarget', component: AddTargetComponent},
+  {path: 'addlibrary', component: AddLibraryComponent},
   {path: 'download', component: DownloadComponent}
 ];
 
@@ -65,6 +69,8 @@ export const ROUTES: Routes = [
     GCMSComponent,
 
     ScheduleComponent,
+    AddTargetComponent,
+    AddLibraryComponent,
     DownloadComponent
   ],
   imports: [

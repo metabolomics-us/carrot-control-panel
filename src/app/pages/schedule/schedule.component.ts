@@ -49,7 +49,6 @@ export class ScheduleComponent implements OnInit {
       observeChanges: true
     };
 
-    // Set default
     this.data = [[]];
     this.selectedColumns = this.defaultColumns.slice(0);
 
