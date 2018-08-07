@@ -5,10 +5,17 @@ const path = require('path');
 const router = express.Router();
 const app = express();
 
-// Run the app by serving the static files
-// in the dist directory
-router.use('/', express.static(__dirname + '/', { redirect: false }));
-router.use('/rest', proxy({target: 'http://minix.fiehnlab.ucdavis.edu/', changeOrigin: true}));
+// Read angular proxy configuration
+var fs = require("fs");
+var proxyConfig = JSON.parse(fs.readFileSync("proxy.conf.json"));
+
+// Run the app by serving the static files in the dist directory
+// and setting proxy routes from the configuration file
+router.use('/', express.static(__dirname + '/', {redirect: false}));
+
+Object.keys(proxyConfig).forEach(function(key) {
+  router.use(key, proxy({target: proxyConfig[key].target, changeOrigin: proxyConfig[key].changeOrigin}));
+});
 
 router.get('*', function (req, res, next) {
   res.sendFile(path.resolve(__dirname + '/index.html'));

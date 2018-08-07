@@ -1,6 +1,26 @@
 {
-  "/rest": {
+  "/rest/export": {
     "target": "http://minix.fiehnlab.ucdavis.edu",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/rest/integration": {
+    "target": "http://localhost:18080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/rest/file": {
+    "target": "http://localhost:18080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/rest/schedule": {
+    "target": "http://localhost:18080",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/rest/library": {
+    "target": "http://localhost:18080",
     "secure": false,
     "changeOrigin": true
   }

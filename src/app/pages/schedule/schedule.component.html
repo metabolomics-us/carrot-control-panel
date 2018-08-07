@@ -1,3 +1,133 @@
-<p>
-  schedule works!
-</p>
+<h3>
+  <i class="fa fa-calendar"></i> Schedule Job<br>
+  <small class="text-muted">Manually schedule a processing job</small>
+</h3>
+<br>
+
+<!-- Status and error messages -->
+<div class="alert alert-info" role="alert" *ngIf="status.checkingFiles">
+  <h4><i class="fa fa-spinner fa-spin fa-fw"></i> Checking files...</h4>
+</div>
+
+<div class="alert alert-info" role="alert" *ngIf="status.submitting">
+  <h4><i class="fa fa-spinner fa-spin fa-fw"></i> Submitting...</h4>
+</div>
+
+<div class="alert alert-danger" role="alert" *ngIf="status.error || status.checkFileError || status.miniXError">
+  <h4 class="text-danger"><i class="fa fa-exclamation-triangle"></i> Error!</h4>
+  {{status.error}}{{status.checkFileError}}{{status.miniXError}}
+</div>
+
+<div class="alert alert-success" role="alert" *ngIf="status.success">
+  <h4 class="text-success"><i class="fa fa-check-circle-o"></i> Success!</h4>
+  Your processing task was submitted successfully with task ID: {{status.success.result}}
+</div>
+
+
+<!-- Main form -->
+<div class="mb-5">
+  <label>Retrieve Study Details from MiniX (Optional)</label>
+
+  <form>
+    <div class="form-row">
+      <div class="col">
+        <input type="number" name="minix" class="form-control" placeholder="MiniX Study ID" [(ngModel)]="task.minix">
+      </div>
+      <div class="col">
+        <button type="submit" class="btn btn-primary" (click)="pullMiniXStudy()" [disabled]="miniXLoading">
+          <span *ngIf="status.miniXLoading" class="spinner"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>
+          Get MiniX Study
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="hotHeaderSelection">
+  <select
+    *ngFor="let col of ' '.repeat(defaultColumns.length).split(''); index as i"
+    [(ngModel)]="selectedColumns[i]"
+    (ngModelChange)="updateColumnName(i)">
+
+    <option [ngValue]="null" selected>Select Column</option>
+    <option disabled="disabled">────────</option>
+    <option *ngFor="let option of defaultColumns; index as j" [ngValue]="option"
+      [disabled]="selectedColumns.indexOf(option) > -1">{{option}}</option>
+  </select>
+</div>
+
+<hot-table
+  [hotId]="hotId"
+  [settings]="settings"
+  [colWidths]="150"
+  [allowHtml]="true"
+  [data]="data">
+</hot-table>
+
+<div class="form-group mt-3">
+  <label for="extension">Extension Replacement (e.g., "d" if your pasted filenames are *.abf but should be *.d)</label>
+  <input type="text" class="form-control" id="extension" placeholder="Extension Replacement (Optional)" [(ngModel)]="task.extension">
+</div>
+
+<div class="form-group">
+  <button type="button" class="btn btn-primary" (click)="checkFiles()" [disabled]="status.checkingFiles">
+    <span *ngIf="status.checkingFiles" class="spinner"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>
+    Check Files
+  </button>
+  &nbsp;
+  <button class="btn btn-primary" type="reset" (click)="resetTable()">Reset Table</button>
+  &nbsp;
+  <button class="btn btn-primary" *ngIf="status.checkFileError" (click)="sortTableByValidity()">Sort Valid/Invalid Files</button>
+  &nbsp;
+  <button class="btn btn-primary" *ngIf="status.checkFileError" (click)="removeInvalidRows()">Remove Invalid Files</button>
+</div>
+<br>
+
+
+<div class="form-group">
+  <label for="taskName">Task Name</label>
+  <input type="text" class="form-control" id="taskName" placeholder="Task Name (Optional)" [(ngModel)]="task.name">
+</div>
+
+<div class="form-group">
+  <label for="emailAddress">Email Address</label>
+  <input type="email" class="form-control" id="emailAddress" placeholder="Email Address" [(ngModel)]="task.email">
+</div>
+
+<div class="form-group">
+  <label for="platform">Platform</label>
+  <select
+    id="platform"
+    class="form-control"
+    [(ngModel)]="task.platform">
+      <option [ngValue]="null">Select Platform</option>
+      <option *ngFor="let platform of platformOptions" [ngValue]="platform">{{platform}}</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label for="acquisitionMethod">Acquisition Method</label>
+  <div class="input-group">
+    <select
+      id="acquisitionMethod"
+      class="form-control"
+      [(ngModel)]="task.acquisitionMethod">
+        <option [ngValue]="null">Select Platform</option>
+        <option *ngFor="let method of acquisitionMethodOptions" [ngValue]="method">{{method.title}}</option>
+    </select>
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="button">
+        <i class="fa fa-refresh" (click)="pullAcquisitionMethodsAndPlatforms()"></i>
+      </button>
+    </span>
+  </div>
+</div>
+
+<div class="mb-5">
+  <button type="button" class="btn btn-primary" (click)="submit()" [disabled]="!status.checkFileSuccess || status.submitting">
+    <span *ngIf="status.submitting" class="spinner"><i class="fa fa-spinner fa-spin"></i>&nbsp;</span>
+    Submit
+  </button>
+  &nbsp;
+  <button class="btn btn-primary" type="reset" (click)="reset()">Reset Form</button>
+</div>

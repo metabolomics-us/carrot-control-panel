@@ -1,0 +1,28 @@
+<h3>
+  <i class="fa fa-table"></i> Get Results<br>
+  <small class="text-muted">Get you some results</small>
+</h3>
+<br>
+
+<div class="row">
+  <div class="col">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <button class="btn btn-outline-secondary" type="button" (click)="getExperimentData()">Get Experiment</button>
+      </div>
+      <input type="text" class="form-control" placeholder="Experiment Name" aria-label="Experiment Name" [(ngModel)]="experiment">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <button class="btn btn-outline-secondary" type="button" (click)="getSampleData()">Get Sample</button>
+      </div>
+      <input type="text" class="form-control" placeholder="Sample Name" aria-label="Sample Name" [(ngModel)]="sample">
+    </div>
+
+    <app-status-table [data]="statusData" [statusDef]="statusObject"></app-status-table>
+    <app-result-table [data]="resultData"></app-result-table>
+    <app-ri-correction-table [data]="resultData"></app-ri-correction-table>
+    <app-ri-curve-graph [data]="resultData"></app-ri-curve-graph>
+  </div>
+</div>

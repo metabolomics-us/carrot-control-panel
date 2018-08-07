@@ -14,6 +14,8 @@ export class StasisService {
   private trackingPath: string = "tracking";
   private resultPath: string = "result";
   private acquisitionPath: string = "acquisition";
+  private experimentPath: String = "experiment";
+  private statusPath: string = "status";
 
   constructor(private http: HttpClient, @Inject('env') private env) {
     if (env.hasOwnProperty('production') && env.production) {
@@ -45,5 +47,13 @@ export class StasisService {
 
   createAcquisition(data: SampleData): Observable<SampleData> {
     return this.http.post<SampleData>(this.URL +'/'+ this.acquisitionPath, data);
+  }
+
+  getExperiment(experiment: string): Observable<Object[]> {
+    return this.http.get<Object[]>(this.URL +'/'+ this.experimentPath +'/'+ experiment);
+  }
+
+  getStatuses(): Observable<Object> {
+    return this.http.get<Object>(this.URL +'/'+ this.statusPath);
   }
 }

@@ -3,11 +3,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { MiniXService } from './minix.service';
 
-import { parseString } from 'xml2js';
-
 
 describe('Service: MiniXService', () => {
-  let service;
+  let service: MiniXService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -18,10 +16,17 @@ describe('Service: MiniXService', () => {
     service = TestBed.get(MiniXService);
   });
 
+  it('should be created', async(() => {
+    expect(service).toBeTruthy();
+  }));
+
   it('should return a JSON converted MiniX export', async(() => {
-    service.getMiniXExport(400333, (error, result) => {
-      expect(result).not.toBeNull();
-      expect(result.experiment).not.toBeNull();
-    });
+    service.getMiniXExport(400333, 
+      (error, result) => {
+        expect(result).not.toBeNull();
+        expect(result.experiment).not.toBeNull();
+      },
+      error => {}
+    );
   }));
 });

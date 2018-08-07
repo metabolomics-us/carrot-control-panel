@@ -16,6 +16,10 @@ export class MiniXService {
     ).subscribe((result: string) => parseString(result, callback), errorCallback);
   }
 
+  getMiniXJSONExport(minixID: number) {
+    return this.http.get('rest/integration/minix/'+ minixID);
+  }
+
   parseMiniXSamples(miniXData) {
     let miniXID = miniXData.experiment.$.id;
     let sampleData = [];
