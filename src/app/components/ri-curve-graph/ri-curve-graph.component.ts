@@ -10,11 +10,11 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
   styleUrls: ['./ri-curve-graph.component.css']
 })
 export class RiCurveGraphComponent implements OnInit {
-  @Input() data$: Observable<any>;
+  @Input() data: any = {};
   @Input() width?: number;
   @Input() height?: number;
-  
-  data: any[];
+
+  results: any[] = [];
 
   // options
   view = [this.width || 700, this.height || 400];
@@ -31,17 +31,21 @@ export class RiCurveGraphComponent implements OnInit {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
 
+  processData(data) {
+    return [{
+      "name": data.sample,
+      "series": (data.injections[data.sample].correction.curve).map((point) => { return { 'name': point.x, 'value': point.y } })
+    }];
+  }
+
   onSelect(event) {
     console.log(event);
   }
 
-  ngOnInit() {
-    this.data$.subscribe(result => {
-      this.data = [{
-        "name": result.sample,
-        "series": (result.injections[result.sample].correction.curve).map((point) => { return { 'name': point.x, 'value': point.y } })
-      }]
-    });
+  ngOnInit() { }
+
+  ngOnChanges() {
+    if (this.data) this.results = this.processData(this.data);
   }
 
 }

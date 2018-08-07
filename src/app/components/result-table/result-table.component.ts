@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./result-table.component.css']
 })
 export class ResultTableComponent implements OnInit {
-  @Input() data$: Observable<any>;
+  @Input() data: any;
 
   page = 1;
   pageSize = 10;

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./ri-correction-table.component.css']
 })
 export class RiCorrectionTableComponent implements OnInit {
-  @Input() data$: Observable<any>;
+  @Input() data: Observable<any>;
 
   page = 1;
   pageSize = 10;

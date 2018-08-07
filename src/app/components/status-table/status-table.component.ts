@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { StatusTableDataSource, StatusTableItem } from './status-table-datasource';
 
 @Component({
   selector: 'app-status-table',
@@ -9,16 +8,29 @@ import { StatusTableDataSource, StatusTableItem } from './status-table-datasourc
   styleUrls: ['./status-table.component.css']
 })
 export class StatusTableComponent implements OnInit {
-  dataSource: StatusTableDataSource;
-  data$: Observable<StatusTableItem[]>;
-
-  statuses = new Array(10);
+  @Input() data: any[] = []; // The data to display
+  @Input() statusDef: Object = {}; // The definition of each status, string: number
+  statusKeys: string[] = []; // The list of all status names, needed for *ngFor
   
-  page = 1;
-  pageSize = 10;
+  page: number = 1;
+  pageSize: number = 10;
+
+  getDate(time) {
+    return new Date(time);
+  }
 
   ngOnInit() {
-    this.dataSource = new StatusTableDataSource();
-    this.data$ = this.dataSource.connect();
+
+  }
+
+  ngOnChanges() {
+    if (this.statusDef) {
+      this.statusKeys = Object.keys(this.statusDef);
+      console.log(this.statusKeys);
+    }
+
+    if (this.data) {
+      this.data.forEach(function(dataRow){ console.log(dataRow); });
+    }
   }
 }

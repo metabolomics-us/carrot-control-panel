@@ -1,8 +1,8 @@
-<div class="chart" *ngIf="data && data.length > 0">
+<div class="chart" *ngIf="data">
   <ngx-charts-line-chart
     [view]="view"
     [scheme]="colorScheme"
-    [results]="data"
+    [results]="results"
     [gradient]="gradient"
     [xAxis]="showXAxis"
     [yAxis]="showYAxis"
