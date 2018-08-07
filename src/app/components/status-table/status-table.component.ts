@@ -30,7 +30,7 @@ export class StatusTableComponent implements OnInit {
     }
 
     if (this.data) {
-      this.data.forEach(function(dataRow){ console.log(dataRow); });
+      this.data.forEach(function(dataRow){ });
     }
   }
 }
