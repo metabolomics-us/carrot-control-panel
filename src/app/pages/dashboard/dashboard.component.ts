@@ -29,6 +29,6 @@ export class DashboardComponent implements OnInit {
   constructor(private stasisService: StasisService) { }
 
   ngOnInit() { 
-
+    this.stasisService.getStatuses().subscribe(data => { this.statusObject = data; });
   }
 }
