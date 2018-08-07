@@ -1,0 +1,10 @@
+.hotHeaderSelection {
+  position: relative;
+  left: 50px;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.hotHeaderSelection select {
+  width: 150px;
+}

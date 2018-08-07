@@ -2,28 +2,24 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { HotTableModule } from '@handsontable/angular';
-
+import { DownloadComponent } from './download.component';
 import { CarrotHttpService } from '../../shared/services/carrot/carrot.http.service';
-import { MiniXService } from '../../shared/services/minix/minix.service';
 
-import { ScheduleComponent } from './schedule.component';
-
-describe('ScheduleComponent', () => {
-  let component: ScheduleComponent;
-  let fixture: ComponentFixture<ScheduleComponent>;
+describe('DownloadComponent', () => {
+  let component: DownloadComponent;
+  let fixture: ComponentFixture<DownloadComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule, HttpClientModule, HotTableModule.forRoot() ],
-      declarations: [ ScheduleComponent ],
-      providers: [ CarrotHttpService, MiniXService ]
+      imports: [ FormsModule, HttpClientModule ],
+      declarations: [ DownloadComponent ],
+      providers: [ CarrotHttpService ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ScheduleComponent);
+    fixture = TestBed.createComponent(DownloadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

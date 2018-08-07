@@ -9,10 +9,23 @@
   <div class="collapse navbar-collapse" id="navbarContent" [ngbCollapse]="navbarCollapsed">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" ngbDropdown>
-        <a class="nav-link" ngbDropdownToggle aria-haspopup="true" aria-expanded="false">Acquisition</a>
+        <a class="nav-link" ngbDropdownToggle aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-tasks"></i>&nbsp; Acquisition
+        </a>
         <div class="dropdown-menu" ngbDropdownMenu>
           <a class="dropdown-item" [routerLink]="['lcms']">LC-MS</a>
           <a class="dropdown-item" [routerLink]="['gcms']">GC-MS</a>
+        </div>
+      </li>
+      <li class="nav-item" ngbDropdown>
+        <a class="nav-link" ngbDropdownToggle aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-calendar"></i>&nbsp; Scheduling
+        </a>
+        <div class="dropdown-menu" ngbDropdownMenu>
+          <a class="dropdown-item" [routerLink]="['schedule']">Job Scheduler</a>
+          <a class="dropdown-item" [routerLink]="['addtarget']">Add Target</a>
+          <a class="dropdown-item" [routerLink]="['addlibrary']">Add Library</a>
+          <a class="dropdown-item" [routerLink]="['download']">Download File</a>
         </div>
       </li>
       <li class="nav-item">

@@ -15,7 +15,9 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { StasisModule } from 'stasis';
 
 import { StartsWithPipe } from './shared/startswith.pipe';
+import { GetTypePipe } from './shared/gettype.pipe';
 import { MiniXService } from './shared/services/minix/minix.service';
+import { CarrotHttpService } from './shared/services/carrot/carrot.http.service';
 
 import { AcquisitionDataService } from './components/acquisition-table/acquisition-data.service';
 import { AcquisitionTableService } from './components/acquisition-table/acquisition-table.service';
@@ -41,19 +43,27 @@ import { ATFSubmitComponent } from './components/acquisition-table/atf-submit.co
 import { ATFDisplayComponent } from './components/acquisition-table/atf-display.component';
 
 import { ScheduleComponent } from './pages/schedule/schedule.component';
+import { AddTargetComponent } from './pages/library/addtarget.component';
+import { AddLibraryComponent } from './pages/library/addlibrary.component';
+import { DownloadComponent } from './pages/download/download.component';
 
 
 export const ROUTES: Routes = [
   {path: '', redirectTo: '/lcms', pathMatch: 'full'},
   {path: 'lcms', component: LCMSComponent},
   {path: 'gcms', component: GCMSComponent},
-  {path: 'dashboard', component: DashboardComponent}
+  {path: 'dashboard', component: DashboardComponent},
+  {path: 'schedule', component: ScheduleComponent},
+  {path: 'addtarget', component: AddTargetComponent},
+  {path: 'addlibrary', component: AddLibraryComponent},
+  {path: 'download', component: DownloadComponent}
 ];
 
 
 @NgModule({
   declarations: [
     StartsWithPipe,
+    GetTypePipe,
 
     AppComponent,
     NavbarComponent,
@@ -72,7 +82,10 @@ export const ROUTES: Routes = [
     StatusTableComponent,
     DashboardComponent,
 
-    ScheduleComponent
+    ScheduleComponent,
+    AddTargetComponent,
+    AddLibraryComponent,
+    DownloadComponent
   ],
   imports: [
     BrowserModule,
@@ -85,11 +98,13 @@ export const ROUTES: Routes = [
     NgbModule.forRoot(),
     StasisModule.forRoot(environment),
     HotTableModule,
-    NgxChartsModule
+    NgxChartsModule,
+    HotTableModule.forRoot()
   ],
   providers: [
     Globals,
     MiniXService,
+    CarrotHttpService,
     AcquisitionDataService,
     AcquisitionTableService
   ],

@@ -1,0 +1,105 @@
+<h3>
+  <i class="fa fa-list-alt"></i> Add Library
+</h3>
+<br>
+
+<div class="alert alert-info" role="alert" *ngIf="status.submitting">
+  <h4>
+    <i class="fa fa-spinner fa-spin fa-fw"></i>
+    Submitting {{status.successCount + status.errorCount}} / {{status.totalCount}}...
+  </h4>
+</div>
+
+<div class="alert alert-success" role="alert" *ngIf="status.success">
+  <h4><i class="fa fa-check-circle-o"></i> Success!</h4>
+  Your library was submitted successfully!
+</div>
+
+<div class="alert alert-danger" role="alert" *ngIf="status.error">
+  <h4 class="text-danger"><i class="fa fa-exclamation-triangle"></i> Error!</h4>
+  {{status.error}}
+    <ul>
+        <li *ngFor="let e of status.errors">{{e}}</li>
+    </ul>
+</div>
+
+
+<div class="mb-5" *ngIf="status.submitting || status.success || status.error">
+  <ngb-progressbar type="info" [max]="status.totalCount" [value]="status.successCount + status.errorCount"
+    [striped]="status.successCount + status.errorCount < status.totalCount"
+    [animated]="status.successCount + status.errorCount < status.totalCount" height="20px">
+
+    {{status.successCount + status.errorCount}} / {{status.totalCount}}
+  </ngb-progressbar>
+</div>
+
+<hot-table
+  [hotId]="hotId"
+  [settings]="settings"
+  [allowHtml]="true"
+  [data]="data">
+
+  <hot-column data="targetName" title="Target Name"></hot-column>
+  <hot-column type="numeric" format="0.0000" data="precursor" title="Precursor m/z"></hot-column>
+  <hot-column type="numeric" format="0.00" data="retentionTime" title="Retention Index"></hot-column>
+  <hot-column type="checkbox" data="riMarker" title="RI Standard"></hot-column>
+</hot-table>
+<br />
+
+
+<div class="form-group">
+  <label>Retention Time Units:</label><br>
+
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="ri_minutes" value="minutes" [(ngModel)]="target.rtUnit">
+    <label class="form-check-label" for="ri_minutes">Minutes</label>
+  </div>
+
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="ri_seconds" value="seconds" [(ngModel)]="target.rtUnit">
+    <label class="form-check-label" for="ri_seconds">Seconds</label>
+  </div>
+</div>
+
+<div class="form-group">
+  <label for="acquisitionMethod">Acquisition Method:</label>
+  <div class="input-group">
+    <input
+      type="text"
+      id="acquisitionMethod"
+      class="form-control"
+      [(ngModel)]="target.selectedMethod"
+      placeholder="Acquisition Method"
+      [ngbTypeahead]="search"
+      (focus)="focus$.next($event.target.value)"
+      (click)="click$.next($event.target.value)"
+      [inputFormatter]="formatter"
+      [resultFormatter]="formatter"
+      #instance="ngbTypeahead">
+
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="button" (click)="pullAcquisitionMethodsAndPlatforms()">
+        <i class="fa fa-refresh"></i>
+      </button>
+    </span>
+  </div>
+</div>
+
+<div class="form-group" *ngIf="(target.selectedMethod | getType) == 'string'">
+  <label for="mode">Ionization Mode:</label>
+  <select id="mode" class="form-control" [(ngModel)]="target.mode">
+    <option [ngValue]="null" selected>Select Mode</option>
+    <option value="positive">Positive</option>
+    <option value="negative">Negative</option>
+  </select>
+</div>
+
+<div>
+  <button type="button" class="btn btn-primary" (click)="submit()" [disabled]="status.submitting">
+    <span *ngIf="this.submitting" class="spinner"><i class="fa fa-spinner fa-spin"></i></span>
+    <span>Submit</span>
+  </button>
+  &nbsp;
+  <button class="btn btn-primary" type="reset" (click)="reset()">Reset</button>
+  <br />
+</div>
