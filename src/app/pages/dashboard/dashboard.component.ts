@@ -10,7 +10,7 @@ import { StasisService } from 'stasis';
 })
 export class DashboardComponent implements OnInit {
 
-  sample: string = 'B5_P20Lipids_Pos_NIST01';
+  sample: string = '';
   experiment: string = '';
 
   resultData: any;
@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
   statusObject: Object;
 
   getExperimentData() {
-    this.stasisService.getExperiment(this.experiment).subscribe(data => { this.statusData = data; console.log(data); });
+    this.stasisService.getExperiment(this.experiment).subscribe(data => { this.statusData = data; });
   }
 
   getSampleData() {
@@ -29,7 +29,6 @@ export class DashboardComponent implements OnInit {
   constructor(private stasisService: StasisService) { }
 
   ngOnInit() { 
-    this.stasisService.getStatuses().subscribe(data => { this.statusObject = data; console.log(data); });
-    this.stasisService.getExperiment('unknown').subscribe(data => { this.statusData = data; console.log(data); });
+
   }
 }
