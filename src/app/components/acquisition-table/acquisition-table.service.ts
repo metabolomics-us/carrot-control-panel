@@ -100,7 +100,9 @@ export class AcquisitionTableService {
       }
 
       // Handle blanks and QCs when the option is enabled
-      [data.blank, data.qc, data.qc2].forEach((x) => {
+      let blankQCs = data.blanksFirst ? [data.blank, data.qc, data.qc2] : [data.qc, data.blank, data.qc2];
+
+      blankQCs.forEach((x) => {
         if (x.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % x.frequency == 0)) {
           data.acquisitionData.push(this.generateLCMSSampleNames(data, {
             filename: formatQCName(x.label, i + 1, x.frequency)

@@ -58,6 +58,7 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
       qc2Label: [this.data.qc2 ? this.data.qc2.label : 'NIST', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
       qc2Frequency: [this.data.qc2 ? this.data.qc2.frequency : 100, [Validators.required, Validators.pattern('\\d+'), Validators.min(1)]],
 
+      blanksFirst: this.data.hasOwnProperty('blanksFirst') ? this.data.blanksFirst : true,
       randomize: this.data.hasOwnProperty('randomize') ? this.data.randomize : true
     });
   }
@@ -103,6 +104,7 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
       frequency: this.form.value.qc2Frequency
     };
 
+    this.data.blanksFirst = this.form.value.blanksFirst;
     this.data.randomize = this.form.value.randomize;
 
     // Generate QC pattern generic filenames for defined samples
