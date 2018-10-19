@@ -11,6 +11,9 @@ export class LibraryComponent {
   acquisitionMethodOptions = [];
   platformOptions = [];
 
+  instrumentOptions = [];
+  columnOptions=[];
+
   target: any = {};
   status: any = {};
 
@@ -33,6 +36,7 @@ export class LibraryComponent {
    */
   pullAcquisitionMethodsAndPlatforms() {
     this.carrotHttpService.getAcquisitionMethods().subscribe(response => {
+      console.log(response)
       this.acquisitionMethodOptions = response;
     });
 
@@ -58,6 +62,10 @@ export class LibraryComponent {
       if (titles.includes(this.target.selectedMethod)) {
         let method = this.acquisitionMethodOptions[titles.indexOf(this.target.library)];
         this.target.library = method.chromatographicMethod.name;
+
+        this.target.instrument = method.chromatographicMethod.instrument;
+        this.target.column = method.chromatographicMethod.column;
+
         this.target.mode = method.chromatographicMethod.ionMode.mode;
         return true;
       }
@@ -76,6 +84,16 @@ export class LibraryComponent {
         this.target.mode = (this.target.selectedMethod.toLowerCase().indexOf('(positive)') > 0) ? 'positive' : 'negative';
       }
 
+      // Check that the user selected a column
+      else if (this.target.selectedInstrument.toLowerCase() != "") {
+        this.target.instrument = this.target.selectedInstrument.toLowerCase();
+      }
+
+      // Check that the user selected a column
+      else if (this.target.selectedColumn.toLowerCase() != "") {
+        this.target.column = this.target.selectedColumn.toLowerCase();
+      }
+
       // Otherwise, error
       else {
         this.status.error = 'No ionization mode selected!';
@@ -86,6 +104,8 @@ export class LibraryComponent {
     // Handle an acquisition method object
     else {
       this.target.library = this.target.selectedMethod.chromatographicMethod.name;
+      this.target.instrument = this.target.selectedMethod.chromatographicMethod.instrument;
+      this.target.column = this.target.selectedMethod.chromatographicMethod.column;
       this.target.mode = this.target.selectedMethod.chromatographicMethod.ionMode.mode;
       return true;
     }

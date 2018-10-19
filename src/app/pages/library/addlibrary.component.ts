@@ -111,7 +111,7 @@ export class AddLibraryComponent extends LibraryComponent implements OnInit {
     }
 
     console.log('submitting')
-
+    
     // Submit library
     this.status.successCount = 0;
     this.status.errorCount = 0;

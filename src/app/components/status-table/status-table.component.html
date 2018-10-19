@@ -2,12 +2,12 @@
   <table class="table table-sm table-light table-striped table-bordered table-responsive" aria-label="Status Table">
     <thead>
       <tr>
-        <th>Sample</th>
+        <th>Sample ({{ data.length }})</th>
         <th *ngFor="let stat of statusKeys | slice: 0:-1; let i = index; let last = last;">{{ stat }}</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of data | slice: 10 * (page - 1) : (10 * page) - 1">
+      <tr *ngFor="let row of data | slice: pageSize * (page - 1) : (pageSize * page) - 1">
         <td>{{ row.sample }}</td>
         <td class="text-center connected" *ngFor="let stat of statusKeys | slice: 0:-1; let i = index; let last = last;">
           <i *ngIf="row.status.length > i && row.status[i].value !== 'failed' && row.status[i].value === stat" class="fa fa-check-circle fa-2x success" placement="top" containter="body" ngbTooltip="{{ getDate(row.status[i].time) }}"></i>

@@ -101,7 +101,7 @@
     class="form-control"
     [(ngModel)]="task.platform">
       <option [ngValue]="null">Select Platform</option>
-      <option *ngFor="let platform of platformOptions" [ngValue]="platform">{{platform}}</option>
+      <option *ngFor="let platform of platformOptions" [ngValue]="platform.id">{{platform.name}}</option>
   </select>
 </div>
 
