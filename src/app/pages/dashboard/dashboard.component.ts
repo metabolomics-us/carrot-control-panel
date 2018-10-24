@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, of as observableOf } from 'rxjs';
 
 import { StasisService } from 'stasis';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,18 +18,26 @@ export class DashboardComponent implements OnInit {
   statusData: any[];
   statusObject: Object;
 
+  constructor(private stasisService: StasisService, private spinner: NgxSpinnerService) { }
+
   getExperimentData() {
-    this.stasisService.getExperiment(this.experiment).subscribe(data => { this.statusData = data; });
+    this.spinner.show();
+    this.stasisService.getExperiment(this.experiment).subscribe(data => { this.statusData = data; /*console.log(this.statusData)*/}, () => {}, () => { this.hideSpinner() });
   }
 
   getSampleData() {
-    this.stasisService.getResults(this.sample).subscribe(data => { this.resultData = data; });
-    this.stasisService.getTracking(this.sample).subscribe(data => { this.statusData = [data]; });
+    this.spinner.show();
+    this.stasisService.getResults(this.sample).subscribe(data => { this.resultData = data; }, () => { this.hideSpinner() }, () => { this.hideSpinner() });
+    this.stasisService.getTracking(this.sample).subscribe(data => { this.statusData = [data]; }, () => { this.hideSpinner() });
   }
 
-  constructor(private stasisService: StasisService) { }
-
   ngOnInit() { 
-    this.stasisService.getStatuses().subscribe(data => { this.statusObject = data; });
+    this.stasisService.getStatuses().subscribe(data => { this.statusObject = data }, () => {}, () => {
+      delete this.statusObject['processing'];
+    });
+  }
+
+  hideSpinner() {
+    this.spinner.hide();
   }
 }

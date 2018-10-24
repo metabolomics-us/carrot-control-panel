@@ -10,7 +10,7 @@ export class ResultTableComponent implements OnInit {
   @Input() data: any;
 
   page = 1;
-  pageSize = 10;
+  pageSize = 50;
 
   ngOnInit() { }
 }

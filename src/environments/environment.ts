@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  carrothost: 'localhost:',
+  carrothost: '128.120.143.237',
   carrotport: 18080
 };
 

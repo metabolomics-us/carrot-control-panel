@@ -10,14 +10,14 @@
       <div class="input-group-prepend">
         <button class="btn btn-outline-secondary" type="button" (click)="getExperimentData()">Get Experiment</button>
       </div>
-      <input type="text" class="form-control" placeholder="Experiment Name" aria-label="Experiment Name" [(ngModel)]="experiment">
+      <input type="text" class="form-control" placeholder="Experiment Name" aria-label="Experiment Name" [(ngModel)]="experiment" (keyup.enter)="getExperimentData()">
     </div>
 
     <div class="input-group mb-3">
       <div class="input-group-prepend">
         <button class="btn btn-outline-secondary" type="button" (click)="getSampleData()">Get Sample</button>
       </div>
-      <input type="text" class="form-control" placeholder="Sample Name" aria-label="Sample Name" [(ngModel)]="sample">
+      <input type="text" class="form-control" placeholder="Sample Name" aria-label="Sample Name" [(ngModel)]="sample" (keyup.enter)="getSampleData()">
     </div>
 
     <app-status-table [data]="statusData" [statusDef]="statusObject"></app-status-table>
@@ -26,3 +26,5 @@
     <app-ri-curve-graph [data]="resultData"></app-ri-curve-graph>
   </div>
 </div>
+
+<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "default" color = "#fff" type = "ball-atom"></ngx-spinner>
