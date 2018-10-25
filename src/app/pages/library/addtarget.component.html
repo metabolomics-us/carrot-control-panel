@@ -87,7 +87,7 @@
 
 <div>
   <button type="button" class="btn btn-primary" (click)="submit()" [disabled]="status.submitting">
-    <span *ngIf="this.submitting" class="spinner"><i class="fa fa-spinner fa-spin"></i></span>
+    <span *ngIf="status.submitting" class="spinner"><i class="fa fa-spinner fa-spin"></i></span>
     <span>Submit</span>
   </button>
   &nbsp;

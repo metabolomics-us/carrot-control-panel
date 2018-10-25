@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
 
   getExperimentData() {
     this.spinner.show();
-    this.stasisService.getExperiment(this.experiment).subscribe(data => { this.statusData = data; /*console.log(this.statusData)*/}, () => {}, () => { this.hideSpinner() });
+    this.stasisService.getExperiment(this.experiment).subscribe(data => { this.statusData = data; this.resultData = undefined; }, () => {}, () => { this.hideSpinner() });
   }
 
   getSampleData() {
