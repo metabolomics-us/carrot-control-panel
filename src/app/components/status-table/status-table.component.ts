@@ -17,18 +17,19 @@ export class StatusTableComponent implements OnInit {
   pageSize: number = 50;
 
   getDate(time) {
-    return new Date(time);
+    return new Date(time).toLocaleString();
   }
 
   ngOnInit() {
 
   }
 
-  func_1(status, current) {
-    if (status.find(stat => stat.value === current))
-      return true;
-    else
-      return false;
+  sortedStatuses(status) {
+    while(status.length < this.statusKeys.length-1) {
+      status.push({value:'empty'})
+    }
+    var sorted = status.sort((a,b) => a.priority > b.priority).map(t => t.value);
+    return sorted;
   }
 
   get_time(status, current){

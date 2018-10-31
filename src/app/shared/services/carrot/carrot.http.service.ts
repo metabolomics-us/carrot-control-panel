@@ -19,14 +19,14 @@ export class CarrotHttpService {
    * Checks whether the given filename exists
    */
   checkFileStatus(filename: string) {
-    return this.http.get(`/rest/file/exists/${filename}`);
+    return this.http.get(`${this.carroturl}/rest/file/exists/${filename}`);
   }
 
   /**
    * Returns the URL from which a file can be downloaded
    */
   getFileDownloadPath() {
-    return '/rest/file/download/';
+    return `${this.carroturl}/rest/file/download/`;
   }
 
   /**
@@ -40,7 +40,7 @@ export class CarrotHttpService {
    * Adds a single target to the library for a given acqusition method
    */
   submitTarget(target) {
-    return this.http.post('/rest/library', target);
+    return this.http.post(`${this.carroturl}/rest/library`, target);
   }
 
   /**
@@ -54,7 +54,7 @@ export class CarrotHttpService {
    * Return a list of available acquisition methods
    */
   getAcquisitionMethods() {
-    return this.http.get('/rest/library').pipe(
+    return this.http.get(`${this.carroturl}/rest/library`).pipe(
       map((response: any[]) => {
         return response
           .filter(x => x != null && x.chromatographicMethod != null)
