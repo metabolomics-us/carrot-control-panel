@@ -1,0 +1,96 @@
+<h3>
+  <i class="fa fa-crosshairs"></i> Add Single Target
+</h3>
+<br>
+
+<div class="alert alert-info" role="alert" *ngIf="status.submitting">
+  <h4><i class="fa fa-spinner fa-spin fa-fw"></i> Submitting...</h4>
+</div>
+
+<div class="alert alert-success" role="alert" *ngIf="status.success">
+  <h4><i class="fa fa-check-circle-o"></i> Success!</h4>
+  Your target was submitted successfully!
+</div>
+
+<div class="alert alert-danger" role="alert" *ngIf="status.error">
+  <h4 class="text-danger"><i class="fa fa-exclamation-triangle"></i> Error!</h4>
+  {{status.error}}
+</div>
+
+
+<div class="form-group">
+  <label for="targetName">Target Name:</label>
+  <input type="text" class="form-control" id="targetName" placeholder="Target Name" [(ngModel)]="target.targetName">
+</div>
+
+<div class="form-group">
+  <label for="targetPrecursor">Precursor m/z:</label>
+  <input type="number" class="form-control" id="targetPrecursor" placeholder="Precursor m/z" [(ngModel)]="target.precursor">
+</div>
+
+<div class="form-group">
+  <label for="retentionTime">Retention Time:</label>
+  <input type="number" class="form-control" id="retentionTime" placeholder="Retention Time" [(ngModel)]="target.retentionTime">
+</div>
+
+<div class="form-group">
+  <label>Retention Time Units:</label><br>
+
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="ri_minutes" value="minutes" [(ngModel)]="target.rtUnit">
+    <label class="form-check-label" for="ri_minutes">Minutes</label>
+  </div>
+
+  <div class="form-check form-check-inline">
+    <input class="form-check-input" type="radio" id="ri_seconds" value="seconds" [(ngModel)]="target.rtUnit">
+    <label class="form-check-label" for="ri_seconds">Seconds</label>
+  </div>
+</div>
+
+<div class="form-group">
+  <label for="riStandard">RI Standard:</label>
+  <input type="checkbox" class="form-control" id="riStandard" [(ngModel)]="target.riMarker">
+</div>
+
+<div class="form-group">
+  <label for="acquisitionMethod">Acquisition Method:</label>
+  <div class="input-group">
+    <input
+      type="text"
+      id="acquisitionMethod"
+      class="form-control"
+      [(ngModel)]="target.selectedMethod"
+      placeholder="Acquisition Method"
+      [ngbTypeahead]="search"
+      (focus)="focus$.next($event.target.value)"
+      (click)="click$.next($event.target.value)"
+      [inputFormatter]="formatter"
+      [resultFormatter]="formatter"
+      #instance="ngbTypeahead">
+
+    <span class="input-group-btn">
+      <button class="btn btn-default" type="button" (click)="pullAcquisitionMethodsAndPlatforms()">
+        <i class="fa fa-refresh"></i>
+      </button>
+    </span>
+  </div>
+</div>
+
+<div class="form-group" *ngIf="(target.selectedMethod | getType) == 'string'">
+  <label for="mode">Ionization Mode:</label>
+  <select id="mode" class="form-control" [(ngModel)]="target.mode">
+    <option [ngValue]="null" selected>Select Mode</option>
+    <option value="positive">Positive</option>
+    <option value="negative">Negative</option>
+  </select>
+</div>
+
+<div>
+  <button type="button" class="btn btn-primary" (click)="submit()" [disabled]="status.submitting">
+    <span *ngIf="this.submitting" class="spinner"><i class="fa fa-spinner fa-spin"></i></span>
+    <span>Submit</span>
+  </button>
+  &nbsp;
+  <button class="btn btn-primary" type="reset" (click)="reset()">Reset</button>
+  <br />
+</div>
