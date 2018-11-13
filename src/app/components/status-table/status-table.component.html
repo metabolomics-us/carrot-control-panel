@@ -8,7 +8,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let row of data | slice: pageSize * (page - 1) : (pageSize * page) - 1">
-        <td>{{ row.sample }}</td>
+        <td><a class="badge" (click)="onSampleSelect(row.sample)">{{ row.sample }}</a></td>
         <td class="text-center connected" *ngFor="let stat of sortedStatuses(row.status, statusDef);">
           <ng-template [ngIf]="stat !== 'failed'" [ngIfElse]="failed">
             <i *ngIf="stat !== 'empty'" class="fa fa-check-circle fa-2x success" 

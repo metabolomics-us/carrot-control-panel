@@ -20,7 +20,7 @@
       <input type="text" class="form-control" placeholder="Sample Name" aria-label="Sample Name" [(ngModel)]="sample" (keyup.enter)="getSampleData()">
     </div>
 
-    <app-status-table [data]="statusData" [statusDef]="statusObject"></app-status-table>
+    <app-status-table [data]="statusData" [statusDef]="statusObject" [(selectedSample)]="sample"></app-status-table>
     <app-result-table [data]="resultData"></app-result-table>
     <app-ri-correction-table [data]="resultData"></app-ri-correction-table>
     <app-ri-curve-graph [data]="resultData"></app-ri-curve-graph>

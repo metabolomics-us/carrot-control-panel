@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { TrackingStatus, TrackingData } from 'projects/stasis/src/public_api';
 
@@ -22,6 +22,15 @@ export class StatusTableComponent implements OnInit {
 
   ngOnInit() {
 
+  }
+
+  @Input() selectedSample: string;
+  @Output() selectedSampleChange: EventEmitter<string> = new EventEmitter<string>();
+
+  onSampleSelect(sample) {
+    console.log(sample);
+    this.selectedSample=sample;
+    this.selectedSampleChange.emit(sample);
   }
 
   sortedStatuses(status) {
