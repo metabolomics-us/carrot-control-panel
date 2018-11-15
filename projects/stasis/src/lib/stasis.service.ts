@@ -21,7 +21,7 @@ export class StasisService {
     if (env.hasOwnProperty('production') && env.production) {
       this.URL = 'https://api.metabolomics.us/stasis';
     } else {
-      this.URL = 'https://api.metabolomics.us/stasis';
+      this.URL = 'https://test-api.metabolomics.us/stasis';
     }
   }
 
