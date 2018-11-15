@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Observable, of as observableOf } from 'rxjs';
 
 import { StasisService } from 'stasis';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,26 +10,37 @@ import { StasisService } from 'stasis';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
-  sample: string = '';
+  @Input() sample: string = '';
   experiment: string = '';
 
   resultData: any;
   statusData: any[];
   statusObject: Object;
 
+  constructor(private stasisService: StasisService, private spinner: NgxSpinnerService) { }
+
   getExperimentData() {
-    this.stasisService.getExperiment(this.experiment).subscribe(data => { this.statusData = data; });
+    this.spinner.show();
+    this.sample = undefined;
+    this.resultData = undefined;
+    this.stasisService.getExperiment(this.experiment).subscribe(data => { this.statusData = data; this.resultData = undefined; }, () => {}, () => { this.hideSpinner() });
   }
 
   getSampleData() {
-    this.stasisService.getResults(this.sample).subscribe(data => { this.resultData = data; });
-    this.stasisService.getTracking(this.sample).subscribe(data => { this.statusData = [data]; });
+    this.spinner.show();
+    this.experiment = undefined;
+    this.resultData = undefined;
+    this.stasisService.getResults(this.sample).subscribe(data => { this.resultData = data; }, () => { this.hideSpinner() }, () => { this.hideSpinner() });
+    this.stasisService.getTracking(this.sample).subscribe(data => { this.statusData = [data]; }, () => { this.hideSpinner() });
   }
 
-  constructor(private stasisService: StasisService) { }
-
   ngOnInit() { 
-    this.stasisService.getStatuses().subscribe(data => { this.statusObject = data; });
+    this.stasisService.getStatuses().subscribe(data => { this.statusObject = data }, () => {}, () => {
+      delete this.statusObject['processing'];
+    });
+  }
+
+  hideSpinner() {
+    this.spinner.hide();
   }
 }

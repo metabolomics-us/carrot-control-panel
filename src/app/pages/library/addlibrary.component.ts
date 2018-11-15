@@ -105,13 +105,12 @@ export class AddLibraryComponent extends LibraryComponent implements OnInit {
     });
 
     console.log('validated')
-
     if (this.status.error) {
       return;
     }
 
     console.log('submitting')
-
+    
     // Submit library
     this.status.successCount = 0;
     this.status.errorCount = 0;
@@ -124,6 +123,13 @@ export class AddLibraryComponent extends LibraryComponent implements OnInit {
         target.targetName = row.targetName;
         target.precursor = row.precursor;
         target.retentionTime = row.retentionTime;
+
+        // Checking Acquisition library
+        if (typeof this.target.selectedMethod == "object") {
+          target.library = this.target.selectedMethod.chromatographicMethod.name;
+        } else {
+          target.library = target.selectedMethod;
+        }
 
         // Handle string values for checkboxes when pasted
         if (row.riMarker) {

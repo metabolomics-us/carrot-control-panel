@@ -47,6 +47,7 @@ import { AddTargetComponent } from './pages/library/addtarget.component';
 import { AddLibraryComponent } from './pages/library/addlibrary.component';
 import { DownloadComponent } from './pages/download/download.component';
 
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 export const ROUTES: Routes = [
   {path: '', redirectTo: '/lcms', pathMatch: 'full'},
@@ -99,7 +100,8 @@ export const ROUTES: Routes = [
     StasisModule.forRoot(environment),
     HotTableModule,
     NgxChartsModule,
-    HotTableModule.forRoot()
+    HotTableModule.forRoot(),
+    NgxSpinnerModule
   ],
   providers: [
     Globals,

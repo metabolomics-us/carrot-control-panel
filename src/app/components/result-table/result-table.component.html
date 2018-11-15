@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of data.injections[data.sample].results | slice: 10 * (page - 1) : (10 * page) - 1">
+      <tr *ngFor="let row of data.injections[data.sample].results | slice: pageSize * (page - 1) : (pageSize * page) - 1">
         <td>{{ row.target.name }}</td>
         <td>{{ row.target.retentionIndex | number: '1.2-2' }}</td>
         <td>{{ row.target.mass | number: '1.2-2' }}</td>

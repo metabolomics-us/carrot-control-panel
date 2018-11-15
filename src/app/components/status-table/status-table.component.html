@@ -2,20 +2,22 @@
   <table class="table table-sm table-light table-striped table-bordered table-responsive" aria-label="Status Table">
     <thead>
       <tr>
-        <th>Sample</th>
+        <th>Sample ({{ data.length }})</th>
         <th *ngFor="let stat of statusKeys | slice: 0:-1; let i = index; let last = last;">{{ stat }}</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of data | slice: 10 * (page - 1) : (10 * page) - 1">
-        <td>{{ row.sample }}</td>
-        <td class="text-center connected" *ngFor="let stat of statusKeys | slice: 0:-1; let i = index; let last = last;">
-          <i *ngIf="row.status.length > i && row.status[i].value !== 'failed' && row.status[i].value === stat" class="fa fa-check-circle fa-2x success" placement="top" containter="body" ngbTooltip="{{ getDate(row.status[i].time) }}"></i>
-          <i *ngIf="row.status.length > i && row.status[i].value !== 'failed' && row.status[i].value !== stat" class="fa fa-exclamation-circle fa-2x warning" placement="top" containter="body" ngbTooltip="(WARNING: expected {{ stat }}, found {{ row.status[i].value }}) {{ getDate(row.status[i].time) }}"></i>
-          <i *ngIf="row.status.length > i && row.status[i].value === 'failed'" class="fa fa-exclamation-circle fa-2x error" placement="top" containter="body" ngbTooltip="{{ getDate(row.status[i].time) }}"></i>
-          <i *ngIf="row.status.length === i && row.status[i-1].value !== 'failed'" class="fa fa-cog fa-spin fa-2x muted" placement="top" containter="body" ngbTooltip=""></i>
-          <i *ngIf="row.status.length === i && row.status[i-1].value === 'failed'" class="fa fa-circle-o fa-2x muted" placement="top" containter="body" ngbTooltip=""></i>
-          <i *ngIf="row.status.length < i" class="fa fa-circle-o fa-2x muted" placement="top" containter="body" ngbTooltip=""></i>
+      <tr *ngFor="let row of data | slice: pageSize * (page - 1) : (pageSize * page) - 1">
+        <td><a class="badge" (click)="onSampleSelect(row.sample)">{{ row.sample }}</a></td>
+        <td class="text-center connected" *ngFor="let stat of sortedStatuses(row.status, statusDef);">
+          <ng-template [ngIf]="stat !== 'failed'" [ngIfElse]="failed">
+            <i *ngIf="stat !== 'empty'" class="fa fa-check-circle fa-2x success" 
+            placement="top" containter="body" ngbTooltip="{{ stat }} - {{ getDate(get_time(row.status, stat)) }}"></i>
+            <i *ngIf="stat === 'empty'" class="fa fa-minus" placement="top" containter="body"></i>
+          </ng-template>
+          <ng-template #failed>
+            <i class="fa fa-exclamation-circle fa-2x error" placement="top" containter="body" ngbTooltip=""></i>
+          </ng-template>
         </td>
       </tr>
     </tbody>

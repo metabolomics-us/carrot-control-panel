@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  carrothost: '128.120.143.237',
+  carrotport: 18080
 };
 
 /*

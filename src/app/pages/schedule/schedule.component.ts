@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, isDevMode } from '@angular/core';
 
 import { HotTableRegisterer } from '@handsontable/angular';
 
@@ -27,7 +27,7 @@ export class ScheduleComponent implements OnInit {
   settings;
   data;
 
-  defaultColumns: any[] = ['Sample File Name', 'Class', 'Organ', 'Species', 'Comment', 'Label'];
+  defaultColumns: any[] = ['Sample File Name', 'Class', 'Species', 'Organ', 'Comment', 'Label'];
   selectedColumns;
 
   // Form options
@@ -54,7 +54,7 @@ export class ScheduleComponent implements OnInit {
     this.selectedColumns = this.defaultColumns.slice(0);
 
     // Set form options
-    this.task = {platform: 'LC-MS'};
+    this.task = {platform: 'lcms'};
     this.pullAcquisitionMethodsAndPlatforms();
   }
 
@@ -263,6 +263,9 @@ export class ScheduleComponent implements OnInit {
             let sample: any = {fileName: x[fileNameCol]};
             let matrix: any = {};
 
+            // No treatments handling for now
+            matrix.treatments = [];
+
             if (classCol > -1)
               matrix.identifier = x[classCol];
             if (speciesCol > -1)
@@ -270,9 +273,9 @@ export class ScheduleComponent implements OnInit {
             if (organCol > -1)
               matrix.organ = x[organCol];
             if (commentCol > -1)
-              matrix.comment = x[commentCol];
+              sample.comment = x[commentCol];
             if (labelCol > -1)
-              matrix.label = x[labelCol];
+              sample.label = x[labelCol];
             if (Object.keys(matrix).length > 0)
               sample.matrix = matrix;
 
@@ -371,7 +374,8 @@ export class ScheduleComponent implements OnInit {
     this.taskToSubmit.name = this.task.email;
     this.taskToSubmit.email = this.task.email;
     this.taskToSubmit.acquisitionMethod = this.task.acquisitionMethod;
-    this.taskToSubmit.platform = {platform: {name: this.task.platform}};
+    this.taskToSubmit.mode = this.task.platform;
+    this.taskToSubmit.env = this.getEnv();
 
     // Add task name
     if (this.task.name && this.task.name != '') {
@@ -379,6 +383,8 @@ export class ScheduleComponent implements OnInit {
     } else {
       this.taskToSubmit.name += '_'+ new Date().toISOString().slice(0, 19).replace(/[-:T]/g, '');
     }
+
+    console.log(this.taskToSubmit);
 
     // Submit the task, waiting until all checks are complete
     this.carrotHttpService.submitJob(this.taskToSubmit).subscribe(
@@ -388,10 +394,19 @@ export class ScheduleComponent implements OnInit {
         window.scroll(0, 0);
       },
       error => {
+        console.log('Error: ' + error);
         this.status.error = error;
         this.status.submitting = false;
         window.scroll(0, 0);
       }
     );
+  }
+
+  getEnv() {
+    if(isDevMode()) {
+      return "dev";
+    } else {
+      return "prod";
+    }
   }
 }
