@@ -2,6 +2,8 @@
  * Public API Surface of stasis
  */
 
+export * from './lib/model/experiment.params.model';
+
 export * from './lib/model/sample.model';
 export * from './lib/model/sample.acquisition.model';
 export * from './lib/model/sample.processing.model';

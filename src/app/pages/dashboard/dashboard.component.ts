@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Observable, of as observableOf } from 'rxjs';
 
 import { StasisService } from 'stasis';
+import { IExperimentParams } from 'stasis';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   resultData: any;
   statusData: any[];
   statusObject: Object;
+  selectedSample: string = undefined;
 
   constructor(private stasisService: StasisService, private spinner: NgxSpinnerService) { }
 
@@ -23,7 +24,7 @@ export class DashboardComponent implements OnInit {
     this.spinner.show();
     this.sample = undefined;
     this.resultData = undefined;
-    this.stasisService.getExperiment(this.experiment).subscribe(data => { this.statusData = data; this.resultData = undefined; }, () => {}, () => { this.hideSpinner() });
+    this.stasisService.getExperiment({experiment: this.experiment, page: 25, lastSample: this.sample}).subscribe(data => { this.statusData = data['items']; this.resultData = undefined; }, () => {}, () => { this.hideSpinner() });
   }
 
   getSampleData() {
@@ -35,6 +36,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() { 
+    this.resultData = undefined;
     this.stasisService.getStatuses().subscribe(data => { this.statusObject = data }, () => {}, () => {
       delete this.statusObject['processing'];
     });
