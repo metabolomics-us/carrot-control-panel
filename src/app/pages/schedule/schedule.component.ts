@@ -279,7 +279,7 @@ export class ScheduleComponent implements OnInit {
             if (Object.keys(matrix).length > 0)
               sample.matrix = matrix;
 
-            this.taskToSubmit.samples.push(sample);
+            this.taskToSubmit.samples.push(sample.replace("." + this.task.extension, ""));
 
             // Update row header
             rowLabels[i] = '<i class="fa fa-check text-success" aria-hidden="true"></i>';

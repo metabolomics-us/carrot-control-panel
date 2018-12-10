@@ -1,5 +1,5 @@
 <div *ngIf="data">
-  <table class="table table-light table-striped table-bordered table-responsive" aria-label="Result Table">
+  <table class="table table-sm table-light table-striped table-bordered table-responsive" aria-label="Result Table">
     <thead>
       <tr>
         <th>Target Name</th>
@@ -15,9 +15,9 @@
       <tr *ngFor="let row of data.injections[data.sample].results | slice: pageSize * (page - 1) : (pageSize * page) - 1">
         <td>{{ row.target.name }}</td>
         <td>{{ row.target.retentionIndex | number: '1.2-2' }}</td>
-        <td>{{ row.target.mass | number: '1.2-2' }}</td>
+        <td>{{ row.target.mass | number: '1.2-4' }}</td>
         <td>{{ row.annotation.retentionIndex | number: '1.2-2' }}</td>
-        <td>{{ row.annotation.mass | number: '1.2-2' }}</td>
+        <td>{{ row.annotation.mass | number: '1.2-4' }}</td>
         <td>{{ row.annotation.intensity | number: '1.0-0' }}</td>
         <td>{{ row.annotation.replaced }}</td>
       </tr>

@@ -32,6 +32,7 @@ export class RiCurveGraphComponent implements OnInit {
   };
 
   processData(data) {
+    
     return [{
       "name": data.sample,
       "series": (data.injections[data.sample].correction.curve).map((point) => { return { 'name': point.x, 'value': point.y } })

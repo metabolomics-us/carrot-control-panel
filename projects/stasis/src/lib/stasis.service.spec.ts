@@ -146,12 +146,34 @@ describe('StatisService', () => {
               expect(Object.keys(response.injections).length).toBeGreaterThan(0);
             },
             (error: HttpErrorResponse) =>
-              fail(error.status == 0 ? 'CORS Error' : 'HTTP GET error: '+ JSON.stringify(error))
+              fail(error.status == 0 ? 'CORS Error' : 'HTTP GET error: ' + JSON.stringify(error))
           );
         }, 1000);
       },
       (error: HttpErrorResponse) =>
-        fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
+        fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: ' + JSON.stringify(error))
+    );
+  }));
+
+  it('should get the first page of an experiment', async(() => {
+    service.getExperiment({experiment: 'none', page: 3}).subscribe(
+      response => {
+        expect(response.items.length).toEqual(3);
+        expect(response.last_item.id).toEqual('test_1531366879985')
+      },
+      (error: HttpErrorResponse) =>
+        fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: ' + JSON.stringify(error))
+    );
+  }));
+
+  it('should get the second page of an experiment', async(() => {
+    service.getExperiment({experiment: 'none', page: 3, lastSample: 'test_1531366879985'}).subscribe(
+      response => {
+        expect(response.items.length).toEqual(3);
+        expect(response.last_item.id).toEqual('test_1531500769089')
+      },
+      (error: HttpErrorResponse) =>
+        fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: ' + JSON.stringify(error))
     );
   }));
 });

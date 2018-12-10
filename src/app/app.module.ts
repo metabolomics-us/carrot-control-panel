@@ -26,6 +26,7 @@ import { RiCurveGraphComponent } from './components/ri-curve-graph/ri-curve-grap
 import { RiCorrectionTableComponent } from './components/ri-correction-table/ri-correction-table.component';
 import { ResultTableComponent } from './components/result-table/result-table.component';
 import { StatusTableComponent } from './components/status-table/status-table.component';
+import { AppRegressionCurveComponent } from './components/regression-curve/regression-curve.componenet';
 
 import { LCMSComponent } from './pages/acquisition-lcms/lcms.component';
 import { GCMSComponent } from './pages/acquisition-gcms/gcms.component';
@@ -82,6 +83,7 @@ export const ROUTES: Routes = [
     ResultTableComponent,
     StatusTableComponent,
     DashboardComponent,
+    AppRegressionCurveComponent,
 
     ScheduleComponent,
     AddTargetComponent,

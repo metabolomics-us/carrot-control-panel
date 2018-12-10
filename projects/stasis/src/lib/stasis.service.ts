@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { SampleData } from './model/sample.model';
 import { ResultData } from './model/result.model';
 import { TrackingData } from './model/tracking.model';
+import { IExperimentParams } from './model/experiment.params.model';
 
 @Injectable()
 export class StasisService {
@@ -49,8 +50,14 @@ export class StasisService {
     return this.http.post<SampleData>(this.URL +'/'+ this.acquisitionPath, data);
   }
 
-  getExperiment(experiment: string): Observable<Object[]> {
-    return this.http.get<Object[]>(this.URL +'/'+ this.experimentPath +'/'+ experiment);
+  getExperiment(params: IExperimentParams): Observable<Object[]> {
+    let fullPath = this.URL + '/' + this.experimentPath + '/' + params.experiment + '/' + params.page;
+
+    if (params.lastSample != null && params.lastSample != "") {
+      fullPath += '/' + params.lastSample;
+    }
+
+    return this.http.get<Object[]>(fullPath);
   }
 
   getStatuses(): Observable<Object> {

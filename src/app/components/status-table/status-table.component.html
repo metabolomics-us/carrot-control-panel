@@ -1,4 +1,4 @@
-<div *ngIf="data">
+<div *ngIf="data && data.length > 1; else vertical" >
   <table class="table table-sm table-light table-striped table-bordered table-responsive" aria-label="Status Table">
     <thead>
       <tr>
@@ -32,4 +32,28 @@
     [ellipses]="false" 
     [boundaryLinks]="true">
   </ngb-pagination>
-<div>
+</div>
+
+<ng-template #vertical>
+  <div class="container">
+  <table class="table table-sm table-light table-striped" aria-label="Status Table">
+    <tbody class="table-body">
+      <tr class="row" *ngFor="let stat of sortedStatuses(data[0].status, statusDef) | slice: 0; let i = index; let last = last;">
+        <td class="col centered">{{ statusKeys[i] }}</td>
+        <td class="col centered" *ngIf="stat !== 'failed'; else failed">
+          <i *ngIf="stat !== 'empty'" class="fa fa-check-circle fa-2x success" 
+            placement="top" containter="body" ngbTooltip="{{ stat }} - {{ getDate(get_time(data[0].status, stat)) }}"></i>
+          <i *ngIf="stat === 'empty'" class="fa fa-minus" placement="top" containter="body"></i>
+        </td>
+        <ng-template #failed>
+          <td class="col">
+            <i class="fa fa-exclamation-circle fa-2x error" placement="top" containter="body"
+              ngbTooltip="{{ stat }} - {{ getDate(get_time(data[0].status, stat)) }}"></i>
+          </td>
+          <td class="col">{{ getDate(get_time(data[0].status, stat)) }}</td>
+        </ng-template>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</ng-template>

@@ -14,7 +14,7 @@ export class StatusTableComponent implements OnInit {
   statusKeys: string[] = []; // The list of all status names, needed for *ngFor
   
   page: number = 1;
-  pageSize: number = 50;
+  pageSize: number = 25;
 
   getDate(time) {
     return new Date(time).toLocaleString();
@@ -28,7 +28,6 @@ export class StatusTableComponent implements OnInit {
   @Output() selectedSampleChange: EventEmitter<string> = new EventEmitter<string>();
 
   onSampleSelect(sample) {
-    console.log(sample);
     this.selectedSample=sample;
     this.selectedSampleChange.emit(sample);
   }
@@ -52,22 +51,6 @@ export class StatusTableComponent implements OnInit {
   ngOnChanges() {
     if (this.statusDef) {
       this.statusKeys = Object.keys(this.statusDef);
-    }
-
-    if (this.data) {
-      this.data.forEach(dataRow => {
-        // var currentStats = dataRow.status.map(stat => stat.value);
-        // var topStatus = dataRow.status.map(stat => stat.priority).filter(val => val === 900)[0]
-        // this.statusKeys.filter(k => topStatus >= this.statusDef[key]).forEach( key => {
-        //   if(currentStats.includes(key)) {
-        //     console.log("has " + key);
-        //     console.log(dataRow.status.filter(s => s.value === key));
-        //   } else {
-        //     console.log("add " + key);
-        //     dataRow.status.push({"priority": this.statusDef[key], "value":key, "time": new Date()})
-        //   }
-        // });
-      });
     }
   }
 }
