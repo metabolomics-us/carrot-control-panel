@@ -1,6 +1,7 @@
 #!/bin/bash
 
 cd ..
+rm -rf dist
 
 # Update npm packages
 npm install || exit 1
