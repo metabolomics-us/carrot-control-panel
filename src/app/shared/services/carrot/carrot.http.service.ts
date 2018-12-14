@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { of, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-import { environment } from '../../../../environments/environment.prod';
-
 @Injectable({
   providedIn: 'root'
 })
 export class CarrotHttpService {
-  carroturl = `http://${environment.carrothost}:${environment.carrotport}`;
+  carroturl: string;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, @Inject('env') private env) {
+    this.carroturl = `http://${env.carrothost}:${env.carrotport}`;
+  }
 
   /**
    * Checks whether the given filename exists
@@ -72,6 +72,6 @@ export class CarrotHttpService {
             return x;
           });
       })
-    )
+    );
   }
 }
