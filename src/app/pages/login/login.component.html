@@ -1,0 +1,22 @@
+<h3>
+  <i class="fa fa-sign-in"></i> Sign In
+</h3>
+<br>
+
+<div class="alert alert-danger" role="alert" *ngIf="form.error">
+  <h4 class="text-danger"><i class="fa fa-exclamation-triangle"></i> Error!</h4>
+  {{form.error}}
+</div>
+
+<form>
+  <div class="form-group">
+    <label for="apikey">Please enter your API Key to access LC BinBase services</label>
+    <input type="text" name="apikey" class="form-control" id="apikey" placeholder="API Key" [(ngModel)]="form.apikey">
+  </div>
+
+  <div>
+    <button type="submit" class="btn btn-primary" (click)="login()">
+      Sign In
+    </button>
+  </div>
+</form>

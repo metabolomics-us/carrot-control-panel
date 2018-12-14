@@ -30,6 +30,7 @@
     "font-awesome": "^4.7.0",
     "handsontable": "^4.0.0",
     "lodash": "^4.17.10",
+    "ngx-cookie-service": "^2.1.0",
     "ngx-spinner": "^6.1.2",
     "rxjs": "^6.0.0",
     "seedrandom": "^2.4.3",
