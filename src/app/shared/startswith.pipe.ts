@@ -1,14 +1,17 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'startswith'
+  name: 'startswith'
 })
 export class StartsWithPipe implements PipeTransform {
   transform(items: any[], filterString: string): any {
-    if (!items)
+    if (!items) {
       return [];
-    if (!filterString)
+    }
+
+    if (!filterString) {
       return items;
+    }
 
     filterString = filterString.toLowerCase();
 

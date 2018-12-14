@@ -12,10 +12,10 @@ export class AcquisitionTableService {
    */
   generateGCMSAcquisitionTable(data) {
     // Use MiniX ID + current date as the filename prefix
-    let date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-    let instrumentID = data.ionizations.pos.charAt(data.ionizations.pos.length - 2);
+    const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const instrumentID = data.ionizations.pos.charAt(data.ionizations.pos.length - 2);
 
-    data.filename_prefix = 'MX'+ data.miniXID +'_'+ date + instrumentID + data.operator;
+    data.filename_prefix = 'MX' + data.miniXID + '_' + date + instrumentID + data.operator;
 
     // Randomize sample list if required
     let sampleData = data.randomize ? this.randomizeArray(data.sampleData, data.miniXID) : data.sampleData;
@@ -39,10 +39,10 @@ export class AcquisitionTableService {
       }
 
       // Handle blanks when the option is enabled
-      if (data.blank.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % data.blank.frequency == 0)) {
+      if (data.blank.enabled && (i === 0 || i === sampleData.length - 1 || (i + 1) % data.blank.frequency === 0)) {
         // Use the number of pre-injections if this is before the first sample
-        let n = (i == 0) ? data.blank.pre : 1;
-        
+        let n = (i === 0) ? data.blank.pre : 1;
+
         for (let j = n; j > 0; j--) {
           data.acquisitionData.push(generateSampleName({}, 'bl', blankNum + j));
         }
@@ -51,10 +51,10 @@ export class AcquisitionTableService {
       }
 
       // Handle QCs when the option is enabled
-      if (data.qc.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % data.qc.frequency == 0)) {
+      if (data.qc.enabled && (i === 0 || i === sampleData.length - 1 || (i + 1) % data.qc.frequency === 0)) {
         // Use the number of pre-injections if this is before the first sample
-        let n = (i == 0) ? data.qc.pre : 1;
-        
+        let n = (i === 0) ? data.qc.pre : 1;
+
         for (let j = n; j > 0; j--) {
           data.acquisitionData.push(generateSampleName({}, 'qc', qcNum + j));
         }
@@ -63,12 +63,10 @@ export class AcquisitionTableService {
       }
 
       // Handle first sample in list since it comes after the pre samples
-      if (i == 0) {
+      if (i === 0) {
         data.acquisitionData.push(generateSampleName(sample, 'sa', i + 1));
       }
     });
-
-    console.log(data.acquisitionData)
   }
 
   /**
@@ -78,12 +76,12 @@ export class AcquisitionTableService {
     // Filenames should match:
     //   [A-Za-z]+(\d{3,4}|_MSMS)_MX\d+_[A-Za-z]+_[A-Za-z0-9-]+(_\d+_\d+)?
     let formatSampleName = (sample, i) => {
-      return data.prefix + this.padNumber(i) +'_MX'+ data.miniXID +'_{METHOD}_'+
+      return data.prefix + this.padNumber(i) + '_MX' + data.miniXID + '_{METHOD}_' +
         sample.userdata.label.replace(/[^A-Za-z0-9]/g, '-');
     }
 
     let formatQCName = (label, i, frequency) => {
-      return label + this.padNumber(i == 1 ? 1 : Math.ceil(i / frequency) + 1) +'_MX'+ data.miniXID
+      return label + this.padNumber(i === 1 ? 1 : Math.ceil(i / frequency) + 1) + '_MX' + data.miniXID
         +'_{METHOD}_' + (i == 1 ? 'pre' : 'post') + data.prefix + this.padNumber(i);
     }
 
@@ -103,7 +101,7 @@ export class AcquisitionTableService {
       let blankQCs = data.blanksFirst ? [data.blank, data.qc, data.qc2] : [data.qc, data.blank, data.qc2];
 
       blankQCs.forEach((x) => {
-        if (x.enabled && (i == 0 || i == sampleData.length - 1 || (i + 1) % x.frequency == 0)) {
+        if (x.enabled && (i === 0 || i === sampleData.length - 1 || (i + 1) % x.frequency === 0)) {
           data.acquisitionData.push(this.generateLCMSSampleNames(data, {
             filename: formatQCName(x.label, i + 1, x.frequency)
           }));
@@ -111,7 +109,7 @@ export class AcquisitionTableService {
       });
 
       // Handle first sample in list since it comes after the pre samples
-      if (i == 0) {
+      if (i === 0) {
         sample.filename = formatSampleName(sample, i + 1);
         data.acquisitionData.push(this.generateLCMSSampleNames(data, sample));
       }
@@ -123,11 +121,12 @@ export class AcquisitionTableService {
    */
   generateLCMSSampleNames(data, sample) {
     // Create an ionizations field for each sample so that we can store multiple filenames
-    if (!sample.hasOwnProperty('ionizations'))
+    if (!sample.hasOwnProperty('ionizations')) {
       sample.ionizations = {};
+    }
 
     Object.keys(data.ionizations).map(mode => {
-        let method = mode + data.platform;
+        const method = mode + data.platform;
         sample.ionizations[mode] = sample.filename.replace('{METHOD}', method);
     });
 
@@ -161,13 +160,13 @@ export class AcquisitionTableService {
    * Generate an array from 1 to n
    */
   generateSampleNumbers(n: number) {
-    return Array.from({length: n}, (v, k) => k+1);
+    return Array.from({length: n}, (v, k) => k + 1);
   }
 
   /**
    * Pad the sample number n with 0s to make it a k-digit string
    */
   padNumber(n: number, k: number = 3) {
-    return ('' + n).padStart(k, '0')
+    return ('' + n).padStart(k, '0');
   }
 }
