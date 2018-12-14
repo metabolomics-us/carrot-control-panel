@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { StasisService } from 'stasis';
 
 @Injectable()
 export class AuthService {
 
   private COOKIE_NAME = 'api_key';
 
-  constructor(private cookieService: CookieService) { }
+  constructor(private cookieService: CookieService, private stasisService: StasisService) { }
 
   /**
    * Tests whether the api key is valid
@@ -35,5 +36,9 @@ export class AuthService {
    */
   isLoggedIn(): boolean {
     return this.cookieService.check(this.COOKIE_NAME);
+  }
+
+  getAPIKey(): string {
+    return this.cookieService.get(this.COOKIE_NAME);
   }
 }
