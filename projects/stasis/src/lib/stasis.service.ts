@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 
 import { SampleData } from './model/sample.model';
 import { ResultData } from './model/result.model';
@@ -32,7 +33,22 @@ export class StasisService {
     this.api_key = api_key;
   }
 
-  buildRequestOptions() {
+  validateAPIKey(api_key: string = this.api_key): Observable<boolean> {
+    this.setAPIKey(api_key);
+
+    // Unset API key is it is invalid
+    const handleError = (error) => {
+      this.setAPIKey(undefined);
+      return of(false);
+    };
+
+    return this.getStatuses().pipe(
+      map(_ => true),
+      catchError(handleError)
+    );
+  }
+
+  private buildRequestOptions(api_key: string = this.api_key) {
     console.log('Buulding header ' + {
       headers: new HttpHeaders().append('x-api-key', this.api_key)
     });
@@ -40,6 +56,7 @@ export class StasisService {
       headers: new HttpHeaders().append('x-api-key', this.api_key)
     };
   }
+
 
   getTracking(sample: string): Observable<TrackingData> {
     return this.http.get<TrackingData>(this.URL + '/' + this.trackingPath + '/' + sample, this.buildRequestOptions());
