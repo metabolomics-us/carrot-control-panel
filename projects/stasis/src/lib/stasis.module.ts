@@ -1,14 +1,16 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 
-import { StasisService } from './stasis.service'
+import { StasisService } from './stasis.service';
+import { MessageService } from './message.service';
 
 @NgModule({
   imports: [
     HttpClientModule
   ],
   providers: [
-    StasisService
+    StasisService,
+    MessageService,
   ]
 })
 export class StasisModule {
