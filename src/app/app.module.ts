@@ -53,8 +53,9 @@ import { AddLibraryComponent } from './pages/library/addlibrary.component';
 import { DownloadComponent } from './pages/download/download.component';
 import { LoginComponent } from './pages/login/login.component';
 
+
 export const ROUTES: Routes = [
-  // Componentless parent route to apply guard to all routes
+  // Componentless parent route to apply guard all protected routes
   {path: '', canActivate: [AuthGuard], children: [
     {path: '', redirectTo: '/lcms', pathMatch: 'full'},
     {path: 'lcms', component: LCMSComponent},

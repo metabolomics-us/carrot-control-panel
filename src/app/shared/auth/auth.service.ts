@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 import { StasisService } from 'stasis';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
@@ -10,25 +12,19 @@ export class AuthService {
   constructor(private cookieService: CookieService, private stasisService: StasisService) { }
 
   /**
-   * Tests whether the api key is valid
-   * TODO: tie in with stasis module
-   * @param api_key
-   */
-  validate(api_key: string): boolean {
-    return true;
-  }
-
-  /**
    * Log in by setting cookie if api key is valid
    * @param api_key
    */
-  login(api_key: string): boolean {
-    if (this.validate(api_key)) {
-      this.cookieService.set(this.COOKIE_NAME, api_key);
-      return true;
-    } else {
-      return false;
-    }
+  login(api_key: string) {
+    return this.stasisService.validateAPIKey(api_key)
+      .pipe(map(isValidToken => {
+        if (isValidToken) {
+          this.cookieService.set(this.COOKIE_NAME, api_key);
+          return true;
+        } else {
+          return false;
+        }
+      }));
   }
 
   /**

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
 import { AuthService } from 'src/app/shared/auth/auth.service';
 
 @Component({
@@ -26,12 +25,16 @@ export class LoginComponent implements OnInit {
   login() {
     this.form.error = undefined;
 
-    if (this.form.apikey) {
-      if (this.authService.login(this.form.apikey)) {
+    const handleLogin = (isLoggedIn) => {
+      if (isLoggedIn) {
         this.router.navigateByUrl(this.returnPath);
       } else {
         this.form.error = 'Invalid API Key';
       }
+    };
+
+    if (this.form.apikey) {
+      this.authService.login(this.form.apikey).subscribe(handleLogin);
     } else {
       this.form.error = 'Please provide an API Key';
     }
