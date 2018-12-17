@@ -1,5 +1,5 @@
 import { async, TestBed, inject } from '@angular/core/testing';
-import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import { HttpClientModule, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
 import { SampleData } from './model/sample.model';
 import { Acquisition } from './model/sample.acquisition.model';
@@ -16,14 +16,12 @@ import { Result } from './model/result.result.model';
 import { Target } from './model/result.target.model';
 import { Annotation } from './model/result.annotation.model';
 
-
-
 import { StasisService } from './stasis.service';
 
 // Define sample filename as global variable
 let filename = "test"+ Date.now();
 
-describe('StatisService', () => {
+describe('StasisService', () => {
   let service;
 
   beforeEach(() => {
@@ -156,24 +154,24 @@ describe('StatisService', () => {
   }));
 
   it('should get the first page of an experiment', async(() => {
-    service.getExperiment({experiment: 'none', page: 3}).subscribe(
+    service.getExperiment('none', 3, null).subscribe(
       response => {
         expect(response.items.length).toEqual(3);
         expect(response.last_item.id).toEqual('test_1531366879985')
       },
-      (error: HttpErrorResponse) =>
-        fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: ' + JSON.stringify(error))
-    );
+      (error: HttpErrorResponse) => {
+        fail("Error: " + error.status + " -- " + error.message)
+      })
   }));
 
   it('should get the second page of an experiment', async(() => {
-    service.getExperiment({experiment: 'none', page: 3, lastSample: 'test_1531366879985'}).subscribe(
+    service.getExperiment('none', 3, 'test_1531366879985').subscribe(
       response => {
-        expect(response.items.length).toEqual(3);
+        expect(response.items.length).toEqual(3)
         expect(response.last_item.id).toEqual('test_1531500769089')
       },
-      (error: HttpErrorResponse) =>
-        fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: ' + JSON.stringify(error))
-    );
+      (error: HttpErrorResponse) => {
+        fail("Error: " + error.status + " -- " + error.message)
+      })
   }));
 });
