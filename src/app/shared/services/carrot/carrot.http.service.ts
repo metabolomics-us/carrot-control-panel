@@ -1,18 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { of, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-import { environment } from '../../../../environments/environment.prod';
-
 @Injectable({
   providedIn: 'root'
 })
 export class CarrotHttpService {
-  carroturl = `http://${environment.carrothost}:${environment.carrotport}`;
+  carroturl: string;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, @Inject('env') private env) {
+    this.carroturl = `http://${env.carrothost}:${env.carrotport}`;
   }
 
   /**
@@ -47,7 +46,7 @@ export class CarrotHttpService {
    * Return a list of available platforms (static until an endpoint is provided)
    */
   getPlatforms() {
-    return of([{name:'GC-MS', id:'gcms'}, {name:'LC-MS', id:'lcms'}]);
+    return of([{name: 'GC-MS', id: 'gcms'}, {name: 'LC-MS', id: 'lcms'}]);
   }
 
   /**
@@ -59,21 +58,20 @@ export class CarrotHttpService {
         return response
           .filter(x => x != null && x.chromatographicMethod != null)
           .map(x => {
-            console.log("mapping: " + response);
             // Combine name and ion mode for selections
             x.title = x.chromatographicMethod.name;
             x.instrument = x.chromatographicMethod.instrument;
             x.column = x.chromatographicMethod.column;
 
             if (x.chromatographicMethod.ionMode != null) {
-              x.title += ' | ' + x.chromatographicMethod.instrument + 
+              x.title += ' | ' + x.chromatographicMethod.instrument +
               ' | ' + x.chromatographicMethod.column +
               ' | ' + x.chromatographicMethod.ionMode.mode;
             }
 
-            return x
+            return x;
           });
       })
-    )
+    );
   }
 }

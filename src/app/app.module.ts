@@ -4,13 +4,16 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from "@angular/router";
+import { Routes, RouterModule } from '@angular/router';
 
-import { environment } from "../environments/environment";
+import { environment } from '../environments/environment';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HotTableModule } from '@handsontable/angular';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { ModalDialogModule } from 'ngx-modal-dialog';
+import { CookieService } from 'ngx-cookie-service';
 
 import { StasisModule } from 'stasis';
 
@@ -18,6 +21,8 @@ import { StartsWithPipe } from './shared/startswith.pipe';
 import { GetTypePipe } from './shared/gettype.pipe';
 import { MiniXService } from './shared/services/minix/minix.service';
 import { CarrotHttpService } from './shared/services/carrot/carrot.http.service';
+import { AuthService } from './shared/auth/auth.service';
+import { AuthGuard } from './shared/auth/auth.guard';
 
 import { AcquisitionDataService } from './components/acquisition-table/acquisition-data.service';
 import { AcquisitionTableService } from './components/acquisition-table/acquisition-table.service';
@@ -47,20 +52,23 @@ import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { AddTargetComponent } from './pages/library/addtarget.component';
 import { AddLibraryComponent } from './pages/library/addlibrary.component';
 import { DownloadComponent } from './pages/download/download.component';
+import { LoginComponent } from './pages/login/login.component';
 
-import { NgxSpinnerModule } from 'ngx-spinner';
-import { ModalDialogModule } from 'ngx-modal-dialog';
-import { MessagesComponent } from './messages/messages.component';
+// import { MessagesComponent } from './messages/messages.component';
 
 export const ROUTES: Routes = [
-  {path: '', redirectTo: '/lcms', pathMatch: 'full'},
-  {path: 'lcms', component: LCMSComponent},
-  {path: 'gcms', component: GCMSComponent},
-  {path: 'dashboard', component: DashboardComponent},
-  {path: 'schedule', component: ScheduleComponent},
-  {path: 'addtarget', component: AddTargetComponent},
-  {path: 'addlibrary', component: AddLibraryComponent},
-  {path: 'download', component: DownloadComponent}
+  // Componentless parent route to apply guard all protected routes
+  {path: '', canActivate: [AuthGuard], children: [
+    {path: '', redirectTo: '/lcms', pathMatch: 'full'},
+    {path: 'lcms', component: LCMSComponent},
+    {path: 'gcms', component: GCMSComponent},
+    {path: 'dashboard', component: DashboardComponent},
+    {path: 'schedule', component: ScheduleComponent},
+    {path: 'addtarget', component: AddTargetComponent},
+    {path: 'addlibrary', component: AddLibraryComponent},
+    {path: 'download', component: DownloadComponent}
+  ]},
+  {path: 'login', component: LoginComponent}
 ];
 
 
@@ -71,6 +79,7 @@ export const ROUTES: Routes = [
 
     AppComponent,
     NavbarComponent,
+    LoginComponent,
     ATFMiniXComponent,
     ATFLCMSComponent,
     ATFGCMSComponent,
@@ -91,7 +100,7 @@ export const ROUTES: Routes = [
     AddTargetComponent,
     AddLibraryComponent,
     DownloadComponent,
-    MessagesComponent,
+    // MessagesComponent,
   ],
   imports: [
     BrowserModule,
@@ -110,9 +119,12 @@ export const ROUTES: Routes = [
     ModalDialogModule.forRoot(),
   ],
   providers: [
+    CookieService,
     Globals,
+    AuthGuard,
     MiniXService,
     CarrotHttpService,
+    AuthService,
     AcquisitionDataService,
     AcquisitionTableService,
   ],
