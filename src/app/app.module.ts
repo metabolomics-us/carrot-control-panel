@@ -12,6 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HotTableModule } from '@handsontable/angular';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ModalDialogModule } from 'ngx-modal-dialog';
 import { CookieService } from 'ngx-cookie-service';
 
 import { StasisModule } from 'stasis';
@@ -53,6 +54,7 @@ import { AddLibraryComponent } from './pages/library/addlibrary.component';
 import { DownloadComponent } from './pages/download/download.component';
 import { LoginComponent } from './pages/login/login.component';
 
+// import { MessagesComponent } from './messages/messages.component';
 
 export const ROUTES: Routes = [
   // Componentless parent route to apply guard all protected routes
@@ -97,7 +99,8 @@ export const ROUTES: Routes = [
     ScheduleComponent,
     AddTargetComponent,
     AddLibraryComponent,
-    DownloadComponent
+    DownloadComponent,
+    // MessagesComponent,
   ],
   imports: [
     BrowserModule,
@@ -112,7 +115,8 @@ export const ROUTES: Routes = [
     HotTableModule,
     NgxChartsModule,
     HotTableModule.forRoot(),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ModalDialogModule.forRoot(),
   ],
   providers: [
     CookieService,
@@ -122,7 +126,7 @@ export const ROUTES: Routes = [
     CarrotHttpService,
     AuthService,
     AcquisitionDataService,
-    AcquisitionTableService
+    AcquisitionTableService,
   ],
   bootstrap: [AppComponent]
 })

@@ -14,15 +14,13 @@ export class StatusTableComponent implements OnInit {
   statusKeys: string[] = []; // The list of all status names, needed for *ngFor
   
   page: number = 1;
-  pageSize: number = 25;
+  @Input() @Output() pageSize: number;
 
   getDate(time) {
     return new Date(time).toLocaleString();
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
   @Input() selectedSample: string;
   @Output() selectedSampleChange: EventEmitter<string> = new EventEmitter<string>();

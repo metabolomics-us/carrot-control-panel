@@ -23,7 +23,7 @@
 </div>
 
 <div *ngIf="statusData && statusData.length > 1">
-  <app-status-table [data]="statusData" [statusDef]="statusObject" [(selectedSample)]="sample"></app-status-table>
+  <app-status-table [data]="statusData" [statusDef]="statusObject" [(selectedSample)]="sample" [pageSize]="pageSize"></app-status-table>
 </div>
 
 <div *ngIf="statusData && statusData.length == 1">
