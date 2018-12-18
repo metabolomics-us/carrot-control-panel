@@ -7,7 +7,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let row of data | slice: pageSize * (page - 1) : (pageSize * page) - 1">
+      <tr *ngFor="let row of data | slice: pageSize * (page - 1) : (pageSize * page)">
         <td><a class="badge" (click)="onSampleSelect(row.sample)">{{ row.sample }}</a></td>
         <td class="text-center connected" *ngFor="let stat of sortedStatuses(row.status, statusDef);">
           <ng-template [ngIf]="stat !== 'failed'" [ngIfElse]="failed">
@@ -25,7 +25,7 @@
 
   <ngb-pagination class="d-flex justify-content-center" 
     [collectionSize]="data.length" 
-    [pageSize]="pageSize"
+    [(pageSize)]="pageSize"
     [(page)]="page" 
     [maxSize]="5" 
     [rotate]="true" 

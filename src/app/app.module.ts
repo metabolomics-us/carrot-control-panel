@@ -49,6 +49,8 @@ import { AddLibraryComponent } from './pages/library/addlibrary.component';
 import { DownloadComponent } from './pages/download/download.component';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { ModalDialogModule } from 'ngx-modal-dialog';
+import { MessagesComponent } from './messages/messages.component';
 
 export const ROUTES: Routes = [
   {path: '', redirectTo: '/lcms', pathMatch: 'full'},
@@ -88,7 +90,8 @@ export const ROUTES: Routes = [
     ScheduleComponent,
     AddTargetComponent,
     AddLibraryComponent,
-    DownloadComponent
+    DownloadComponent,
+    MessagesComponent,
   ],
   imports: [
     BrowserModule,
@@ -103,14 +106,15 @@ export const ROUTES: Routes = [
     HotTableModule,
     NgxChartsModule,
     HotTableModule.forRoot(),
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    ModalDialogModule.forRoot(),
   ],
   providers: [
     Globals,
     MiniXService,
     CarrotHttpService,
     AcquisitionDataService,
-    AcquisitionTableService
+    AcquisitionTableService,
   ],
   bootstrap: [AppComponent]
 })
