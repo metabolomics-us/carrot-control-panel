@@ -18,8 +18,11 @@ import { Annotation } from './model/result.annotation.model';
 
 import { StasisService } from './stasis.service';
 
+// Variable to access karma configuration
+declare const __karma__: any;
+
 // Define sample filename as global variable
-let filename = "test"+ Date.now();
+const filename = 'test' + Date.now();
 
 describe('StasisService', () => {
   let service;
@@ -36,17 +39,23 @@ describe('StasisService', () => {
       ]
     });
 
-    service = TestBed.get(StasisService);
+    if (!__karma__.config.hasOwnProperty('STASIS_API_TOKEN')) {
+      fail('No STASIS_API_TOKEN variable defined in .env!');
+    } else {
+      service = TestBed.get(StasisService);
+      service.setAPIKey(__karma__.config.STASIS_API_TOKEN);
+    }
   });
 
-  it('should be created', inject([StasisService], (service: StasisService) => {
-    expect(service).toBeTruthy();
+
+  it('should be created', inject([StasisService], (stasisService: StasisService) => {
+    expect(stasisService).toBeTruthy();
   }));
 
   it('should create/get acquisition', async(() => {
     expect(service).toBeTruthy();
 
-    let sampleData: SampleData = new SampleData(
+    const sampleData: SampleData = new SampleData(
       filename,
       '12345',
       new Acquisition('instrument A', 'positive', 'gcms'),
@@ -63,7 +72,7 @@ describe('StasisService', () => {
         expect(response).not.toBeNull();
         expect(response.id).toEqual(filename);
         expect(response.userdata.label).toEqual(sampleData.userdata.label);
-        expect(response.references.find((e) => e.name == 'minix').value).toEqual('12345');
+        expect(response.references.find((e) => e.name === 'minix').value).toEqual('12345');
 
         // Pull created sample acquisition
         setTimeout(() => {
@@ -72,15 +81,15 @@ describe('StasisService', () => {
               expect(response).not.toBeNull();
               expect(response.id).toEqual(filename);
               expect(response.userdata.label).toEqual(sampleData.userdata.label);
-              expect(response.references.find((e) => e.name == 'minix').value).toEqual('12345');
+              expect(response.references.find((e) => e.name === 'minix').value).toEqual('12345');
             },
             (error: HttpErrorResponse) =>
-              fail(error.status == 0 ? 'CORS Error' : 'HTTP GET error: '+ JSON.stringify(error))
+              fail(error.status === 0 ? 'CORS Error' : 'HTTP GET error: ' + JSON.stringify(error))
           );
         }, 1000);
       },
       (error: HttpErrorResponse) =>
-        fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
+        fail(error.status === 0 ? 'CORS Error' : 'HTTP POST error: ' + JSON.stringify(error))
     );
   }));
 
@@ -100,12 +109,12 @@ describe('StasisService', () => {
               expect(response.status[0].value).toEqual('entered');
             },
             (error: HttpErrorResponse) =>
-              fail(error.status == 0 ? 'CORS Error' : 'HTTP GET error: '+ JSON.stringify(error))
+              fail(error.status === 0 ? 'CORS Error' : 'HTTP GET error: '+ JSON.stringify(error))
           );
         }, 1000);
       },
       (error: HttpErrorResponse) =>
-        fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
+        fail(error.status === 0 ? 'CORS Error' : 'HTTP POST error: '+ JSON.stringify(error))
     );
   }));
 
@@ -119,11 +128,11 @@ describe('StasisService', () => {
         new Correction(5, 'test', [new CorrectionPoint(121.12, 121.2), new CorrectionPoint(123.12, 123.2)]),
         [
           new Result(
-            new Target(121.12, "test", "test_id", 12.2),
+            new Target(121.12, 'test', 'test_id', 12.2),
             new Annotation(121.2, 10.0, false, 12.2)
           ),
           new Result(
-            new Target(123.12, "test2", "test_id2", 132.12),
+            new Target(123.12, 'test2', 'test_id2', 132.12),
             new Annotation(123.2, 103.0, true, 132.12)
           )
         ]
@@ -144,12 +153,12 @@ describe('StasisService', () => {
               expect(Object.keys(response.injections).length).toBeGreaterThan(0);
             },
             (error: HttpErrorResponse) =>
-              fail(error.status == 0 ? 'CORS Error' : 'HTTP GET error: ' + JSON.stringify(error))
+              fail(error.status === 0 ? 'CORS Error' : 'HTTP GET error: ' + JSON.stringify(error))
           );
         }, 1000);
       },
       (error: HttpErrorResponse) =>
-        fail(error.status == 0 ? 'CORS Error' : 'HTTP POST error: ' + JSON.stringify(error))
+        fail(error.status === 0 ? 'CORS Error' : 'HTTP POST error: ' + JSON.stringify(error))
     );
   }));
 
@@ -157,21 +166,21 @@ describe('StasisService', () => {
     service.getExperiment('none', 3, null).subscribe(
       response => {
         expect(response.items.length).toEqual(3);
-        expect(response.last_item.id).toEqual('test_1531366879985')
+        expect(response.last_item.id).toEqual('test_1531366879985');
       },
       (error: HttpErrorResponse) => {
-        fail("Error: " + error.status + " -- " + error.message)
-      })
+        fail('Error: ' + error.status + ' -- ' + error.message);
+      });
   }));
 
   it('should get the second page of an experiment', async(() => {
     service.getExperiment('none', 3, 'test_1531366879985').subscribe(
       response => {
-        expect(response.items.length).toEqual(3)
-        expect(response.last_item.id).toEqual('test_1531500769089')
+        expect(response.items.length).toEqual(3);
+        expect(response.last_item.id).toEqual('test_1531500769089');
       },
       (error: HttpErrorResponse) => {
-        fail("Error: " + error.status + " -- " + error.message)
-      })
+        fail('Error: ' + error.status + ' -- ' + error.message);
+      });
   }));
 });

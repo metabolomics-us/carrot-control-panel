@@ -54,9 +54,6 @@ export class StasisService {
   }
 
   private buildRequestOptions(api_key: string = this.api_key) {
-    console.log('Buulding header ' + {
-      headers: new HttpHeaders().append('x-api-key', this.api_key)
-    });
     return {
       headers: new HttpHeaders().append('x-api-key', this.api_key)
     };
