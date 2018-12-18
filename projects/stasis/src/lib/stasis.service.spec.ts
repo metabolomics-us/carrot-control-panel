@@ -26,6 +26,7 @@ const filename = 'test' + Date.now();
 
 describe('StasisService', () => {
   let service;
+  let originalTimeout;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,12 +40,19 @@ describe('StasisService', () => {
       ]
     });
 
+    originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
+
     if (!__karma__.config.hasOwnProperty('STASIS_API_TOKEN')) {
       fail('No STASIS_API_TOKEN variable defined in .env!');
     } else {
       service = TestBed.get(StasisService);
       service.setAPIKey(__karma__.config.STASIS_API_TOKEN);
     }
+  });
+
+  afterEach(() => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = originalTimeout;
   });
 
 
