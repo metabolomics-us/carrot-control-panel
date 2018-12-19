@@ -31,12 +31,13 @@ export class AddTargetComponent extends LibraryComponent implements OnInit {
     const inputFocus$ = this.focus$;
 
     return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-      map(term => (term === '' ? this.acquisitionMethodOptions
-        : this.acquisitionMethodOptions.filter(v => v.toString().toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
+      map(term => (term === '' ? 
+          this.acquisitionMethodOptions : 
+          this.acquisitionMethodOptions.filter(v => v.toString().toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
     );
   }
 
-  formatter = result => result.title;
+  formatter = result => result.toString();
 
 
   /**
@@ -72,6 +73,7 @@ export class AddTargetComponent extends LibraryComponent implements OnInit {
     }
 
     let target = cloneDeep(this.target);
+    delete(target['selectedMethod'])
 
     // Normalize retention time
     if (target.riUnit == 'minutes') {
@@ -88,7 +90,7 @@ export class AddTargetComponent extends LibraryComponent implements OnInit {
       },
       error => {
         this.status.submitting = false;
-        this.status.error = error;
+        this.status.error = error.message;
       }
     )
   }
