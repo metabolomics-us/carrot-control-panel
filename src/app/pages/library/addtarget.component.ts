@@ -32,7 +32,7 @@ export class AddTargetComponent extends LibraryComponent implements OnInit {
 
     return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
       map(term => (term === '' ? this.acquisitionMethodOptions
-        : this.acquisitionMethodOptions.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
+        : this.acquisitionMethodOptions.filter(v => v.toString().toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
     );
   }
 
@@ -81,7 +81,7 @@ export class AddTargetComponent extends LibraryComponent implements OnInit {
     // Submit target
     this.status.submitting = true;
 
-    this.carrotHttpService.submitTarget(target).subscribe(
+    this.stasisService.addTarget(target).subscribe(
       response => {
         this.status.submitting = false;
         this.status.success = true;

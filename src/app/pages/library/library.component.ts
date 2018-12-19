@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 
 import { HotTableRegisterer } from '@handsontable/angular';
 
-import { CarrotHttpService } from '../../shared/services/carrot/carrot.http.service';
+import { StasisService } from 'stasis';
+import { of } from 'rxjs';
+import { Library } from 'dist/stasis/lib/model/library.model';
 
 @Injectable()
 export class LibraryComponent {
 
   // Form options
-  acquisitionMethodOptions = [];
+  acquisitionMethodOptions: Library[] = [];
   platformOptions = [];
 
   instrumentOptions = [];
@@ -17,7 +19,7 @@ export class LibraryComponent {
   target: any = {};
   status: any = {};
 
-  constructor(public hotRegisterer: HotTableRegisterer, public carrotHttpService: CarrotHttpService) { }
+  constructor(public hotRegisterer: HotTableRegisterer, public stasisService: StasisService) { }
 
 
   /**
@@ -35,12 +37,11 @@ export class LibraryComponent {
    * Pull platform and acquisition method information from carrot scheduler
    */
   pullAcquisitionMethodsAndPlatforms() {
-    this.carrotHttpService.getAcquisitionMethods().subscribe(response => {
-      console.log(response)
-      this.acquisitionMethodOptions = response;
+    this.stasisService.getLibraries().subscribe(response => {
+      this.acquisitionMethodOptions = response
     });
 
-    this.carrotHttpService.getPlatforms().subscribe(response => {
+    this.getPlatforms().subscribe(response => {
       this.platformOptions = response;
     });
   }
@@ -56,17 +57,17 @@ export class LibraryComponent {
 
     // Handle a custom library name
     if (typeof this.target.selectedMethod == 'string') {
-      let titles = this.acquisitionMethodOptions.map(x => x.title);
+      let methods = this.acquisitionMethodOptions.map(x => x.toString());
 
       // Check whether user actually selected an existing method that didn't get selected properly
-      if (titles.includes(this.target.selectedMethod)) {
-        let method = this.acquisitionMethodOptions[titles.indexOf(this.target.library)];
-        this.target.library = method.chromatographicMethod.name;
+      if (methods.includes(this.target.selectedMethod.toString())) {
+        let method = this.acquisitionMethodOptions[methods.indexOf(this.target.library)];
+        this.target.library = method.method;
 
-        this.target.instrument = method.chromatographicMethod.instrument;
-        this.target.column = method.chromatographicMethod.column;
+        this.target.instrument = method.instrument;
+        this.target.column = method.column;
 
-        this.target.mode = method.chromatographicMethod.ionMode.mode;
+        this.target.mode = method.ionMode;
         return true;
       }
 
@@ -81,7 +82,7 @@ export class LibraryComponent {
           this.target.selectedMethod.toLowerCase().indexOf('(negative)') > 0) {
 
         this.target.library = this.target.selectedMethod.replace(/\(positive\)/ig, '').replace(/\(negative\)/ig, '').trim();
-        this.target.mode = (this.target.selectedMethod.toLowerCase().indexOf('(positive)') > 0) ? 'positive' : 'negative';
+        this.target.mode = (this.target.selectedMethod.toLowerCase().indexOf('positive') > 0) ? 'positive' : 'negative';
       }
 
       // Check that the user selected a column
@@ -101,15 +102,23 @@ export class LibraryComponent {
       }
     }
 
-    // Handle an acquisition method object
+    // Handle a Library object
     else {
-      this.target.library = this.target.selectedMethod.chromatographicMethod.name;
-      this.target.instrument = this.target.selectedMethod.chromatographicMethod.instrument;
-      this.target.column = this.target.selectedMethod.chromatographicMethod.column;
-      this.target.mode = this.target.selectedMethod.chromatographicMethod.ionMode.mode;
+      this.target.library = this.target.selectedMethod.method;
+      this.target.instrument = this.target.selectedMethod.instrument;
+      this.target.column = this.target.selectedMethod.column;
+      this.target.mode = this.target.selectedMethod.ionMode;
       return true;
     }
 
     return true;
   }
+
+  /**
+   * Return a list of available platforms (static until an endpoint is provided)
+   */
+  getPlatforms() {
+    return of([{name: 'GC-MS', id: 'gcms'}, {name: 'LC-MS', id: 'lcms'}]);
+  }
+
 }

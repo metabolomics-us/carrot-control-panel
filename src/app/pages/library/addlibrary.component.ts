@@ -48,12 +48,15 @@ export class AddLibraryComponent extends LibraryComponent implements OnInit {
     const inputFocus$ = this.focus$;
 
     return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
-      map(term => (term === '' ? this.acquisitionMethodOptions
-        : this.acquisitionMethodOptions.filter(v => v.title.toLowerCase().indexOf(term.toLowerCase()) > -1)).slice(0, 10))
+      map(term => (term === '' ? 
+          this.acquisitionMethodOptions : 
+          this.acquisitionMethodOptions.filter(v => v.toString().toLowerCase().indexOf(term.toLowerCase()) > -1))
+        .slice(0, 10)
+      )
     );
   }
 
-  formatter = result => result.title;
+  formatter = result => result.toString();
 
 
   /**
@@ -116,17 +119,19 @@ export class AddLibraryComponent extends LibraryComponent implements OnInit {
     this.status.errorCount = 0;
     this.status.submitting = true;
 
+    //Update the list of targets from the table to be submitted
     this.data.forEach((row, i) => {
       // Ignore empty rows
       if (!isRowEmpty(row, i)) {
         let target = cloneDeep(this.target);
+        delete(target['selectedMethod']);
         target.targetName = row.targetName;
         target.precursor = row.precursor;
         target.retentionTime = row.retentionTime;
 
         // Checking Acquisition library
         if (typeof this.target.selectedMethod == "object") {
-          target.library = this.target.selectedMethod.chromatographicMethod.name;
+          target.library = this.target.selectedMethod.method;
         } else {
           target.library = target.selectedMethod;
         }
@@ -143,7 +148,7 @@ export class AddLibraryComponent extends LibraryComponent implements OnInit {
           target.retentionTime *= 60;
         }
 
-        this.carrotHttpService.submitTarget(target).subscribe(
+        this.stasisService.addTarget(target).subscribe(
           response => {
             rowLabels[i] = '<i class="fa fa-check text-success" aria-hidden="true"></i>';
             instance.updateSettings({rowHeaders: rowLabels}, false);
