@@ -9,6 +9,7 @@ import { TrackingData } from './model/tracking.model';
 import { ExperimentPage } from './model/experiment.page.model';
 
 import { MessageService } from './message.service';
+import { Library } from './model/library.model';
 
 @Injectable()
 export class StasisService {
@@ -21,6 +22,7 @@ export class StasisService {
   private acquisitionPath: string = 'acquisition';
   private experimentPath: String = 'experiment';
   private statusPath: string = 'status';
+  private libraryPath: string = 'library';
 
   constructor(private http: HttpClient, @Inject('env') private env,
               private messageService: MessageService) {
@@ -34,7 +36,7 @@ export class StasisService {
 
 
   setAPIKey(api_key: string) {
-    console.log('Setting API Key to ' + api_key);
+    this.log('Setting API Key to ' + api_key);
     this.api_key = api_key;
   }
 
@@ -96,6 +98,20 @@ export class StasisService {
     }
 
     return this.http.get<ExperimentPage>(fullPath, this.buildRequestOptions());
+  }
+
+  addTarget(target: Object): Observable<Object> {
+    console.log(`[StasisService] Recieved request to add target: ${JSON.stringify(target)}`)
+    return this.http.post(`${this.URL}/target`, target, this.buildRequestOptions());
+  }
+
+  getLibraries(): Observable<Library[]> {
+    return this.http.get<string[]>(`${this.URL}/${this.libraryPath}`, this.buildRequestOptions()).pipe(
+      map(data => {
+        const array = data.map(it => new Library(it))
+        return array
+      })
+    )
   }
 
   /**

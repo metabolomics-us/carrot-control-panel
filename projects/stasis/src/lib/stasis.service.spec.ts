@@ -1,5 +1,5 @@
 import { async, TestBed, inject } from '@angular/core/testing';
-import { HttpClientModule, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 
 import { SampleData } from './model/sample.model';
 import { Acquisition } from './model/sample.acquisition.model';
@@ -188,7 +188,18 @@ describe('StasisService', () => {
         expect(response.last_item.id).toEqual('test_1531500769089');
       },
       (error: HttpErrorResponse) => {
-        fail('Error: ' + error.status + ' -- ' + error.message);
+        fail(`Error: ${error.status} -- ${error.message}`);
       });
+  }));
+
+  it('should add a target to the library/method', async(()=> {
+    service.addTarget().subscribe(
+      response => {
+
+      },
+      error => {
+        fail(`ERROR (${error.constructor.name}): ${error.status} -- ${error.message}`)
+      }
+    )
   }));
 });
