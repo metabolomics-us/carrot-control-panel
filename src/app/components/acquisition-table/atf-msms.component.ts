@@ -29,15 +29,16 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
     if (this.data.hasOwnProperty('msmsSelection')) {
       // Get selection count based on pre-selected data
       this.data.msmsSelection.forEach((x, i) => {
-        if (x.selected)
+        if (x.selected) {
           this.msmsSelectedCount++;
+        }
       });
     } else {
       // Create empty selection for MS/MS samples
       this.data.msmsSelection = [];
 
       this.data.acquisitionData.forEach((sample, i) => {
-        this.data.msmsSelection.push({selected: false, order: null})
+        this.data.msmsSelection.push({selected: false, order: null});
       });
     }
   }
@@ -53,8 +54,9 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
       this.msmsSelectedCount--;
 
       this.data.msmsSelection.forEach((x, j) => {
-        if (x.selected && x.order > this.data.msmsSelection[i].order)
+        if (x.selected && x.order > this.data.msmsSelection[i].order) {
           x.order--;
+        }
       });
 
       this.data.msmsSelection[i].order = null;
@@ -79,11 +81,12 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
   select(n: number) {
     this.resetMSMS();
 
-    let indices = [];
+    const indices = [];
 
     for (let i = this.data.msmsSelection.length - 1; i >= 0; i--) {
-      if (indices.length >= n)
+      if (indices.length >= n) {
         break;
+      }
 
       if (this.data.acquisitionData[i].userdata) {
         indices.unshift(i);
@@ -92,12 +95,12 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
 
     indices.forEach(i => {
       this.data.msmsSelection[i].selected = true;
-      this.selectMSMS({target: {checked: true}}, i)
+      this.selectMSMS({target: {checked: true}}, i);
     });
   }
 
   nextStep() {
-    let msms_suffixes = this.acquisitionDataService.getMSMSRanges();
+    const msms_suffixes = this.acquisitionDataService.getMSMSRanges();
 
     // Add MS/MS samples
     this.data.msmsData = this.acquisitionTableService.generateSampleNumbers(this.msmsSelectedCount);
@@ -105,16 +108,16 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
 
     this.data.msmsSelection.forEach((x, i) => {
       if (x.selected) {
-        // Clone the selected sample and modify update filename for MS/MS 
-        let sample = cloneDeep(this.data.acquisitionData[i]);
-        sample.filename = this.data.prefix +'_MSMS_MX'+ sample.filename.split('_MX')[1];
+        // Clone the selected sample and modify update filename for MS/MS
+        const sample = cloneDeep(this.data.acquisitionData[i]);
+        sample.filename = this.data.prefix + '_MSMS_MX' + sample.filename.split('_MX')[1];
 
         // Generate sample names for each ionization mode and add MS/MS suffix
         this.acquisitionTableService.generateLCMSSampleNames(this.data, sample);
 
         Object.keys(sample.ionizations).map(mode => {
-          let msms_suffix = msms_suffixes[mode][(x.order - 1) % msms_suffixes[mode].length];
-          sample.ionizations[mode] += '_'+ msms_suffix;
+          const msms_suffix = msms_suffixes[mode][(x.order - 1) % msms_suffixes[mode].length];
+          sample.ionizations[mode] += '_' + msms_suffix;
         });
 
         this.data.msmsData[x.order - 1] = sample;
