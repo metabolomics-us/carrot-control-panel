@@ -64,10 +64,19 @@
         </table>
       </div>
 
-      <div *ngIf="data.hasOwnProperty('msmsData') && data.msmsData.length > 0">
+      <div *ngIf="msmsFilenames.length > 0">
         <h6><b>Preview of MS/MS Samples: {{data.prefix}}_MSMS</b></h6>
         <table class="table table-striped mt-2 mb-5">
-          <tr *ngFor="let filename of filenames | startswith:(data.prefix +'_MSMS')">
+          <tr *ngFor="let filename of msmsFilenames">
+            <td>{{filename}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div *ngIf="poolMSMSFilenames.length > 0">
+        <h6><b>Preview of Pooled MS/MS Samples: {{data.prefix}}_PoolMSMS</b></h6>
+        <table class="table table-striped mt-2 mb-5">
+          <tr *ngFor="let filename of poolMSMSFilenames">
             <td>{{filename}}</td>
           </tr>
         </table>
