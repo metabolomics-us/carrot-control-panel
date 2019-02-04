@@ -1,9 +1,9 @@
-<form novalidate>
+<form novalidate [formGroup]="form">
   <div class="form-row">
     <div class="col-md-12 mb-3">
       <h5>Mark MS/MS Samples</h5>
       
-      <table class="table table-striped mb-3">
+      <table class="table table-striped mb-5">
         <tr>
           <th></th>
           <th>#</th>
@@ -36,7 +36,7 @@
 
       <h5 class="mb-3">Marked {{msmsSelectedCount}} samples for MS/MS injections</h5>
 
-      <div>
+      <div class="mb-5">
         <button type="submit" class="btn btn-info" (click)="lastStep()">
           <i class="fa fa-arrow-left"></i> Back
         </button>
@@ -55,7 +55,20 @@
         <button type="submit" class="btn btn-warning" (click)="resetMSMS()">
           <i class="fa fa-repeat"></i> Deselect All
         </button>
+        </div>
 
+
+        <h5 class="mb-3">Add Pooled MS/MS samples</h5>
+
+        <div class="mb-3">
+          <input type="number" class="form-control" formControlName="pooledMSMS"
+                  [ngClass]="displayFieldCss('pooledMSMS')">
+          <div class="invalid-feedback" *ngIf="!isValid('pooledMSMS')">
+              Please enter the number of pooled MS/MS
+          </div>
+        </div>
+
+        <div>
         <button type="submit" class="btn btn-primary pull-right" (click)="nextStep()">
           Preview Acquisition Table <i class="fa fa-arrow-right"></i>
         </button>

@@ -19,12 +19,15 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, private acquisitionTableService: AcquisitionTableService,
       private acquisitionDataService: AcquisitionDataService) {
-
     super();
   }
 
   ngOnInit() {
     this.msmsSelectedCount = 0;
+
+    this.form = this.formBuilder.group({
+      pooledMSMS: [0, [Validators.required, Validators.pattern('\\s*\\d+\\s*')]]
+    });
 
     if (this.data.hasOwnProperty('msmsSelection')) {
       // Get selection count based on pre-selected data
@@ -102,11 +105,28 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
   nextStep() {
     const msms_suffixes = this.acquisitionDataService.getMSMSRanges();
 
+    // Base sample for pooled MS/MS
+    const baseSample = {
+      acquisition: {},
+      ionizations: {},
+      metadata: {},
+      minix: '',
+      userdata: {}
+    };
+
     // Add MS/MS samples
-    this.data.msmsData = this.acquisitionTableService.generateSampleNumbers(this.msmsSelectedCount);
+    this.data.msmsData = this.acquisitionTableService.generateSampleNumbers(this.msmsSelectedCount + this.form.value.pooledMSMS);
 
 
     this.data.msmsSelection.forEach((x, i) => {
+      // Clumsy way to populate the base sample
+      if (this.data.acquisitionData[i].hasOwnProperty('id')) {
+        baseSample.acquisition = cloneDeep(this.data.acquisitionData[i].acquisition);
+        baseSample.ionizations = cloneDeep(this.data.acquisitionData[i].ionizations);
+        baseSample.metadata = cloneDeep(this.data.acquisitionData[i].metadata);
+        baseSample.minix = this.data.acquisitionData[i].minix;
+      }
+
       if (x.selected) {
         // Clone the selected sample and modify update filename for MS/MS
         const sample = cloneDeep(this.data.acquisitionData[i]);
@@ -122,6 +142,23 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
 
         this.data.msmsData[x.order - 1] = sample;
       }
+    });
+
+    // Add pooled MS/MS samples
+    Array.from(Array(this.form.value.pooledMSMS)).forEach((x, i) => {
+      const sampleNumber = this.acquisitionTableService.padNumber(i + 1, 3);
+
+      // Create pooled MS/MS sample
+      const sample = cloneDeep(baseSample);
+      sample.filename = this.data.prefix + '_PooledMSMS_' + sampleNumber + '_MX' + sample.minix + '_{METHOD}';
+      this.acquisitionTableService.generateLCMSSampleNames(this.data, sample);
+
+      Object.keys(sample.ionizations).map(mode => {
+        const msms_suffix = msms_suffixes[mode][i % msms_suffixes[mode].length];
+        sample.ionizations[mode] += '_' + msms_suffix;
+      });
+
+      this.data.msmsData[this.msmsSelectedCount + i] = sample;
     });
 
     window.scroll(0, 0);

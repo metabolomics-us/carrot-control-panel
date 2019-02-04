@@ -18,14 +18,14 @@ export class AcquisitionTableService {
     data.filename_prefix = 'MX' + data.miniXID + '_' + date + instrumentID + data.operator;
 
     // Randomize sample list if required
-    let sampleData = data.randomize ? this.randomizeArray(data.sampleData, data.miniXID) : data.sampleData;
+    const sampleData = data.randomize ? this.randomizeArray(data.sampleData, data.miniXID) : data.sampleData;
     data.acquisitionData = [];
 
     let blankNum = 0;
     let qcNum = 0;
 
     // Creates proper sample filenames from the filename format
-    let generateSampleName = (sample, type, n) => {
+    const generateSampleName = (sample, type, n) => {
       sample.filename = data.filename_prefix + type + this.padNumber(n, 2);
       sample.ionizations = {pos: sample.filename};
       return sample;
@@ -41,7 +41,7 @@ export class AcquisitionTableService {
       // Handle blanks when the option is enabled
       if (data.blank.enabled && (i === 0 || i === sampleData.length - 1 || (i + 1) % data.blank.frequency === 0)) {
         // Use the number of pre-injections if this is before the first sample
-        let n = (i === 0) ? data.blank.pre : 1;
+        const n = (i === 0) ? data.blank.pre : 1;
 
         for (let j = n; j > 0; j--) {
           data.acquisitionData.push(generateSampleName({}, 'bl', blankNum + j));
@@ -53,7 +53,7 @@ export class AcquisitionTableService {
       // Handle QCs when the option is enabled
       if (data.qc.enabled && (i === 0 || i === sampleData.length - 1 || (i + 1) % data.qc.frequency === 0)) {
         // Use the number of pre-injections if this is before the first sample
-        let n = (i === 0) ? data.qc.pre : 1;
+        const n = (i === 0) ? data.qc.pre : 1;
 
         for (let j = n; j > 0; j--) {
           data.acquisitionData.push(generateSampleName({}, 'qc', qcNum + j));
@@ -75,18 +75,18 @@ export class AcquisitionTableService {
   generateLCMSAcquisitionTable(data) {
     // Filenames should match:
     //   [A-Za-z]+(\d{3,4}|_MSMS)_MX\d+_[A-Za-z]+_[A-Za-z0-9-]+(_\d+_\d+)?
-    let formatSampleName = (sample, i) => {
+    const formatSampleName = (sample, i) => {
       return data.prefix + this.padNumber(i) + '_MX' + data.miniXID + '_{METHOD}_' +
         sample.userdata.label.replace(/[^A-Za-z0-9]/g, '-');
-    }
+    };
 
-    let formatQCName = (label, i, frequency) => {
+    const formatQCName = (label, i, frequency) => {
       return label + this.padNumber(i === 1 ? 1 : Math.ceil(i / frequency) + 1) + '_MX' + data.miniXID
-        +'_{METHOD}_' + (i == 1 ? 'pre' : 'post') + data.prefix + this.padNumber(i);
-    }
+        + '_{METHOD}_' + (i === 1 ? 'pre' : 'post') + data.prefix + this.padNumber(i);
+    };
 
     // Randomize sample list if required
-    let sampleData = data.randomize ? this.randomizeArray(data.sampleData, data.miniXID) : data.sampleData;
+    const sampleData = data.randomize ? this.randomizeArray(data.sampleData, data.miniXID) : data.sampleData;
     data.acquisitionData = [];
 
     // Loop over all samples and generate filenames
@@ -98,7 +98,7 @@ export class AcquisitionTableService {
       }
 
       // Handle blanks and QCs when the option is enabled
-      let blankQCs = data.blanksFirst ? [data.blank, data.qc, data.qc2] : [data.qc, data.blank, data.qc2];
+      const blankQCs = data.blanksFirst ? [data.blank, data.qc, data.qc2] : [data.qc, data.blank, data.qc2];
 
       blankQCs.forEach((x) => {
         if (x.enabled && (i === 0 || i === sampleData.length - 1 || (i + 1) % x.frequency === 0)) {
@@ -138,8 +138,8 @@ export class AcquisitionTableService {
    * https://stackoverflow.com/a/2450976/406772
    */
   randomizeArray(array, seed) {
+    const rng = seed ? seedrandom(seed) : seedrandom();
     let currentIndex = array.length, temporaryValue, randomIndex;
-    let rng = seed ? seedrandom(seed) : seedrandom();
 
     // While there remain elements to shuffle...
     while (currentIndex !== 0) {
