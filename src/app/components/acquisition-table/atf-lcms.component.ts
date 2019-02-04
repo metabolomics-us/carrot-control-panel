@@ -47,16 +47,22 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
       }),
 
       blankEnabled: this.data.blank ? this.data.blank.enabled : true,
-      blankLabel: [this.data.blank ? this.data.blank.label : 'MtdBlank', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
-      blankFrequency: [this.data.blank ? this.data.blank.frequency : 10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
+      blankLabel: [this.data.blank ? this.data.blank.label : 'MtdBlank',
+        [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      blankFrequency: [this.data.blank ? this.data.blank.frequency : 10,
+          [Validators.required, Validators.pattern('\\d+'), Validators.min(1)]],
 
       qcEnabled: this.data.qc ? this.data.qc.enabled : true,
-      qcLabel: [this.data.qc ? this.data.qc.label : 'Biorec', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
-      qcFrequency: [this.data.qc ? this.data.qc.frequency : 10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
+      qcLabel: [this.data.qc ? this.data.qc.label : 'Biorec',
+        [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      qcFrequency: [this.data.qc ? this.data.qc.frequency : 10,
+        [Validators.required, Validators.pattern('\\d+'), Validators.min(1)]],
 
       qc2Enabled: this.data.qc2 ? this.data.qc2.enabled : false,
-      qc2Label: [this.data.qc2 ? this.data.qc2.label : 'NIST', [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
-      qc2Frequency: [this.data.qc2 ? this.data.qc2.frequency : 100, [Validators.required, Validators.pattern('\\d+'), Validators.min(1)]],
+      qc2Label: [this.data.qc2 ? this.data.qc2.label : 'NIST',
+        [Validators.required, Validators.minLength(1), Validators.maxLength(16)]],
+      qc2Frequency: [this.data.qc2 ? this.data.qc2.frequency : 100,
+        [Validators.required, Validators.pattern('\\d+'), Validators.min(1)]],
 
       blanksFirst: this.data.hasOwnProperty('blanksFirst') ? this.data.blanksFirst : true,
       randomize: this.data.hasOwnProperty('randomize') ? this.data.randomize : true
@@ -64,12 +70,18 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
   }
 
   instrumentValidation(control: FormGroup) {
-    if (!control.value.positiveMode && !control.value.negativeMode)
+    if (!control.value.positiveMode && !control.value.negativeMode) {
       return {required: true};
-    if (control.value.positiveMode && !control.value.positiveModeInstrument)
+    }
+
+    if (control.value.positiveMode && !control.value.positiveModeInstrument) {
       return {required: true};
-    if (control.value.negativeMode && !control.value.negativeModeInstrument)
+    }
+
+    if (control.value.negativeMode && !control.value.negativeModeInstrument) {
       return {required: true};
+    }
+
     return null;
   }
 
@@ -80,10 +92,12 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     this.data.ionizations = {};
 
     // Set ionization mode
-    if (this.form.value.ionization.positiveMode)
+    if (this.form.value.ionization.positiveMode) {
       this.data.ionizations['pos'] = this.form.value.ionization.positiveModeInstrument;
-    if (this.form.value.ionization.negativeMode)
+    }
+    if (this.form.value.ionization.negativeMode) {
       this.data.ionizations['neg'] = this.form.value.ionization.negativeModeInstrument;
+    }
 
     // Set QC parameters
     this.data.blank = {

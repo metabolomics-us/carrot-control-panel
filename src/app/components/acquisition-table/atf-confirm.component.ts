@@ -19,7 +19,7 @@ export class ATFConfirmationComponent extends ATFComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.data.exportFilenames = {}
+    this.data.exportFilenames = {};
 
     // Pull filenames for each ionization mode
     Object.keys(this.data.ionizations).map(mode => {
