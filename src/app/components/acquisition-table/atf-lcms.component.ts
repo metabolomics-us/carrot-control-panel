@@ -64,7 +64,7 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
       qc2Frequency: [this.data.qc2 ? this.data.qc2.frequency : 100,
         [Validators.required, Validators.pattern('\\d+'), Validators.min(1)]],
 
-      pooledQC: this.data.hasOwnProperty('pooledQC') ? this.data.pooledQC : false,
+      pooledQC: this.data.hasOwnProperty('pooledQC') ? this.data.pooledQC.enabled : false,
       blanksFirst: this.data.hasOwnProperty('blanksFirst') ? this.data.blanksFirst : true,
       randomize: this.data.hasOwnProperty('randomize') ? this.data.randomize : true
     });
