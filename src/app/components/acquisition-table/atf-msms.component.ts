@@ -150,7 +150,7 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
 
       // Create pooled MS/MS sample
       const sample = cloneDeep(baseSample);
-      sample.filename = this.data.prefix + '_PooledMSMS_' + sampleNumber + '_MX' + sample.minix + '_{METHOD}';
+      sample.filename = this.data.prefix + '_PoolMSMS_' + sampleNumber + '_MX' + sample.minix + '_{METHOD}';
       this.acquisitionTableService.generateLCMSSampleNames(this.data, sample);
 
       Object.keys(sample.ionizations).map(mode => {
