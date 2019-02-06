@@ -98,7 +98,8 @@ export class AcquisitionTableService {
       }
 
       // Handle blanks and QCs when the option is enabled
-      const blankQCs = data.blanksFirst ? [data.blank, data.qc, data.qc2] : [data.qc, data.blank, data.qc2];
+      const blankQCs = data.blanksFirst ?
+        [data.blank, data.qc, data.pooledQC, data.qc2] : [data.qc, data.pooledQC, data.blank, data.qc2];
 
       blankQCs.forEach((x) => {
         if (x.enabled && (i === 0 || i === sampleData.length - 1 || (i + 1) % x.frequency === 0)) {
