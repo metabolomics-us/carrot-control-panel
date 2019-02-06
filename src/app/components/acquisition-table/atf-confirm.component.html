@@ -37,6 +37,16 @@
         </table>
       </div>
 
+
+      <div *ngIf="data.pooledQC.enabled">
+        <h6><b>Preview of Pooled QCs: {{data.pooledQC.label}}</b></h6>
+        <table class="table table-striped mt-2 mb-5">
+          <tr *ngFor="let filename of filenames | startswith:data.pooledQC.label | slice:0:3">
+            <td>{{filename}}</td>
+          </tr>
+        </table>
+      </div>
+
       <div *ngIf="data.qc2 && data.qc2.enabled">
         <h6><b>Preview of QCs: {{data.qc2.label}}</b></h6>
         <table class="table table-striped mt-2 mb-5">
