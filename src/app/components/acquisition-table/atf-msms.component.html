@@ -70,13 +70,22 @@
       </div>
 
 
-      <h5 class="mb-3">Add Multiple MS/MS </h5>
+      <h5 class="mb-3">Add Labels for MS/MS Injection Runs</h5>
 
       <div class="mb-3">
+        <label>
+          If running a single set of MS/MS samples, add a single optional label or leave blank.  
+          Otherwise, add labels for each run separated by commas.  <br>
+
+          For example, if running the same MS/MS samples at 10 CID and 40 CID,
+          you can enter the labels as <code>10CID,40CID</code>.  The final acquisition
+          table will then contain twice the number of selected MS/MS filenames.
+        </label>
         <input type="text" class="form-control" formControlName="injectionLabels"
                 [ngClass]="displayFieldCss('injectionLabels')">
         <div class="invalid-feedback" *ngIf="!isValid('injectionLabels')">
-            Please enter the number of pooled MS/MS
+            Please either leave blank for a single set of injections or add labels for
+            each run separated by commas
         </div>
       </div>
 
