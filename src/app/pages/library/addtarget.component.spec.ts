@@ -16,7 +16,13 @@ describe('AddTargetComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpClientModule, NgbModule.forRoot(), HotTableModule.forRoot() ],
-      declarations: [ AddTargetComponent, GetTypePipe ]
+      declarations: [ AddTargetComponent, GetTypePipe ],
+      providers: [
+        {
+          provide: 'env',
+          useValue: {production: false}
+        }
+      ]
     })
     .compileComponents();
   }));

@@ -17,7 +17,14 @@ describe('ScheduleComponent', () => {
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpClientModule, HotTableModule.forRoot() ],
       declarations: [ ScheduleComponent ],
-      providers: [ CarrotHttpService, MiniXService ]
+      providers: [
+        CarrotHttpService,
+        MiniXService,
+        {
+          provide: 'env',
+          useValue: {production: false}
+        }
+      ]
     })
     .compileComponents();
   }));

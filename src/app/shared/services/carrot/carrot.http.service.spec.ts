@@ -1,5 +1,4 @@
 import { TestBed, inject, async, fakeAsync, tick } from '@angular/core/testing';
-import { HttpClientModule } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { CarrotHttpService } from './carrot.http.service';
@@ -8,11 +7,17 @@ describe('CarrotHttpService', () => {
 
   let service: CarrotHttpService;
   let backend: HttpTestingController;
-  
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule ],
-      providers: [ CarrotHttpService ]
+      providers: [
+        CarrotHttpService,
+        {
+          provide: 'env',
+          useValue: {production: false}
+        }
+      ]
     });
 
     service = TestBed.get(CarrotHttpService);
@@ -30,7 +35,7 @@ describe('CarrotHttpService', () => {
     });
 
     // Mock response
-    let mockData = {exist: true, file: 'test'};
+    const mockData = {exist: true, file: 'test'};
     const mockRequest = backend.expectOne('/rest/file/exists/test');
     expect(mockRequest.cancelled).toBeFalsy();
     mockRequest.flush(mockData);
@@ -44,7 +49,7 @@ describe('CarrotHttpService', () => {
     });
 
     // Mock response
-    let mockData = {exist: false, file: 'test-does-not-exist'};
+    const mockData = {exist: false, file: 'test-does-not-exist'};
     const mockRequest = backend.expectOne('/rest/file/exists/test-does-not-exist');
     expect(mockRequest.cancelled).toBeFalsy();
     mockRequest.flush(mockData);
@@ -60,13 +65,21 @@ describe('CarrotHttpService', () => {
 
   it('should return a list of available acquisition methods', async(() => {
     service.getAcquisitionMethods().subscribe(response => {
-      console.log(response)
       expect(response).not.toBeNull();
       expect(response.length).toBe(1);
     });
 
     // Mock response
-    let mockData = [{"chromatographicMethod":{"name":"lcms_istds","instrument":"test","column":"test","ionMode":{"mode":"positive"}}}];
+    const mockData = [
+      {
+        'chromatographicMethod': {
+          'name': 'lcms_istds',
+          'instrument': 'test',
+          'column': 'test',
+          'ionMode': {'mode': 'positive'}
+        }
+      }
+    ];
     const mockRequest = backend.expectOne('/rest/library');
     expect(mockRequest.cancelled).toBeFalsy();
     mockRequest.flush(mockData);
