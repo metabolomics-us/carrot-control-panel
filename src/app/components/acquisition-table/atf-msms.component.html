@@ -69,8 +69,20 @@
         </div>
       </div>
 
+
+      <h5 class="mb-3">Add Multiple MS/MS </h5>
+
+      <div class="mb-3">
+        <input type="text" class="form-control" formControlName="injectionLabels"
+                [ngClass]="displayFieldCss('injectionLabels')">
+        <div class="invalid-feedback" *ngIf="!isValid('injectionLabels')">
+            Please enter the number of pooled MS/MS
+        </div>
+      </div>
+
+
       <div>
-        <button type="submit" class="btn btn-primary pull-right" (click)="nextStep()">
+        <button type="submit" class="btn btn-primary pull-right" (click)="nextStep()" [disabled]="!form.valid">
           Preview Acquisition Table <i class="fa fa-arrow-right"></i>
         </button>
       </div>

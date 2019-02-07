@@ -26,7 +26,8 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
     this.msmsSelectedCount = 0;
 
     this.form = this.formBuilder.group({
-      pooledMSMS: [0, [Validators.required, Validators.pattern('\\s*\\d+\\s*')]]
+      pooledMSMS: [0, [Validators.required, Validators.pattern('\\s*\\d+\\s*')]],
+      injectionLabels: ['', [Validators.pattern('([\\w\\d]+(,[\\w\\d]+)*)?')]]
     });
 
     if (this.data.hasOwnProperty('msmsSelection')) {
@@ -117,7 +118,6 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
     // Add MS/MS samples
     this.data.msmsData = this.acquisitionTableService.generateSampleNumbers(this.msmsSelectedCount + this.form.value.pooledMSMS);
 
-
     this.data.msmsSelection.forEach((x, i) => {
       // Clumsy way to populate the base sample
       if (this.data.acquisitionData[i].hasOwnProperty('id')) {
@@ -160,6 +160,27 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
 
       this.data.msmsData[this.msmsSelectedCount + i] = sample;
     });
+
+    // Add multiple MS/MS injections by duplicating generated MS/MS samples
+    if (this.form.value.injectionLabels !== '') {
+      const labels = this.form.value.injectionLabels.split(',');
+
+      const msmsSamples = this.data.msmsData;
+      this.data.msmsData = this.acquisitionTableService.generateSampleNumbers(msmsSamples.length * labels.length);
+
+      labels.forEach((x, i) => {
+        msmsSamples.forEach((sample, j) => {
+          const newSample = cloneDeep(sample);
+          newSample.filename = sample.filename.replace('_MX', '_' + x + '_MX');
+
+          Object.keys(sample.ionizations).map(mode => {
+            newSample.ionizations[mode] = sample.ionizations[mode].replace('_MX', '_' + x + '_MX');
+          });
+
+          this.data.msmsData[i * msmsSamples.length + j] = newSample;
+        });
+      });
+    }
 
     window.scroll(0, 0);
     this.data.step++;

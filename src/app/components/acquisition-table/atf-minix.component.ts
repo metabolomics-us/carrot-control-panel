@@ -22,7 +22,7 @@ export class ATFMiniXComponent extends ATFComponent implements OnInit {
     this.miniXLoading = false;
 
     this.form = this.formBuilder.group({
-      minix: [null, [Validators.required, Validators.pattern("\\s*\\d+\\s*")]]
+      minix: [null, [Validators.required, Validators.pattern('\\s*\\d+\\s*')]]
     });
   }
 
