@@ -171,11 +171,15 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
       labels.forEach((x, i) => {
         msmsSamples.forEach((sample, j) => {
           const newSample = cloneDeep(sample);
-          newSample.filename = sample.filename.replace('_MX', '_' + x + '_MX');
 
-          Object.keys(sample.ionizations).map(mode => {
-            newSample.ionizations[mode] = sample.ionizations[mode].replace('_MX', '_' + x + '_MX');
-          });
+          // Add label to base filename and ionization filenames if it is not an empty string
+          if (x !== '') {
+            newSample.filename = sample.filename.replace('_MX', '_' + x + '_MX');
+
+            Object.keys(sample.ionizations).map(mode => {
+              newSample.ionizations[mode] = sample.ionizations[mode].replace('_MX', '_' + x + '_MX');
+            });
+          }
 
           this.data.msmsData[i * msmsSamples.length + j] = newSample;
         });
