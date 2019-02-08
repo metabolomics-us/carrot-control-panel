@@ -5,7 +5,7 @@ export class Library {
     ionMode: IonMode;
 
     constructor(value: string) {
-        let tokens = value.split(RegExp('\\s\\|\\s'))
+        let tokens = value.split(RegExp('\\s\\|\\s'));
 
         this.method = tokens[0];
         this.instrument = tokens[1];
@@ -13,7 +13,7 @@ export class Library {
         this.ionMode = tokens[3] == 'negative'? IonMode.NEGATIVE : IonMode.POSITIVE;
     }
 
-    toString() {
+    toString(): string {
         return `${this.method} | ${this.instrument} | ${this.column} | ${this.ionMode}`;
     }
 }

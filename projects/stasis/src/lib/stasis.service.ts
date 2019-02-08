@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, tap, catchError, timestamp } from 'rxjs/operators';
 
 import { SampleData } from './model/sample.model';
 import { ResultData } from './model/result.model';
@@ -10,6 +10,7 @@ import { ExperimentPage } from './model/experiment.page.model';
 
 import { MessageService } from './message.service';
 import { Library } from './model/library.model';
+import { LibraryTarget } from './model/library.target.model';
 
 @Injectable()
 export class StasisService {
@@ -44,14 +45,13 @@ export class StasisService {
     this.setAPIKey(api_key);
 
     // Unset API key is it is invalid
-    const handleError = (error) => {
+    const handleKeyError = (error) => {
       this.setAPIKey(undefined);
       return of(false);
     };
 
     return this.getStatuses().pipe(
-      map(_ => true),
-      catchError(handleError)
+      map(_ => true)
     );
   }
 
@@ -86,51 +86,56 @@ export class StasisService {
     return this.http.post<SampleData>(this.URL + '/' + this.acquisitionPath, data, this.buildRequestOptions());
   }
 
-  getStatuses(): Observable<Object[]> {
-    return this.http.get<Object[]>(this.URL + '/' + this.statusPath, this.buildRequestOptions());
+  getStatuses(): Observable<Map<string,number>> {
+    return this.http.get<Map<string,number>>(this.URL + '/' + this.statusPath, this.buildRequestOptions());
   }
 
-  getExperiment(exp: string, pageSize: number = 25, lastSample: string): Observable<ExperimentPage> {
+  getExperiment(exp: string, pageSize: number = 25, lastSample?: string): Observable<ExperimentPage> {
     let fullPath = this.URL + '/' + this.experimentPath + '/' + exp + '/' + pageSize;
 
-    if (lastSample != null && lastSample !== '') {
+    if (lastSample && lastSample !== '') {
       fullPath += '/' + lastSample;
     }
 
     return this.http.get<ExperimentPage>(fullPath, this.buildRequestOptions());
   }
 
-  addTarget(target: Object): Observable<Object> {
-    console.log(`[StasisService] Recieved request to add target: ${JSON.stringify(target)}`)
-    return this.http.post(`${this.URL}/target`, target, this.buildRequestOptions());
+  addTarget(target: LibraryTarget): Observable<LibraryTarget> {
+    return this.http.post<LibraryTarget>(`${this.URL}/target`, JSON.stringify(target), this.buildRequestOptions());
+  }
+
+  deleteTarget(target: Object): void {
+    this.http.delete(`${this.URL}/target/${target}`, this.buildRequestOptions())
   }
 
   getLibraries(): Observable<Library[]> {
-    return this.http.get<string[]>(`${this.URL}/${this.libraryPath}`, this.buildRequestOptions()).pipe(
-      map(data => {
-        const array = data.map(it => new Library(it))
-        return array
-      })
+    return this.http.get<string[]>(`${this.URL}/${this.libraryPath}`, this.buildRequestOptions())
+    .pipe(
+      map(libstr =>
+        libstr.map(it => new Library(it))
+      )
     )
   }
 
   /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
+   * Checks whether the given filename exists
    */
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
+  checkFileStatus(filename: string): Observable<any> {
+    return this.http.get(`${this.URL}/file/exists/${filename}`, this.buildRequestOptions());
+  }
 
-      // TODO: better job of transforming error for user consumption
-      this.log(`${operation} failed: ${error.message}`);
+  submitJob(task: Object): Observable<any> {
+    return of('None');
+  }
 
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+  /**
+   * Hardcoded platforms for now
+   * Return a list of available platforms (static until an endpoint is provided)
+   * @param operation 
+   * @param result 
+   */
+  getPlatforms(): Observable<Object[]> {
+    return of([{name: 'GC-MS', id: 'gcms'}, {name: 'LC-MS', id: 'lcms'}]);
   }
 
   private log(message: string) {

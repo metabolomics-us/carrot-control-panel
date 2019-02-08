@@ -16,7 +16,8 @@ module.exports = function (config) {
     ],
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
-      STASIS_API_TOKEN: process.env.STASIS_API_TOKEN
+      STASIS_API_TOKEN: process.env.STASIS_API_TOKEN,
+      captureConsole: false
     },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, '../../coverage'),

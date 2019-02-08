@@ -17,6 +17,9 @@ import { Target } from './model/result.target.model';
 import { Annotation } from './model/result.annotation.model';
 
 import { StasisService } from './stasis.service';
+import { MessageService } from './message.service';
+import { LibraryTarget } from './model/library.target.model';
+import { Library } from 'stasis';
 
 // Variable to access karma configuration
 declare const __karma__: any;
@@ -25,7 +28,7 @@ declare const __karma__: any;
 const filename = 'test' + Date.now();
 
 describe('StasisService', () => {
-  let service;
+  let service: StasisService;
   let originalTimeout;
 
   beforeEach(() => {
@@ -36,7 +39,8 @@ describe('StasisService', () => {
         {
           provide: 'env',
           useValue: {production: false}
-        }
+        }, 
+        MessageService,
       ]
     });
 
@@ -78,7 +82,7 @@ describe('StasisService', () => {
     service.createAcquisition(sampleData).subscribe(
       response => {
         expect(response).not.toBeNull();
-        expect(response.id).toEqual(filename);
+        expect(response.sample).toEqual(filename);
         expect(response.userdata.label).toEqual(sampleData.userdata.label);
         expect(response.references.find((e) => e.name === 'minix').value).toEqual('12345');
 
@@ -87,7 +91,7 @@ describe('StasisService', () => {
           service.getAcquisition(filename).subscribe(
             response => {
               expect(response).not.toBeNull();
-              expect(response.id).toEqual(filename);
+              expect(response.sample).toEqual(filename);
               expect(response.userdata.label).toEqual(sampleData.userdata.label);
               expect(response.references.find((e) => e.name === 'minix').value).toEqual('12345');
             },
@@ -171,10 +175,10 @@ describe('StasisService', () => {
   }));
 
   it('should get the first page of an experiment', async(() => {
-    service.getExperiment('none', 3, null).subscribe(
+    service.getExperiment('12345', 3, undefined).subscribe(
       response => {
         expect(response.items.length).toEqual(3);
-        expect(response.last_item.id).toEqual('test_1531366879985');
+        expect(response.last_item.id).toEqual('test1530034141006');
       },
       (error: HttpErrorResponse) => {
         fail('Error: ' + error.status + ' -- ' + error.message);
@@ -182,23 +186,43 @@ describe('StasisService', () => {
   }));
 
   it('should get the second page of an experiment', async(() => {
-    service.getExperiment('none', 3, 'test_1531366879985').subscribe(
+    service.getExperiment('12345', 3, 'test1530034141006').subscribe(
       response => {
         expect(response.items.length).toEqual(3);
-        expect(response.last_item.id).toEqual('test_1531500769089');
+        expect(response.last_item.id).toEqual('test1530034310758');
       },
       (error: HttpErrorResponse) => {
         fail(`Error: ${error.status} -- ${error.message}`);
       });
   }));
 
-  it('should add a target to the library/method', async(()=> {
-    service.addTarget().subscribe(
-      response => {
+  it('should add a target to the library/method', async(() => {
+    let tartget = new LibraryTarget(
+      "targetname",
+      new Acquisition("test", "positive", "test_lib", "test"),
+      1, 2, true, "minutes");
 
+      service.addTarget(tartget).subscribe(
+      response => {
+        expect(response).toBeDefined();
+        expect(response['name']).toBe('targetname');
+        expect(response['mz']).toBe(1);
+        expect(response['rt']).toBe(2);
+        expect(response['mz_rt']).toBe('1_2');
+        expect(response['method']).toBe('test_lib | test | test | positive');
       },
-      error => {
-        fail(`ERROR (${error.constructor.name}): ${error.status} -- ${error.message}`)
+      error => fail(JSON.stringify(error))
+    )
+  }));
+
+  it('should return a list of libraries/methods', async(() => {
+    service.getLibraries().subscribe(
+      response => {
+        expect(response).toBeDefined();
+        expect(response[0].method).toBe('lcms_istds');
+        expect(response[0].instrument).toBe('test');
+        expect(response[0].column).toBe('test');
+        expect(response[0].ionMode).toBe('positive');
       }
     )
   }));

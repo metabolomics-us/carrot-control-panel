@@ -3,6 +3,7 @@
  */
 
 export * from './lib/model/library.model';
+export * from './lib/model/library.target.model';
 
 export * from './lib/model/experiment.page.model';
 export * from './lib/model/experiment.item.model';
