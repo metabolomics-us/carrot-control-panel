@@ -85,8 +85,25 @@ export class AcquisitionTableService {
         + '_{METHOD}_' + (i === 1 ? 'pre' : 'post') + data.prefix + this.padNumber(i);
     };
 
-    // Randomize sample list if required
-    const sampleData = data.randomize ? this.randomizeArray(data.sampleData, data.miniXID) : data.sampleData;
+    // Reorder sample list if required
+    const sampleData = (() => {
+      if (data.randomize === 'randomize') {
+        return this.randomizeArray(data.sampleData, data.miniXID);
+      } else if (data.randomize === 'custom') {
+        // Used custom ordering provided by the user
+        const samples = {};
+        data.sampleData.forEach(x => samples[x.userdata.label] = x);
+
+        const orderedSamples = [];
+        data.customOrdering.forEach(x => orderedSamples.push(samples[x]));
+
+        return orderedSamples;
+      } else {
+        return data.sampleData;
+      }
+    })();
+
+
     data.acquisitionData = [];
 
     // Loop over all samples and generate filenames

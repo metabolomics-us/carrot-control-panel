@@ -12,6 +12,7 @@ import { AcquisitionTableService } from './acquisition-table.service';
 })
 export class ATFLCMSComponent extends ATFComponent implements OnInit {
 
+  error: string;
   platforms;
   instruments;
 
@@ -66,7 +67,9 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
 
       pooledQC: this.data.hasOwnProperty('pooledQC') ? this.data.pooledQC.enabled : false,
       blanksFirst: this.data.hasOwnProperty('blanksFirst') ? this.data.blanksFirst : true,
-      randomize: this.data.hasOwnProperty('randomize') ? this.data.randomize : true
+      randomize: this.data.hasOwnProperty('randomize') ? this.data.randomize : 'randomize',
+
+      customOrdering: this.data.hasOwnProperty('customOrdering') ? this.data.customOrdering : ''
     });
   }
 
@@ -87,6 +90,27 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
   }
 
   nextStep() {
+    // Validate custom ordering first if provided
+    this.error = null;
+
+    if (this.form.value.randomize === 'custom') {
+      const labels = this.form.value.customOrdering
+        .replace(/\r\n/g, '\n').split('\n')
+        .map(x => x.trim())
+        .filter(x => x !== '');
+
+      const sampleLabels = this.data.sampleData.map(x => x.userdata.label);
+
+      // Check that the labels match the sample labels from MiniX
+      if (labels.length !== new Set([...labels, ...sampleLabels]).size) {
+        this.error = 'Please ensure that the number of labels and label values match the MiniX study definition';
+        return;
+      }
+
+      this.data.customOrdering = labels;
+    }
+
+
     this.data.prefix = this.form.value.studyLabel;
     this.data.platform = this.form.value.platform;
     this.data.processingMethod = 'lcms';
@@ -130,7 +154,13 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     this.data.randomize = this.form.value.randomize;
 
     // Generate QC pattern generic filenames for defined samples
-    this.acquisitionTableService.generateLCMSAcquisitionTable(this.data);
+    try {
+      this.acquisitionTableService.generateLCMSAcquisitionTable(this.data);
+    } catch (e) {
+      console.log(e);
+      this.error = 'Unable to generate acqusition table!  Is the MiniX study design missing any information? ' +
+        'Please contact the development team if the issue persists.';
+    }
 
     window.scroll(0, 0);
     this.data.step++;
