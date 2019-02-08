@@ -160,6 +160,7 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
       console.log(e);
       this.error = 'Unable to generate acqusition table!  Is the MiniX study design missing any information? ' +
         'Please contact the development team if the issue persists.';
+      return;
     }
 
     window.scroll(0, 0);
