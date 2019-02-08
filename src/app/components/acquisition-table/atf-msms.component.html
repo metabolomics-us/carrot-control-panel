@@ -3,7 +3,7 @@
     <div class="col-md-12 mb-3">
       <h5>Mark MS/MS Samples</h5>
       
-      <table class="table table-striped mb-5">
+      <table class="table table-striped mb-3">
         <tr>
           <th></th>
           <th>#</th>
@@ -38,11 +38,6 @@
       <h5 class="mb-3">Marked {{msmsSelectedCount}} samples for MS/MS injections</h5>
 
       <div class="mb-5">
-        <button type="submit" class="btn btn-info" (click)="lastStep()">
-          <i class="fa fa-arrow-left"></i> Back
-        </button>
-        &nbsp;
-
         <button type="submit" class="btn btn-primary" (click)="select(4)">
           <i class="fa fa-check-square-o"></i> Check Last 4
         </button>
@@ -59,9 +54,9 @@
       </div>
 
 
-      <h5 class="mb-3">Add Pooled MS/MS samples</h5>
+      <h5 class="mb-3">Number of Pooled MS/MS samples</h5>
 
-      <div class="mb-3">
+      <div class="mb-5">
         <input type="number" class="form-control" formControlName="pooledMSMS"
                 [ngClass]="displayFieldCss('pooledMSMS')">
         <div class="invalid-feedback" *ngIf="!isValid('pooledMSMS')">
@@ -75,8 +70,7 @@
       <div class="mb-3">
         <label>
           If running a single set of MS/MS samples, add a single optional label or leave blank.  
-          Otherwise, add labels for each run separated by commas.  <br>
-
+          Otherwise, add labels for each run separated by commas. 
           For example, if running the same MS/MS samples at 10 CID and 40 CID,
           you can enter the labels as <code>10CID,40CID</code>.  The final acquisition
           table will then contain twice the number of selected MS/MS filenames.
@@ -92,6 +86,10 @@
 
 
       <div>
+        <button type="submit" class="btn btn-info" (click)="lastStep()">
+          <i class="fa fa-arrow-left"></i> Back
+        </button>
+        &nbsp;
         <button type="submit" class="btn btn-primary pull-right" (click)="nextStep()" [disabled]="!form.valid">
           Preview Acquisition Table <i class="fa fa-arrow-right"></i>
         </button>
