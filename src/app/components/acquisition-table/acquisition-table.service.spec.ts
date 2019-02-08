@@ -52,7 +52,7 @@ describe('Service: AcquisitionTableService', () => {
         label: 'PoolQC',
         frequency: 10
       },
-      randomize: true,
+      randomize: 'randomize',
       blanksFirst: true,
       sampleData: [],
       acquisitionData: []
@@ -100,7 +100,7 @@ describe('Service: AcquisitionTableService', () => {
         'PoolQC002_MX373065_{METHOD}_postConnor006',
       ];
 
-      data.randomize = false;
+      data.randomize = 'none';
       service.generateLCMSAcquisitionTable(data);
       expect(data.acquisitionData.map(x => x.filename)).toEqual(expectedFilenames);
     });
