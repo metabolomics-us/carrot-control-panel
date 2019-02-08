@@ -15,6 +15,7 @@ import * as cloneDeep from 'lodash/cloneDeep';
 })
 export class ATFMSMSComponent extends ATFComponent implements OnInit {
 
+  error: string;
   msmsSelectedCount: number;
 
   constructor(private formBuilder: FormBuilder, private acquisitionTableService: AcquisitionTableService,
@@ -104,6 +105,7 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
   }
 
   nextStep() {
+    this.error = null;
     const msms_suffixes = this.acquisitionDataService.getMSMSRanges();
 
     // Base sample for pooled MS/MS
@@ -164,6 +166,12 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
     // Add multiple MS/MS injections by duplicating generated MS/MS samples
     if (this.form.value.injectionLabels !== '') {
       const labels = this.form.value.injectionLabels.split(',');
+
+      // Ensure there are no duplicate labels
+      if (labels.length !== new Set(labels).size) {
+        this.error = 'Please ensure that all labels are unique (no duplicate labels are allowed)';
+        return;
+      }
 
       const msmsSamples = this.data.msmsData;
       this.data.msmsData = this.acquisitionTableService.generateSampleNumbers(msmsSamples.length * labels.length);
