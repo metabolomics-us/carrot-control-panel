@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private stasisService: StasisService, private spinner: NgxSpinnerService, private messageService: MessageService) { }
 
-  getExperimentData(experiment: string = this.experiment, pageSize: number = this.pageSize, nextPage: string, clear = true) {
+  getExperimentData(experiment: string = this.experiment, pageSize: number = this.pageSize, nextPage: string = null, clear = true) {
 
     this.spinner.show();
     this.sample;
@@ -32,8 +32,9 @@ export class DashboardComponent implements OnInit {
 
     let response: ExperimentPage;
 
-    if(clear)
+    if(clear) {
       this.statusData = undefined;
+    }
 
     this.stasisService.getExperiment(experiment, pageSize, nextPage).subscribe(
       data => {
@@ -51,7 +52,7 @@ export class DashboardComponent implements OnInit {
 
     this.resultData = undefined;
     this.hideSpinner();
-    return response
+    return response;
   }
 
   getSampleData() {
