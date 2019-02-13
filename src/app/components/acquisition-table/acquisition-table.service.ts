@@ -89,7 +89,21 @@ export class AcquisitionTableService {
     // Reorder sample list if required
     const sampleData = (() => {
       if (data.randomize === 'randomize') {
+        // Use a predictable randomization using the MiniX id as the seed
         return this.randomizeArray(data.sampleData, data.miniXID);
+      } else if (data.randomize === 'sort') {
+        // Perform shallow copy so that data.sample retains its original order
+        const samples = [...data.sampleData];
+        const label_prefixes = samples.map(x => x.userdata.label.split('_')[0]);
+
+        if (label_prefixes.every(x => !isNaN(x))) {
+          // Sort by the integer value of the label prefix if all prefixes are numeric
+          samples.forEach(x => x.label_prefix = parseInt(x.userdata.label.split('_')[0], 10));
+          return samples.sort((a, b) => a.label_prefix < b.label_prefix ? -1 : a.label_prefix > b.label_prefix ? 1 : 0);
+        } else {
+          // Otherwise sort by string value of the label
+          return samples.sort((a, b) => a.userdata.label.localeCompare(b.userdata.label));
+        }
       } else if (data.randomize === 'custom') {
         // Used custom ordering provided by the user
         const samples = {};
@@ -100,6 +114,7 @@ export class AcquisitionTableService {
 
         return orderedSamples;
       } else {
+        // Use the default ordering of samples in the MiniX study
         return data.sampleData;
       }
     })();
