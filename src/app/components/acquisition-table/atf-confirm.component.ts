@@ -29,8 +29,13 @@ export class ATFConfirmationComponent extends ATFComponent implements OnInit {
       this.msmsFilenames = [];
       this.poolMSMSFilenames = [];
 
+      this.data.exportFilenames[mode] = [];
+
       // Loop over all primary samples (blanks, QCs, and samples) and MS/MS samples
-      this.data.acquisitionData.forEach(x => this.filenames.push(x.ionizations[mode]));
+      this.data.acquisitionData.forEach(x => {
+        this.filenames.push(x.ionizations[mode]);
+        this.data.exportFilenames[mode].push(x.ionizations[mode]);
+      });
 
       if (this.data.hasOwnProperty('msmsData')) {
         this.data.msmsData.forEach(x => {
@@ -39,10 +44,10 @@ export class ATFConfirmationComponent extends ATFComponent implements OnInit {
           } else {
             this.poolMSMSFilenames.push(x.ionizations[mode]);
           }
+
+          this.data.exportFilenames[mode].push(x.ionizations[mode]);
         });
       }
-
-      this.data.exportFilenames[mode] = this.filenames;
     });
   }
 
