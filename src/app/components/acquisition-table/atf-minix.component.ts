@@ -22,7 +22,7 @@ export class ATFMiniXComponent extends ATFComponent implements OnInit {
     this.miniXLoading = false;
 
     this.form = this.formBuilder.group({
-      minix: [null, [Validators.required, Validators.pattern("\\s*\\d+\\s*")]]
+      minix: [null, [Validators.required, Validators.pattern('\\s*\\d+\\s*')]]
     });
   }
 
@@ -38,7 +38,7 @@ export class ATFMiniXComponent extends ATFComponent implements OnInit {
         this.data.miniXID = this.form.value.minix;
 
         // Initial prefix
-        let studyLabel = result.experiment.$.title.split(',')[0].split(' ');
+        const studyLabel = result.experiment.$.title.split(',')[0].split(' ');
         this.data.prefix = studyLabel.length > 0 ? studyLabel[studyLabel.length - 1] : null;
 
         // Store raw MiniX data and parsed samples

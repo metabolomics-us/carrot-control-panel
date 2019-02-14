@@ -32,9 +32,9 @@ export class ATFDisplayComponent extends ATFComponent {
   }
 
   download(mode: string) {
-    let content = this.buildExport(mode);
-    let filename = 'MX'+ this.data.miniXID +'_'+ mode + this.data.platform +'.csv';
-    let blob = new Blob([content], {type: 'text/csv'});
+    const content = this.buildExport(mode);
+    const filename = 'MX' + this.data.miniXID + '_' + mode + this.data.platform + '.csv';
+    const blob = new Blob([content], {type: 'text/csv'});
 
     saveAs(blob, filename);
   }

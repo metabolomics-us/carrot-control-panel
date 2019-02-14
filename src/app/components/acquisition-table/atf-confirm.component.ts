@@ -11,6 +11,8 @@ import { ATFComponent } from './atf.component';
 export class ATFConfirmationComponent extends ATFComponent implements OnInit {
 
   filenames;
+  msmsFilenames;
+  poolMSMSFilenames;
 
   Object = Object;
 
@@ -19,20 +21,33 @@ export class ATFConfirmationComponent extends ATFComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.data.exportFilenames = {}
+    this.data.exportFilenames = {};
 
     // Pull filenames for each ionization mode
     Object.keys(this.data.ionizations).map(mode => {
       this.filenames = [];
+      this.msmsFilenames = [];
+      this.poolMSMSFilenames = [];
+
+      this.data.exportFilenames[mode] = [];
 
       // Loop over all primary samples (blanks, QCs, and samples) and MS/MS samples
-      this.data.acquisitionData.forEach(x => this.filenames.push(x.ionizations[mode]));
+      this.data.acquisitionData.forEach(x => {
+        this.filenames.push(x.ionizations[mode]);
+        this.data.exportFilenames[mode].push(x.ionizations[mode]);
+      });
 
       if (this.data.hasOwnProperty('msmsData')) {
-        this.data.msmsData.forEach(x => this.filenames.push(x.ionizations[mode]));
-      }
+        this.data.msmsData.forEach(x => {
+          if (x.ionizations[mode].indexOf('PoolMSMS') === -1) {
+            this.msmsFilenames.push(x.ionizations[mode]);
+          } else {
+            this.poolMSMSFilenames.push(x.ionizations[mode]);
+          }
 
-      this.data.exportFilenames[mode] = this.filenames;
+          this.data.exportFilenames[mode].push(x.ionizations[mode]);
+        });
+      }
     });
   }
 
