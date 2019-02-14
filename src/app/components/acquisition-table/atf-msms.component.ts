@@ -31,7 +31,7 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
       injectionLabels: ['', [Validators.pattern('([\\w\\d]+(,[\\w\\d]+)*)?')]]
     });
 
-    if (this.data.hasOwnProperty('msmsSelection')) {
+    if (this.data.hasOwnProperty('msmsSelection') && this.data.msmsSelection.length === this.data.acquisitionData.length) {
       // Get selection count based on pre-selected data
       this.data.msmsSelection.forEach((x, i) => {
         if (x.selected) {

@@ -86,14 +86,16 @@ export class AcquisitionTableService {
         + '_{METHOD}_' + (i === 1 ? 'pre' : 'post') + data.prefix + this.padNumber(i);
     };
 
-    // Reorder sample list if required
+    // Reorder sample list and filter by matrix if required
     const sampleData = (() => {
+      // Use only samples corresponding to a single matrix if specified
+      // For all samples, perform shallow copy so that data.sample retains its original order
+      const samples = data.matrix === 'all' ? [...data.sampleData] : data.samplesByMatrix[data.matrix];
+
       if (data.randomize === 'randomize') {
         // Use a predictable randomization using the MiniX id as the seed
-        return this.randomizeArray(data.sampleData, data.miniXID);
+        return this.randomizeArray(samples, data.miniXID);
       } else if (data.randomize === 'sort') {
-        // Perform shallow copy so that data.sample retains its original order
-        const samples = [...data.sampleData];
         const label_prefixes = samples.map(x => x.userdata.label.split('_')[0]);
 
         if (label_prefixes.every(x => !isNaN(x))) {
@@ -106,16 +108,16 @@ export class AcquisitionTableService {
         }
       } else if (data.randomize === 'custom') {
         // Used custom ordering provided by the user
-        const samples = {};
-        data.sampleData.forEach(x => samples[x.userdata.label] = x);
+        const samplesByLabel = {};
+        samples.forEach(x => samplesByLabel[x.userdata.label] = x);
 
         const orderedSamples = [];
-        data.customOrdering.forEach(x => orderedSamples.push(samples[x]));
+        data.customOrdering.forEach(x => orderedSamples.push(samplesByLabel[x]));
 
         return orderedSamples;
       } else {
         // Use the default ordering of samples in the MiniX study
-        return data.sampleData;
+        return samples;
       }
     })();
 

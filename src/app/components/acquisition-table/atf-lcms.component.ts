@@ -5,6 +5,9 @@ import { ATFComponent } from './atf.component';
 import { AcquisitionDataService } from './acquisition-data.service';
 import { AcquisitionTableService } from './acquisition-table.service';
 
+import * as _ from 'lodash';
+
+
 @Component({
   selector: 'app-atf-lcms',
   templateUrl: './atf-lcms.component.html',
@@ -15,6 +18,10 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
   error: string;
   platforms;
   instruments;
+  matrixCount;
+
+  // lodash import
+  _: any = _;
 
   constructor(private formBuilder: FormBuilder, private acquisitionTableService: AcquisitionTableService,
       private acquisitionDataService: AcquisitionDataService) {
@@ -26,6 +33,21 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     // Get available platforms and instruments
     this.platforms = this.acquisitionDataService.getLCMSPlatforms();
     this.instruments = this.acquisitionDataService.getLCMSInstruments();
+
+    // Check for multiple matrices in the study
+    this.data.samplesByMatrix = {};
+    this.matrixCount = 0;
+
+    this.data.sampleData.forEach(x => {
+      const matrix = x.metadata.species + ' ' + x.metadata.organ;
+
+      if (!this.data.samplesByMatrix.hasOwnProperty(matrix)) {
+        this.data.samplesByMatrix[matrix] = [];
+        this.matrixCount++;
+      }
+
+      this.data.samplesByMatrix[matrix].push(x);
+    });
 
     // Combination of form groups, using existing data from model if available
     this.form = this.formBuilder.group({
@@ -46,6 +68,8 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
       }, {
         validator: this.instrumentValidation
       }),
+
+      matrix: this.data.hasOwnProperty('matrix') ? this.data.matrix : 'all',
 
       blankEnabled: this.data.blank ? this.data.blank.enabled : true,
       blankLabel: [this.data.blank ? this.data.blank.label : 'MtdBlank',
@@ -123,6 +147,9 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     if (this.form.value.ionization.negativeMode) {
       this.data.ionizations['neg'] = this.form.value.ionization.negativeModeInstrument;
     }
+
+    // Set matrix if available
+    this.data.matrix = this.form.value.matrix;
 
     // Set QC parameters
     this.data.blank = {

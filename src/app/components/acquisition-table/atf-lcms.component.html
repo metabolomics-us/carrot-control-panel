@@ -44,6 +44,26 @@
   </div>
 
 
+  <div *ngIf="matrixCount > 1" class="mb-5">
+    <hr>
+    <h5 class="mb-3">(Optional) Select Study Subset by Matrix</h5>
+
+    <div>
+      <label>
+        Multiple matrices were identified in this MiniX study.  
+        You can choose to generate an acqusition table separately for each matrix
+        or a single table for all samples in the study.
+      </label>
+      <br>
+
+      <select class="form-control" formControlName="matrix">
+        <option ngValue="all">All Samples</option>
+        <option *ngFor="let matrix of _.keys(data.samplesByMatrix)" [ngValue]="matrix">{{matrix}} ({{data.samplesByMatrix[matrix].length}} samples)</option>
+      </select>
+    </div>
+  </div>
+
+
   <hr>
   <h5 class="mb-3">Blanks and QC Options</h5>
 
