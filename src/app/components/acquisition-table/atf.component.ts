@@ -40,6 +40,7 @@ export class ATFComponent {
   }
 
   lastStep() {
+    window.scroll(0, 0);
     this.data.step--;
   }
 
