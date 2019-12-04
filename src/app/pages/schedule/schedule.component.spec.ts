@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { HotTableModule } from '@handsontable/angular';
 
-import { CarrotHttpService } from '../../shared/services/carrot/carrot.http.service';
+import { StasisService } from 'stasis';
 import { MiniXService } from '../../shared/services/minix/minix.service';
 
 import { ScheduleComponent } from './schedule.component';
@@ -17,7 +17,7 @@ describe('ScheduleComponent', () => {
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpClientModule, HotTableModule.forRoot() ],
       declarations: [ ScheduleComponent ],
-      providers: [ CarrotHttpService, MiniXService ]
+      providers: [ StasisService, MiniXService ]
     })
     .compileComponents();
   }));

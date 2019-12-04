@@ -4,7 +4,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 
 import { CarrotHttpService } from './carrot.http.service';
 
-describe('CarrotHttpService', () => {
+xdescribe('CarrotHttpService', () => {
 
   let service: CarrotHttpService;
   let backend: HttpTestingController;

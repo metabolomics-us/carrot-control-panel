@@ -54,7 +54,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "host": "0.0.0.0",
-            "port": 8080,
+            "port": 4200,
             "browserTarget": "carrot-control-panel:build",
             "proxyConfig": "proxy.conf.json"
           },

@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 
 import { HotTableRegisterer } from '@handsontable/angular';
 
-import { StasisService } from 'stasis';
-import { of } from 'rxjs';
+import { StasisService, Target, Acquisition } from 'stasis';
 import { Library } from 'dist/stasis/lib/model/library.model';
+import { LibraryTarget } from 'projects/stasis/src/lib/model/library.target.model';
 
 @Injectable()
 export class LibraryComponent {
@@ -41,7 +41,7 @@ export class LibraryComponent {
       this.acquisitionMethodOptions = response
     });
 
-    this.getPlatforms().subscribe(response => {
+    this.stasisService.getPlatforms().subscribe(response => {
       this.platformOptions = response;
     });
   }
@@ -61,8 +61,8 @@ export class LibraryComponent {
 
       // Check whether user actually selected an existing method that didn't get selected properly
       if (methods.includes(this.target.selectedMethod.toString())) {
-        let method = this.acquisitionMethodOptions[methods.indexOf(this.target.library)];
-        this.target.library = method.method;
+        let method = this.acquisitionMethodOptions[methods.indexOf(this.target.method)];
+        this.target.method = method.method;
 
         this.target.instrument = method.instrument;
         this.target.column = method.column;
@@ -73,7 +73,7 @@ export class LibraryComponent {
 
       // Check that a user selected an ion mode
       else if (this.target.mode) {
-        this.target.library = this.target.selectedMethod;
+        this.target.method = this.target.selectedMethod;
         return true;
       }
 
@@ -81,7 +81,7 @@ export class LibraryComponent {
       else if (this.target.selectedMethod.toLowerCase().indexOf('(positive)') > 0 ||
           this.target.selectedMethod.toLowerCase().indexOf('(negative)') > 0) {
 
-        this.target.library = this.target.selectedMethod.replace(/\(positive\)/ig, '').replace(/\(negative\)/ig, '').trim();
+        this.target.method = this.target.selectedMethod.replace(/\(positive\)/ig, '').replace(/\(negative\)/ig, '').trim();
         this.target.mode = (this.target.selectedMethod.toLowerCase().indexOf('positive') > 0) ? 'positive' : 'negative';
       }
 
@@ -104,7 +104,7 @@ export class LibraryComponent {
 
     // Handle a Library object
     else {
-      this.target.library = this.target.selectedMethod.method;
+      this.target.method = this.target.selectedMethod.method;
       this.target.instrument = this.target.selectedMethod.instrument;
       this.target.column = this.target.selectedMethod.column;
       this.target.mode = this.target.selectedMethod.ionMode;
@@ -114,11 +114,13 @@ export class LibraryComponent {
     return true;
   }
 
-  /**
-   * Return a list of available platforms (static until an endpoint is provided)
-   */
-  getPlatforms() {
-    return of([{name: 'GC-MS', id: 'gcms'}, {name: 'LC-MS', id: 'lcms'}]);
+  protected createTarget(target: object) {
+    return new LibraryTarget(
+      target['targetName'],
+      new Acquisition(target['instrument'], target['mode'], target['method'], target['column']),
+      target['precursor'],
+      target['retentionTime'],
+      target['riMarker'] ? target['riMarker'] : false,
+      target['rtUnit']);
   }
-
 }

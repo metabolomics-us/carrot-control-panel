@@ -6,8 +6,6 @@ import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators'
 
 import { LibraryComponent } from './library.component';
 
-import * as cloneDeep from 'lodash/cloneDeep';
-
 @Component({
   selector: 'app-addtarget',
   templateUrl: './addtarget.component.html'
@@ -39,11 +37,10 @@ export class AddTargetComponent extends LibraryComponent implements OnInit {
 
   formatter = result => result.toString();
 
-
   /**
    * Validate and submit form
    */
-  submit() {
+  submit(): void {
     this.status.success = undefined;
     this.status.error = undefined;
 
@@ -72,26 +69,20 @@ export class AddTargetComponent extends LibraryComponent implements OnInit {
       return;
     }
 
-    let target = cloneDeep(this.target);
-    delete(target['selectedMethod'])
-
-    // Normalize retention time
-    if (target.riUnit == 'minutes') {
-      target.retentionTime *= 60;
-    }
-
     // Submit target
     this.status.submitting = true;
-
-    this.stasisService.addTarget(target).subscribe(
+    let newTarget = this.createTarget(this.target);
+    this.stasisService.addTarget(newTarget).subscribe(
       response => {
         this.status.submitting = false;
         this.status.success = true;
       },
       error => {
         this.status.submitting = false;
+        this.status.success = false;
         this.status.error = error.message;
-      }
+      },
+      () => console.log(`created target: ${JSON.stringify(newTarget)}`)
     )
   }
 }

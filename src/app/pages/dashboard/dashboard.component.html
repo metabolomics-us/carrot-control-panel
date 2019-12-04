@@ -5,57 +5,29 @@
 <br>
 
 <div class="row">
+  <app-messages *ngIf="messages"></app-messages>
   <div class="col">
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <button class="btn btn-outline-secondary" type="button" (click)="getExperimentData()">Get Experiment</button>
+        <button class="btn btn-outline-secondary" type="button" (click)="setExperiment()">Get Experiment</button>
       </div>
-      <input type="text" class="form-control" placeholder="Experiment Name" aria-label="Experiment Name" [(ngModel)]="experiment" (keyup.enter)="getExperimentData()">
+      <input type="text" class="form-control" placeholder="Experiment Name" aria-label="Experiment Name" [(ngModel)]="experiment" (keyup.enter)="setExperiment()">
     </div>
 
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <button class="btn btn-outline-secondary" type="button" (click)="getSampleData()">Get Sample</button>
+        <button class="btn btn-outline-secondary" type="button" (click)="setSample()">Get Sample</button>
       </div>
-      <input type="text" class="form-control" placeholder="Sample Name" aria-label="Sample Name" [(ngModel)]="sample" (keyup.enter)="getSampleData()">
+      <input type="text" class="form-control" placeholder="Sample Name" aria-label="Sample Name" [(ngModel)]="sample" (keyup.enter)="setSample()">
     </div>
   </div>
 </div>
 
-<div *ngIf="statusData && statusData.length > 1">
-  <app-status-table [data]="statusData" [statusDef]="statusObject" [(selectedSample)]="sample" [pageSize]="pageSize"></app-status-table>
+<div *ngIf="showExperiment()">
+  <app-experiment-table [(experiment)]="selectedExperiment" [statusDef]="statusObject"
+  [(sample)]="selectedSample"></app-experiment-table>
 </div>
 
-<div *ngIf="statusData && statusData.length == 1">
- <app-regression-curve [data]="statusData"></app-regression-curve>
-
-  <div class="row mb-3">
-    <div class="col-sm-6 card">
-      <div class="card-body">
-        <p class="card-title">Sample Status</p>
-        <app-status-table class="card-text" [data]="statusData" [statusDef]="statusObject" [(selectedSample)]="sample"></app-status-table>
-      </div>
-    </div>
-    <div class="col-sm-6 card">
-      <div class="card-body">
-        <p>Sample Annotations</p>
-        <app-result-table class="card-text" [data]="resultData"></app-result-table>
-      </div>
-    </div>
-  </div>
-  <div class="row mb-3">
-    <div class="col-sm-6 card">
-      <div class="card-body">
-        <p>RI Correction</p>
-        <app-ri-correction-table class="card-text" [data]="resultData"></app-ri-correction-table>
-      </div>
-    </div>
-    <div class="col-md-6 card">
-      <div class="card-body">
-        <p>RI Correlation curve</p>
-        <app-ri-curve-graph class="card-text" [data]="resultData"></app-ri-curve-graph>
-      </div>
-    </div>
-  </div>
+<div *ngIf="showSample()">
+  <app-sample-master [(sample)]="selectedSample" [statusDef]="statusObject"></app-sample-master>
 </div>
-<ngx-spinner bdColor = "rgba(51, 51, 51, 0.8)" size = "default" color = "#fff" type = "ball-atom"></ngx-spinner>

@@ -1,26 +1,24 @@
-<div *ngIf="data">
-  <table class="table table-light table-striped table-bordered" aria-label="RI Correction Table">
-    <thead>
-      <tr>
-        <th>Original Value</th>
-        <th>Corrected Value</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of data.injections[data.sample].correction.curve | slice: 10 * (page - 1) : (10 * page) - 1">
-        <td>{{ row.x | number: '1.2-2' }}</td>
-        <td>{{ row.y | number: '1.2-2' }}</td>
-      </tr>
-    </tbody>
-  </table>
+<table class="table table-light table-striped table-bordered" aria-label="RI Correction Table">
+  <thead>
+    <tr>
+      <th>Original Value</th>
+      <th>Corrected Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of resultData$.injections[resultData$.sample].correction.curve | slice: 10 * (page - 1) : (10 * page) - 1">
+      <td>{{ row.x | number: '1.2-2' }}</td>
+      <td>{{ row.y | number: '1.2-2' }}</td>
+    </tr>
+  </tbody>
+</table>
 
-  <ngb-pagination class="d-flex justify-content-center" 
-    [collectionSize]="data.injections[data.sample].correction.curve.length" 
-    [pageSize]="pageSize"
-    [(page)]="page" 
-    [maxSize]="5" 
-    [rotate]="true" 
-    [ellipses]="false" 
-    [boundaryLinks]="true">
-  </ngb-pagination>
-</div>
+<ngb-pagination class="d-flex justify-content-center" 
+  [collectionSize]="resultData$.injections[resultData$.sample].correction.curve.length" 
+  [pageSize]="pageSize"
+  [(page)]="page" 
+  [maxSize]="5" 
+  [rotate]="true" 
+  [ellipses]="false" 
+  [boundaryLinks]="true">
+</ngb-pagination>

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ResultData } from 'stasis';
 
 @Component({
   selector: 'app-ri-correction-table',
@@ -7,7 +8,8 @@ import { Observable } from 'rxjs';
   styleUrls: ['./ri-correction-table.component.css']
 })
 export class RiCorrectionTableComponent implements OnInit {
-  @Input() data: Observable<any>;
+  @Input() sample: string;
+  @Input() resultData$: ResultData;
 
   page = 1;
   pageSize = 10;

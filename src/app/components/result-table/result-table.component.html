@@ -1,36 +1,34 @@
-<div *ngIf="data">
-  <table class="table table-sm table-light table-striped table-bordered table-responsive" aria-label="Result Table">
-    <thead>
-      <tr>
-        <th>Target Name</th>
-        <th>Target RI</th>
-        <th>Target Mass</th>
-        <th>Annotation RI</th>
-        <th>Annotation Mass</th>
-        <th>Annotation Intensity</th>
-        <th>Annotation Replaced</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of data.injections[data.sample].results | slice: pageSize * (page - 1) : (pageSize * page) - 1">
-        <td>{{ row.target.name }}</td>
-        <td>{{ row.target.retentionIndex | number: '1.2-2' }}</td>
-        <td>{{ row.target.mass | number: '1.2-4' }}</td>
-        <td>{{ row.annotation.retentionIndex | number: '1.2-2' }}</td>
-        <td>{{ row.annotation.mass | number: '1.2-4' }}</td>
-        <td>{{ row.annotation.intensity | number: '1.0-0' }}</td>
-        <td>{{ row.annotation.replaced }}</td>
-      </tr>
-    </tbody>
-  </table>
-  
-  <ngb-pagination class="d-flex justify-content-center" 
-    [collectionSize]="data.injections[data.sample].results.length" 
-    [pageSize]="pageSize"
-    [(page)]="page" 
-    [maxSize]="5" 
-    [rotate]="true" 
-    [ellipses]="false" 
-    [boundaryLinks]="true">
-  </ngb-pagination>
-</div>
+<table class="table table-sm table-light table-striped table-bordered table-responsive" aria-label="Result Table">
+  <thead>
+    <tr>
+      <th>Target Name</th>
+      <th>Target RI</th>
+      <th>Target Mass</th>
+      <th>Annotation RI</th>
+      <th>Annotation Mass</th>
+      <th>Annotation Intensity</th>
+      <th>Annotation Replaced</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of resultData$.injections[resultData$.sample].results | slice: pageSize * (page - 1) : (pageSize * page) - 1">
+      <td>{{ row.target.name }}</td>
+      <td>{{ row.target.retentionIndex | number: '1.2-2' }}</td>
+      <td>{{ row.target.mass | number: '1.2-4' }}</td>
+      <td>{{ row.annotation.retentionIndex | number: '1.2-2' }}</td>
+      <td>{{ row.annotation.mass | number: '1.2-4' }}</td>
+      <td>{{ row.annotation.intensity | number: '1.0-0' }}</td>
+      <td>{{ row.annotation.replaced }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<ngb-pagination class="d-flex justify-content-center" 
+  [collectionSize]="resultData$.injections[resultData$.sample].results.length" 
+  [pageSize]="pageSize"
+  [(page)]="page" 
+  [maxSize]="5" 
+  [rotate]="true" 
+  [ellipses]="false" 
+  [boundaryLinks]="true">
+</ngb-pagination>

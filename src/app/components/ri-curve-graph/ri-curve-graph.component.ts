@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { Observable, of as observableOf } from 'rxjs';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { ResultData } from 'projects/stasis/src/public_api';
 
 
 @Component({
@@ -10,7 +11,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
   styleUrls: ['./ri-curve-graph.component.css']
 })
 export class RiCurveGraphComponent implements OnInit {
-  @Input() data: any = {};
+  @Input() sample: string;
+  @Input() resultData$: ResultData;
   @Input() width?: number;
   @Input() height?: number;
 
@@ -34,8 +36,8 @@ export class RiCurveGraphComponent implements OnInit {
   processData(data) {
     
     return [{
-      "name": data.sample,
-      "series": (data.injections[data.sample].correction.curve).map((point) => { return { 'name': point.x, 'value': point.y } })
+      "name": data,
+      "series": (data.injections.correction.curve).map((point) => { return { 'name': point.x, 'value': point.y } })
     }];
   }
 
@@ -46,7 +48,7 @@ export class RiCurveGraphComponent implements OnInit {
   ngOnInit() { }
 
   ngOnChanges() {
-    if (this.data) this.results = this.processData(this.data);
+    if (this.sample) this.results = this.processData(this.sample);
   }
 
 }

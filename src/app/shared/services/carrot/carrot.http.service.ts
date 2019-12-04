@@ -4,6 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { of, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
+/**
+ * @deprecated This class is obsolete now, Carrot API was removed.
+ */
 @Injectable({
   providedIn: 'root'
 })

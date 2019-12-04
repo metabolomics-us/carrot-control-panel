@@ -113,7 +113,7 @@
       class="form-control"
       [(ngModel)]="task.acquisitionMethod">
         <option [ngValue]="null">Select Platform</option>
-        <option *ngFor="let method of acquisitionMethodOptions" [ngValue]="method">{{method.title}}</option>
+        <option *ngFor="let method of acquisitionMethodOptions" [ngValue]="method">{{method.toString()}}</option>
     </select>
     <span class="input-group-btn">
       <button class="btn btn-default" type="button">

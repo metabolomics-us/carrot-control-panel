@@ -30,7 +30,7 @@ import { AcquisitionTableService } from './components/acquisition-table/acquisit
 import { RiCurveGraphComponent } from './components/ri-curve-graph/ri-curve-graph.component';
 import { RiCorrectionTableComponent } from './components/ri-correction-table/ri-correction-table.component';
 import { ResultTableComponent } from './components/result-table/result-table.component';
-import { StatusTableComponent } from './components/status-table/status-table.component';
+import { ExperimentTableComponent } from './components/experiment-table/experiment-table.component';
 import { AppRegressionCurveComponent } from './components/regression-curve/regression-curve.componenet';
 
 import { LCMSComponent } from './pages/acquisition-lcms/lcms.component';
@@ -53,8 +53,10 @@ import { AddTargetComponent } from './pages/library/addtarget.component';
 import { AddLibraryComponent } from './pages/library/addlibrary.component';
 import { DownloadComponent } from './pages/download/download.component';
 import { LoginComponent } from './pages/login/login.component';
+import { SampleMasterComponent } from './components/sample-master/sample-master.component';
 
-// import { MessagesComponent } from './messages/messages.component';
+import { MessagesComponent } from './messages/messages.component';
+import { SampleTableComponent } from './components/sample-table/sample-table.component';
 
 export const ROUTES: Routes = [
   // Componentless parent route to apply guard all protected routes
@@ -92,7 +94,7 @@ export const ROUTES: Routes = [
     RiCurveGraphComponent,
     RiCorrectionTableComponent,
     ResultTableComponent,
-    StatusTableComponent,
+    ExperimentTableComponent,
     DashboardComponent,
     AppRegressionCurveComponent,
 
@@ -100,7 +102,9 @@ export const ROUTES: Routes = [
     AddTargetComponent,
     AddLibraryComponent,
     DownloadComponent,
-    // MessagesComponent,
+    SampleMasterComponent,
+    MessagesComponent,
+    SampleTableComponent,
   ],
   imports: [
     BrowserModule,

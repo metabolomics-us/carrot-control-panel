@@ -2,7 +2,7 @@ import { Component, OnInit, isDevMode } from '@angular/core';
 
 import { HotTableRegisterer } from '@handsontable/angular';
 
-import { CarrotHttpService } from '../../shared/services/carrot/carrot.http.service';
+import { StasisService } from 'stasis';
 import { MiniXService } from '../../shared/services/minix/minix.service';
 
 @Component({
@@ -34,8 +34,11 @@ export class ScheduleComponent implements OnInit {
   acquisitionMethodOptions = [];
   platformOptions = [];
 
-  constructor(private hotRegisterer: HotTableRegisterer, private carrotHttpService: CarrotHttpService,
-    private minixService: MiniXService) { }
+  constructor(
+    private hotRegisterer: HotTableRegisterer, 
+    private stasisService: StasisService,
+    private minixService: MiniXService
+  ) { }
 
   ngOnInit() {
     // HandsOnTable settings and initial data
@@ -63,11 +66,11 @@ export class ScheduleComponent implements OnInit {
    * Pull platform and acquisition method information from carrot scheduler
    */
   pullAcquisitionMethodsAndPlatforms() {
-    this.carrotHttpService.getAcquisitionMethods().subscribe(response => {
+    this.stasisService.getLibraries().subscribe(response => {
       this.acquisitionMethodOptions = response;
     });
 
-    this.carrotHttpService.getPlatforms().subscribe(response => {
+    this.stasisService.getPlatforms().subscribe(response => {
       this.platformOptions = response;
     });
   }
@@ -257,7 +260,7 @@ export class ScheduleComponent implements OnInit {
           }
         }
 
-        this.carrotHttpService.checkFileStatus(x[fileNameCol]).subscribe(
+        this.stasisService.checkFileStatus(x[fileNameCol]).subscribe(
           response => {
             // Add a valid sample to the task
             let sample: any = {fileName: x[fileNameCol]};
@@ -279,10 +282,11 @@ export class ScheduleComponent implements OnInit {
             if (Object.keys(matrix).length > 0)
               sample.matrix = matrix;
 
-            this.taskToSubmit.samples.push(sample.replace("." + this.task.extension, ""));
+            this.taskToSubmit.samples.push(sample.fileName.replace("." + this.task.extension, ""));
 
             // Update row header
-            rowLabels[i] = '<i class="fa fa-check text-success" aria-hidden="true"></i>';
+            console.log(response['exist'])
+            rowLabels[i] = `<i class="fa fa-check ${response['exist']?'text-success':'text-danger'} aria-hidden="true"></i>`;
             instance.updateSettings({rowHeaders: rowLabels}, false);
 
             checkCount++;
@@ -373,7 +377,7 @@ export class ScheduleComponent implements OnInit {
 
     this.taskToSubmit.name = this.task.email;
     this.taskToSubmit.email = this.task.email;
-    this.taskToSubmit.acquisitionMethod = this.task.acquisitionMethod;
+    this.taskToSubmit.acquisitionMethod = this.task.acquisitionMethod.asCarrot();
     this.taskToSubmit.mode = this.task.platform;
     this.taskToSubmit.env = this.getEnv();
 
@@ -387,7 +391,7 @@ export class ScheduleComponent implements OnInit {
     console.log(this.taskToSubmit);
 
     // Submit the task, waiting until all checks are complete
-    this.carrotHttpService.submitJob(this.taskToSubmit).subscribe(
+    this.stasisService.submitJob(this.taskToSubmit).subscribe(
       response => {
         this.status.success = response;
         this.status.submitting = false;

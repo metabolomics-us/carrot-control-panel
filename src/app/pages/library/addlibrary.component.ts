@@ -131,9 +131,10 @@ export class AddLibraryComponent extends LibraryComponent implements OnInit {
 
         // Checking Acquisition library
         if (typeof this.target.selectedMethod == "object") {
-          target.library = this.target.selectedMethod.method;
+          console.log(`ACQUISITION: ${typeof this.target.method}`)
+          target.method = this.target.method;
         } else {
-          target.library = target.selectedMethod;
+          target.method = this.target.selectedMethod;
         }
 
         // Handle string values for checkboxes when pasted
@@ -143,12 +144,9 @@ export class AddLibraryComponent extends LibraryComponent implements OnInit {
           target.riMarker = false;
         }
 
-        // Normalize retention time
-        if (target.riUnit == 'minutes') {
-          target.retentionTime *= 60;
-        }
+        let newTarget = this.createTarget(target);
 
-        this.stasisService.addTarget(target).subscribe(
+        this.stasisService.addTarget(newTarget).subscribe(
           response => {
             rowLabels[i] = '<i class="fa fa-check text-success" aria-hidden="true"></i>';
             instance.updateSettings({rowHeaders: rowLabels}, false);

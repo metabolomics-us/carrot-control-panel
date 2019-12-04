@@ -1,9 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 
-import { StasisService, MessageService, TrackingData } from 'stasis';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ExperimentPage } from 'dist/stasis/lib/model/experiment.page.model';
-import { ExperimentItem } from 'dist/stasis/lib/model/experiment.item.model';
+import { StasisService, MessageService } from 'stasis';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,73 +9,72 @@ import { ExperimentItem } from 'dist/stasis/lib/model/experiment.item.model';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  @Input() sample: string = '';
-  experiment: string = '';
+  @Input() experiment: string;
+  @Output() experimentChange: EventEmitter<string> = new EventEmitter<string>();
+  @Input() sample: string;
+  @Output() sampleChange: EventEmitter<string> = new EventEmitter<string>();
   @Input() pageSize: number = 25;
 
-  resultData: any;
-  statusData: Array<ExperimentItem>;
   statusObject: any;
-  selectedSample: string = undefined;
-  trackingData: TrackingData = undefined;
+  @Input() messages: string[];
 
-  constructor(private stasisService: StasisService, private spinner: NgxSpinnerService, private messageService: MessageService) { }
+  @Input() selectedExperiment: string = "";
+  @Output() selectedExperimentChange: EventEmitter<string> = new EventEmitter<string>();
+  @Input() selectedSample: string = "";
+  @Output() selectedSampleChange: EventEmitter<string> = new EventEmitter<string>();
 
-  getExperimentData(experiment: string = this.experiment, pageSize: number = this.pageSize, nextPage: string, clear = true) {
 
-    this.spinner.show();
-    this.sample;
-    this.resultData;
-    this.statusData;
-
-    let response: ExperimentPage;
-
-    if(clear)
-      this.statusData = undefined;
-
-    this.stasisService.getExperiment(experiment, pageSize, nextPage).subscribe(
-      data => {
-        response = data
-      },
-      error => console.log("Error: " + error.message),
-      () => {
-        this.appendItems(response.items);
-        nextPage = response.last_item ? response.last_item.id : null;
-        console.log(`next: ${nextPage}`)
-        if(nextPage != null) {
-          this.getExperimentData(experiment, pageSize, nextPage, false)
-        }
-    });
-
-    this.resultData = undefined;
-    this.hideSpinner();
-    return response
-  }
-
-  getSampleData() {
-    this.spinner.show();
-    this.experiment = undefined;
-    this.resultData = undefined;
-    this.stasisService.getResults(this.sample).subscribe(data => { this.resultData = data; }, () => { this.hideSpinner() }, () => { this.hideSpinner() });
-    this.stasisService.getTracking(this.sample).subscribe(data => { this.trackingData = data; }, () => { this.hideSpinner() });
-  }
+  constructor(
+    private stasisService: StasisService, 
+    private messageService: MessageService
+  ) { }
 
   ngOnInit() {
-    this.resultData = undefined;
-    this.stasisService.getStatuses().subscribe(data => { this.statusObject = data }, () => {}, () => {
-      delete this.statusObject['processing'];
-    });
+    this.experiment = undefined;
+    this.sample = undefined;
+    this.stasisService.getStatuses().subscribe(
+      data => {
+        this.statusObject = data
+      }, 
+      (error: HttpErrorResponse) => console.log('Can\'t get tracking statuses'),
+      () => delete this.statusObject['processing']
+    );
   }
 
-  hideSpinner() {
-    this.spinner.hide();
+  ngOnChange(changes: SimpleChanges) {
+    console.log(`changes: ${changes}`);
+    // if( typeof changes.experiment !== 'undefined'){
+    //   console.log('experiment ' + JSON.stringify(changes.experiment));
+    // }
+    // if( typeof changes.sample !== 'undefined'){
+    //   console.log('sample ' + JSON.stringify(changes.sample));
+    //   this.selectedSampleChange.emit(this.sample);
+    // }
+    // if( typeof changes.selectedSample !== 'undefined'){
+    //   console.log('selected ' + JSON.stringify(changes.sample));
+    //   this.sample = changes.selectedSample.currentValue;
+    // }
   }
 
-  appendItems(items: ExperimentItem[]) {
-    if(this.statusData != null) {
-      this.statusData = this.statusData.concat(items);
-    } else {
-      this.statusData = items;
-    }
+  setExperiment() {
+    this.selectedSample = undefined;
+    this.selectedExperiment = this.experiment;
+    this.selectedExperimentChange.emit(this.selectedExperiment);
+    this.experimentChange.emit(this.experiment);
+  }
+
+  setSample() {
+    this.selectedSample = this.sample;
+    this.selectedSampleChange.emit(this.selectedSample);
+  }
+
+  showExperiment(): boolean {
+    let show = typeof this.selectedExperiment !== 'undefined' && typeof this.selectedSample === 'undefined';
+    return show;
+  }
+
+  showSample(): boolean {
+    let show = typeof this.selectedSample !== 'undefined' && this.selectedSample !== "";
+    return show;
   }
 }

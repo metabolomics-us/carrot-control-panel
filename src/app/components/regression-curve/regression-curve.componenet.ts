@@ -1,11 +1,6 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
-import { Observable, of as observableOf } from 'rxjs';
-import { trigger, state, style, animate, transition } from '@angular/animations';
-
-import {
-    NgxChartsModule, BaseChartComponent, LineComponent, LineSeriesComponent,
-    calculateViewDimensions, ViewDimensions, ColorHelper
-   } from '@swimlane/ngx-charts';
+import { Component, OnInit, Input } from '@angular/core';
+import { BaseChartComponent } from '@swimlane/ngx-charts';
+import { ResultData } from 'stasis';
 
 @Component({
     selector: 'app-regression-curve',
@@ -13,8 +8,9 @@ import {
     styleUrls: ['./regression-curve.component.css']
 })
 export class AppRegressionCurveComponent extends BaseChartComponent implements OnInit {
-    @Input() data;
-   
+    @Input() sample: string;
+    @Input() resultData: ResultData;
+
     // Properties
     @Input() xScale = 1;
     @Input() yScale = 1;
