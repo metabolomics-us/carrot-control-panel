@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
-import { StasisService } from 'stasis';
+import { StasisService } from '@stasis';
 
 @Injectable({
   providedIn: 'root'

@@ -6,7 +6,9 @@ import { from, of, forkJoin } from 'rxjs';
 import { flatMap, bufferCount, concatMap, catchError } from 'rxjs/operators';
 
 import { ATFComponent } from './atf.component';
-import { Acquisition, Metadata, Processing, Reference, SampleData, StasisService, Userdata } from 'stasis';
+// import { Acquisition, Metadata, Processing, Reference, SampleData, Userdata } from '@stasis/model/index';
+// import { StasisService } from '@stasis/service';
+import { Acquisition, Metadata, Processing, Reference, SampleData, StasisService, Userdata } from '@stasis';
 
 @Component({
   selector: 'app-atf-submit',

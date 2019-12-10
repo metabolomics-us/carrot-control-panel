@@ -17,10 +17,7 @@
       "dom"
     ],
     "paths": {
-      "stasis": [
-        "./projects/stasis/src/lib/stasis.module"
-        // "dist/stasis"
-      ]
+      "@stasis": [ "./projects/stasis/src/lib/index" ]
     }
   }
 }

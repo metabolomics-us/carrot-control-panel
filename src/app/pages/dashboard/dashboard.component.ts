@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { StasisService, MessageService, TrackingData } from 'stasis';
+// import { StasisService } from '@stasis/service';
+import { StasisService, MessageService, TrackingData, ExperimentPage, ExperimentItem } from '@stasis';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ExperimentPage } from 'dist/stasis/lib/model/experiment.page.model';
-import { ExperimentItem } from 'dist/stasis/lib/model/experiment.item.model';
+// import { ExperimentPage } from 'dist/stasis/lib/model/experiment.page.model';
+// import { ExperimentItem } from 'dist/stasis/lib/model/experiment.item.model';
 
 @Component({
   selector: 'app-dashboard',
