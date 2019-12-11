@@ -34,6 +34,7 @@
     "rxjs": "^6.5.3",
     "rxjs-compat": "^6.3.3",
     "seedrandom": "^2.4.3",
+    "serialize-javascript": "^2.1.2",
     "stream": "0.0.2",
     "timers": "^0.1.1",
     "xml2js": "^0.4.19",
