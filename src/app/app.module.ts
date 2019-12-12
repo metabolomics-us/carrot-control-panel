@@ -110,7 +110,7 @@ export const ROUTES: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot(ROUTES),
-    NgbModule.forRoot(),
+    NgbModule,
     StasisModule.forRoot(environment),
     HotTableModule,
     NgxChartsModule,

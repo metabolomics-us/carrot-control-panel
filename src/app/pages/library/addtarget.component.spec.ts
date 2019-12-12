@@ -15,7 +15,7 @@ describe('AddTargetComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule, HttpClientModule, NgbModule.forRoot(), HotTableModule.forRoot() ],
+      imports: [ FormsModule, HttpClientModule, NgbModule, HotTableModule.forRoot() ],
       declarations: [ AddTargetComponent, GetTypePipe ]
     })
     .compileComponents();

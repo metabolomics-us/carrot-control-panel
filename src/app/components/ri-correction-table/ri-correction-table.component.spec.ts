@@ -11,7 +11,7 @@ describe('RiCorrectionTableComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot()
+        NgbModule
       ],
       declarations: [ 
         RiCorrectionTableComponent 

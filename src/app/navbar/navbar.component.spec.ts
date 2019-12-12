@@ -14,7 +14,7 @@ describe('NavbarComponent', () => {
       declarations: [ NavbarComponent ],
       imports: [
         RouterTestingModule.withRoutes([]),
-        NgbModule.forRoot()
+        NgbModule
       ]
     })
     .compileComponents();

@@ -11,7 +11,7 @@ describe('StatusTableComponent', () => {
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot() 
+        NgbModule
       ],
       declarations: [ 
         StatusTableComponent 
