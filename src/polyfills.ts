@@ -14,6 +14,9 @@
  * Learn more in https://angular.io/docs/ts/latest/guide/browser-support.html
  */
 
+// Needed to solve error w/bootstrap + Angular 8
+(window as any).global = window;
+
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */
