@@ -22,24 +22,28 @@
       <div *ngIf="data.blank.enabled">
         <h6><b>Preview of Blanks: {{data.blank.label}}</b></h6>
         <table class="table table-striped mt-2 mb-5">
-          <tr *ngFor="let filename of filenames | startswith:data.blank.label | slice:0:3">
-            <td>{{filename}}</td>
-          </tr>
-          <tr *ngFor="let filename of filenames | startswith:(data.filename_prefix +'bl') | slice:0:3">
-            <td>{{filename}}</td>
-          </tr>
+            <tbody>
+                <tr *ngFor="let filename of filenames | startswith:data.blank.label | slice:0:3">
+                    <td>{{filename}}</td>
+                </tr>
+                <tr *ngFor="let filename of filenames | startswith:(data.filename_prefix +'bl') | slice:0:3">
+                    <td>{{filename}}</td>
+                </tr>
+            </tbody>
         </table>
       </div>
 
       <div *ngIf="data.qc.enabled">
         <h6><b>Preview of QCs: {{data.qc.label}}</b></h6>
         <table class="table table-striped mt-2 mb-5">
-          <tr *ngFor="let filename of filenames | startswith:data.qc.label | slice:0:3">
-            <td>{{filename}}</td>
-          </tr>
-          <tr *ngFor="let filename of filenames | startswith:(data.filename_prefix +'qc') | slice:0:3">
-            <td>{{filename}}</td>
-          </tr>
+            <tbody>
+                <tr *ngFor="let filename of filenames | startswith:data.qc.label | slice:0:3">
+                    <td>{{filename}}</td>
+                </tr>
+                <tr *ngFor="let filename of filenames | startswith:(data.filename_prefix +'qc') | slice:0:3">
+                    <td>{{filename}}</td>
+                </tr>
+            </tbody>
         </table>
       </div>
 
@@ -47,48 +51,58 @@
       <div *ngIf="data.pooledQC.enabled">
         <h6><b>Preview of Pooled QCs: {{data.pooledQC.label}}</b></h6>
         <table class="table table-striped mt-2 mb-5">
-          <tr *ngFor="let filename of filenames | startswith:data.pooledQC.label | slice:0:3">
-            <td>{{filename}}</td>
-          </tr>
+            <tbody>
+                <tr *ngFor="let filename of filenames | startswith:data.pooledQC.label | slice:0:3">
+                    <td>{{filename}}</td>
+                </tr>
+            </tbody>
         </table>
       </div>
 
       <div *ngIf="data.qc2 && data.qc2.enabled">
         <h6><b>Preview of QCs: {{data.qc2.label}}</b></h6>
         <table class="table table-striped mt-2 mb-5">
-          <tr *ngFor="let filename of filenames | startswith:data.qc2.label | slice:0:3">
-            <td>{{filename}}</td>
-          </tr>
+            <tbody>
+                <tr *ngFor="let filename of filenames | startswith:data.qc2.label | slice:0:3">
+                    <td>{{filename}}</td>
+                </tr>
+            </tbody>
         </table>
       </div>
 
       <div>
         <h6><b>Preview of Samples (<span *ngIf="!data.randomize">Not </span>Randomized):</b></h6>
         <table class="table table-striped mt-2 mb-5">
-          <tr *ngFor="let filename of filenames | startswith:data.prefix | slice:0:5">
-            <td>{{filename}}</td>
-          </tr>
-          <tr *ngFor="let filename of filenames | startswith:(data.filename_prefix +'sa') | slice:0:5">
-            <td>{{filename}}</td>
-          </tr>
+            <tbody>
+                <tr *ngFor="let filename of filenames | startswith:data.prefix | slice:0:5">
+                    <td>{{filename}}</td>
+                </tr>
+                <tr *ngFor="let filename of filenames | startswith:(data.filename_prefix +'sa') | slice:0:5">
+                    <td>{{filename}}</td>
+                </tr>
+            </tbody>
         </table>
       </div>
 
       <div *ngIf="msmsFilenames.length > 0">
         <h6><b>Preview of MS/MS Samples: {{data.prefix}}_MSMS</b></h6>
         <table class="table table-striped mt-2 mb-5">
-          <tr *ngFor="let filename of msmsFilenames">
-            <td>{{filename}}</td>
-          </tr>
+            <tbody>
+                <tr *ngFor="let filename of msmsFilenames">
+                    <td>{{filename}}</td>
+                </tr>
+            </tbody>
         </table>
       </div>
 
       <div *ngIf="poolMSMSFilenames.length > 0">
         <h6><b>Preview of Pooled MS/MS Samples: {{data.prefix}}_PoolMSMS</b></h6>
         <table class="table table-striped mt-2 mb-5">
-          <tr *ngFor="let filename of poolMSMSFilenames">
-            <td>{{filename}}</td>
-          </tr>
+            <tbody>
+                <tr *ngFor="let filename of poolMSMSFilenames">
+                    <td>{{filename}}</td>
+                </tr>
+            </tbody>
         </table>
       </div>
       

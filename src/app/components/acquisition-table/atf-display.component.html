@@ -19,12 +19,14 @@
     </h5>
 
     <table class="table table-striped mt-2 mb-5">
-      <tr *ngFor="let sample of data.acquisitionData">
-        <td>{{sample.ionizations[mode]}}</td>
-      </tr>
-      <tr *ngFor="let sample of data.msmsData">
-        <td>{{sample.ionizations[mode]}}</td>
-      </tr>
+        <tbody>
+            <tr *ngFor="let sample of data.acquisitionData">
+                <td>{{sample.ionizations[mode]}}</td>
+            </tr>
+            <tr *ngFor="let sample of data.msmsData">
+                <td>{{sample.ionizations[mode]}}</td>
+            </tr>
+        </tbody>
     </table>
   </div>
 </div>

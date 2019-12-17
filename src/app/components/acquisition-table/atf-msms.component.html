@@ -4,34 +4,36 @@
       <h5>Mark MS/MS Samples</h5>
       
       <table class="table table-striped mb-3">
-        <tr>
-          <th></th>
-          <th>#</th>
-          <th>Filename</th>
-          <th>Label</th>
-          <th>Comment</th>
-        </tr>
-        <tr *ngFor="let sample of data.acquisitionData; index as i">
-          <td>
-            <input type="checkbox" *ngIf="sample.userdata"
-              [(ngModel)]="data.msmsSelection[i].selected"
-              (change)="selectMSMS($event, i)"
-              [ngModelOptions]="{standalone: true}">
-            &nbsp;
+        <tbody>
+            <tr>
+            <th></th>
+            <th>#</th>
+            <th>Filename</th>
+            <th>Label</th>
+            <th>Comment</th>
+            </tr>
+            <tr *ngFor="let sample of data.acquisitionData; index as i">
+            <td>
+                <input type="checkbox" *ngIf="sample.userdata"
+                [(ngModel)]="data.msmsSelection[i].selected"
+                (change)="selectMSMS($event, i)"
+                [ngModelOptions]="{standalone: true}">
+                &nbsp;
 
-            <select disabled *ngIf="sample.userdata"
-              [ngModel]="data.msmsSelection[i].order"
-              [ngModelOptions]="{standalone: true}">
+                <select disabled *ngIf="sample.userdata"
+                [ngModel]="data.msmsSelection[i].order"
+                [ngModelOptions]="{standalone: true}">
 
-              <option [ngValue]="null"></option>
-              <option *ngFor="let j of acquisitionTableService.generateSampleNumbers(msmsSelectedCount)" [ngValue]="j">{{j}}</option>
-            </select>
-          </td>
-          <td>{{i + 1}}</td>
-          <td>{{sample.filename.split('_MX')[0]}}</td>
-          <td>{{sample.userdata ? sample.userdata.label : ''}}</td>
-          <td>{{sample.userdata ? sample.userdata.comment : ''}}</td>
-        </tr>
+                <option [ngValue]="null"></option>
+                <option *ngFor="let j of acquisitionTableService.generateSampleNumbers(msmsSelectedCount)" [ngValue]="j">{{j}}</option>
+                </select>
+            </td>
+            <td>{{i + 1}}</td>
+            <td>{{sample.filename.split('_MX')[0]}}</td>
+            <td>{{sample.userdata ? sample.userdata.label : ''}}</td>
+            <td>{{sample.userdata ? sample.userdata.comment : ''}}</td>
+            </tr>
+        </tbody>
       </table>
 
 
