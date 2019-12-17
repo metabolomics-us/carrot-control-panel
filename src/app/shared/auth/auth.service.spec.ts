@@ -3,7 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
 
 import { AuthService } from './auth.service';
-import { StasisService } from 'stasis';
+import { StasisService } from '@stasis';
 
 describe('Service: AuthService', () => {
   let service: AuthService;

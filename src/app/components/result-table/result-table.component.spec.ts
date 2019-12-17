@@ -11,7 +11,7 @@ describe('ResultTableComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgbModule.forRoot()
+        NgbModule
       ],
       declarations: [
         ResultTableComponent

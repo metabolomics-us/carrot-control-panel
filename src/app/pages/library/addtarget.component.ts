@@ -21,7 +21,7 @@ export class AddTargetComponent extends LibraryComponent implements OnInit {
   /**
    * Typeahead properties and methods
    */
-  @ViewChild('instance') instance: NgbTypeahead;
+  @ViewChild('instance', { static: true }) instance: NgbTypeahead;
   focus$ = new Subject<string>();
   click$ = new Subject<string>();
 

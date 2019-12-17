@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { CookieService } from 'ngx-cookie-service';
-import { StasisService } from 'stasis';
-import { Observable, of } from 'rxjs';
+import { StasisService } from '@stasis';
 import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Injectable()
 export class AuthService {

@@ -15,7 +15,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ModalDialogModule } from 'ngx-modal-dialog';
 import { CookieService } from 'ngx-cookie-service';
 
-import { StasisModule } from 'stasis';
+import { StasisModule } from '@stasis';
 
 import { StartsWithPipe } from './shared/startswith.pipe';
 import { GetTypePipe } from './shared/gettype.pipe';
@@ -110,7 +110,7 @@ export const ROUTES: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forRoot(ROUTES),
-    NgbModule.forRoot(),
+    NgbModule,
     StasisModule.forRoot(environment),
     HotTableModule,
     NgxChartsModule,

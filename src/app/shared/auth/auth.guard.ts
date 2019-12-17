@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
-import { StasisService } from 'stasis';
+import { StasisService } from '@stasis';
 
 
 @Injectable({
