@@ -174,7 +174,7 @@ describe('StasisService', () => {
     service.getExperiment('none', 3, null).subscribe(
       response => {
         expect(response.items.length).toEqual(3);
-        expect(response.last_item.id).toEqual('test_1531366879985');
+        expect(response.last_item.id).toEqual('test_1531366873842');
       },
       (error: HttpErrorResponse) => {
         fail('Error: ' + error.status + ' -- ' + error.message);

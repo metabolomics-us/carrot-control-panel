@@ -39,8 +39,9 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
     Object.keys(this.data.ionizations).map(mode => {
       this.data.acquisitionData.forEach(sample => this.buildSampleData(sample, mode));
 
-      if (this.data.hasOwnProperty('msmsData'))
+      if (this.data.hasOwnProperty('msmsData')) {
         this.data.msmsData.forEach(sample => this.buildSampleData(sample, mode));
+      }
     });
 
     this.running = false;
@@ -53,29 +54,31 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
    }
 
   private buildSampleData(sample, mode) {
-    let ionizationMode = (mode == 'pos') ? 'positive' : 'negative';
+    const ionizationMode = (mode === 'pos') ? 'positive' : 'negative';
 
-    let metadata = !sample.hasOwnProperty('metadata') ? null :
+    const metadata = !sample.hasOwnProperty('metadata') ? null :
       new Metadata(sample.metadata.class, sample.metadata.species, sample.metadata.organ);
-    let userdata =  !sample.hasOwnProperty('userdata') ? null :
+    const userdata = !sample.hasOwnProperty('userdata') ? null :
       new Userdata(sample.userdata.label, sample.userdata.comment);
 
-    let references = [
+    const references = [
       new Reference('minix', this.data.miniXID.toString())
     ];
 
     // Add nearest blank/qc
-    let filename = sample.ionizations[mode];
+    const filename = sample.ionizations[mode];
 
-    if (this.data.blank.enabled && (filename.startsWith(this.data.blank.label) || filename.startsWith(this.data.filename_prefix +'bl'))) {
+    if (this.data.blank.enabled && (filename.startsWith(this.data.blank.label) || filename.startsWith(this.data.filename_prefix + 'bl'))) {
       this.previousBlank = filename;
-    } else if (this.data.qc.enabled && (filename.startsWith(this.data.qc.label) || filename.startsWith(this.data.filename_prefix +'qc'))) {
+    } else if (this.data.qc.enabled && (filename.startsWith(this.data.qc.label) || filename.startsWith(this.data.filename_prefix + 'qc'))) {
       this.previousQC = filename;
     } else {
-      if (this.previousBlank)
+      if (this.previousBlank) {
         references.push(new Reference('previousBlank', this.previousBlank));
-      if (this.previousQC)
+      }
+      if (this.previousQC) {
         references.push(new Reference('previousQC', this.previousQC));
+      }
     }
 
     this.stasisSamples.push(
@@ -105,32 +108,32 @@ export class ATFSubmitComponent extends ATFComponent implements AfterContentInit
             this.errors.push(error);
             return of(error);
           })
-        )
+        );
       }, null, 2)
     ).subscribe(response => this.submitCount++);
 
-    let watchTask = () => {
+    const watchTask = () => {
       if (this.submitCount < this.maxCount) {
         setTimeout(() => {
           watchTask();
-        }, 1000)
+        }, 1000);
       }
 
-       if (this.submitCount == this.maxCount && this.errors.length == 0) {
+       if (this.submitCount === this.maxCount && this.errors.length === 0) {
         // Used to avoid ExpressionChangedAfterItHasBeenCheckedError
         setTimeout(() => {
           this.data.step++;
         });
       }
-    }
+    };
 
     watchTask();
   }
 
   private download() {
-    let content = JSON.stringify(this.stasisSamples);
-    let filename = 'MX'+ this.data.miniXID +'_'+ this.data.platform +'.json';
-    let blob = new Blob([content], {type: 'application/json'});
+    const content = JSON.stringify(this.stasisSamples);
+    const filename = 'MX' + this.data.miniXID + '_' + this.data.platform + '.json';
+    const blob = new Blob([content], {type: 'application/json'});
 
     saveAs(blob, filename);
     this.logDownloaded = true;

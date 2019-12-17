@@ -43,6 +43,30 @@
     </div>
   </div>
 
+
+  <div *ngIf="matrixCount > 1" class="mb-5">
+    <hr>
+    <h5 class="mb-3">(Optional) Select Study Subset by Matrix</h5>
+
+    <div>
+      <label>
+        Multiple matrices were identified in this MiniX study.  
+        You can choose to generate an acqusition table separately for each matrix
+        or a single table for all samples in the study.
+      </label>
+      <br>
+
+      <select class="form-control" formControlName="matrix">
+        <option ngValue="all">All Samples</option>
+        <option *ngFor="let matrix of _.keys(data.samplesByMatrix)" [ngValue]="matrix">{{matrix}} ({{data.samplesByMatrix[matrix].length}} samples)</option>
+      </select>
+    </div>
+  </div>
+
+
+  <hr>
+  <h5 class="mb-3">Blanks and QC Options</h5>
+
   <div class="form-row">
     <div class="col-sm-3 mb-3">
       <label>Blanks</label><br>
@@ -114,19 +138,55 @@
 
   <div class="form-row">
     <div class="col-sm-12 mt-3 mb-3">
+      <label>Inject Pooled QC after Primary QC</label><br>
+      <input type="checkbox" formControlName="pooledQC">
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="col-sm-12 mt-3 mb-3">
       <label>Inject Blanks Before Primary QC</label><br>
       <input type="checkbox" formControlName="blanksFirst">
     </div>
   </div>
 
-  <div class="form-row">
-    <div class="col-sm-12 mb-3">
+  <hr>
+  <h5 class="mb-3">Sample Ordering Options</h5>
+
+  <div class="form-row text-center">
+    <div class="col mb-3">
+      <label>Default MiniX Ordering<br> (No Randomization)</label><br>
+      <input type="radio" name="randomize" value="none" formControlName="randomize">
+    </div>
+
+    <div class="col mb-3">
       <label>Randomize Samples</label><br>
-      <input type="checkbox" formControlName="randomize">
+      <input type="radio" name="randomize" value="randomize" formControlName="randomize">
+    </div>
+
+    <div class="col mb-3">
+      <label>Sort by Label</label><br>
+      <input type="radio" name="randomize" value="sort" formControlName="randomize">
+    </div>
+
+    <div class="col mb-3">
+      <label>Custom Ordering</label><br>
+      <input type="radio" name="randomize" value="custom" formControlName="randomize">
     </div>
   </div>
 
-  <div>
+  <div *ngIf="form.value.randomize == 'custom'">
+    <label>
+      Paste a list of sample labels in the desired injection order with one label per line. 
+      The length of this sample label list must be the same as the number of samples in the
+      MiniX study
+    </label>
+    <textarea formControlName="customOrdering" rows="6" cols="75"></textarea>
+    <div class="text-danger" *ngIf="error">{{error}}</div>
+  </div>
+
+
+  <div class="mt-3">
     <button type="submit" class="btn btn-warning" (click)="reset()">
       <i class="fa fa-repeat"></i> Restart
     </button>

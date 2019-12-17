@@ -25,7 +25,7 @@ describe('Service: AcquisitionTableService', () => {
   }));
 
   it('should generate acquisition table for MX373065', async(() => {
-    let data = {
+    const data = {
       prefix: 'Connor',
       miniXID: 373065,
       platform: 'HILIC',
@@ -47,7 +47,13 @@ describe('Service: AcquisitionTableService', () => {
         label: 'NIST',
         frequency: 100
       },
-      randomize: true,
+      pooledQC: {
+        enabled: true,
+        label: 'PoolQC',
+        frequency: 10
+      },
+      randomize: 'randomize',
+      blanksFirst: true,
       sampleData: [],
       acquisitionData: []
     };
@@ -57,16 +63,18 @@ describe('Service: AcquisitionTableService', () => {
       data.sampleData = miniXService.parseMiniXSamples(result);
 
       const expectedFilenames = [
-        "MtdBlank001_MX373065_{METHOD}_preConnor001",
-        "BioRec001_MX373065_{METHOD}_preConnor001",
-        "Connor001_MX373065_{METHOD}_LGG-W-001",
-        "Connor002_MX373065_{METHOD}_LGG-W-002",
-        "Connor003_MX373065_{METHOD}_LGG-G-004",
-        "Connor004_MX373065_{METHOD}_LGG-G-005",
-        "Connor005_MX373065_{METHOD}_LGG-G-006",
-        "Connor006_MX373065_{METHOD}_LGG-W-003",
-        "MtdBlank002_MX373065_{METHOD}_postConnor006",
-        "BioRec002_MX373065_{METHOD}_postConnor006"
+        'MtdBlank001_MX373065_{METHOD}_preConnor001',
+        'BioRec001_MX373065_{METHOD}_preConnor001',
+        'PoolQC001_MX373065_{METHOD}_preConnor001',
+        'Connor001_MX373065_{METHOD}_LGG-W-001',
+        'Connor002_MX373065_{METHOD}_LGG-W-002',
+        'Connor003_MX373065_{METHOD}_LGG-G-004',
+        'Connor004_MX373065_{METHOD}_LGG-G-005',
+        'Connor005_MX373065_{METHOD}_LGG-G-006',
+        'Connor006_MX373065_{METHOD}_LGG-W-003',
+        'MtdBlank002_MX373065_{METHOD}_postConnor006',
+        'BioRec002_MX373065_{METHOD}_postConnor006',
+        'PoolQC002_MX373065_{METHOD}_postConnor006',
       ];
 
       service.generateLCMSAcquisitionTable(data);
@@ -78,19 +86,21 @@ describe('Service: AcquisitionTableService', () => {
       data.sampleData = miniXService.parseMiniXSamples(result);
 
       const expectedFilenames = [
-        "MtdBlank001_MX373065_{METHOD}_preConnor001",
-        "BioRec001_MX373065_{METHOD}_preConnor001",
-        "Connor001_MX373065_{METHOD}_LGG-W-001",
-        "Connor002_MX373065_{METHOD}_LGG-W-002",
-        "Connor003_MX373065_{METHOD}_LGG-W-003",
-        "Connor004_MX373065_{METHOD}_LGG-G-004",
-        "Connor005_MX373065_{METHOD}_LGG-G-005",
-        "Connor006_MX373065_{METHOD}_LGG-G-006",
-        "MtdBlank002_MX373065_{METHOD}_postConnor006",
-        "BioRec002_MX373065_{METHOD}_postConnor006"
+        'MtdBlank001_MX373065_{METHOD}_preConnor001',
+        'BioRec001_MX373065_{METHOD}_preConnor001',
+        'PoolQC001_MX373065_{METHOD}_preConnor001',
+        'Connor001_MX373065_{METHOD}_LGG-W-001',
+        'Connor002_MX373065_{METHOD}_LGG-W-002',
+        'Connor003_MX373065_{METHOD}_LGG-W-003',
+        'Connor004_MX373065_{METHOD}_LGG-G-004',
+        'Connor005_MX373065_{METHOD}_LGG-G-005',
+        'Connor006_MX373065_{METHOD}_LGG-G-006',
+        'MtdBlank002_MX373065_{METHOD}_postConnor006',
+        'BioRec002_MX373065_{METHOD}_postConnor006',
+        'PoolQC002_MX373065_{METHOD}_postConnor006',
       ];
 
-      data.randomize = false;
+      data.randomize = 'none';
       service.generateLCMSAcquisitionTable(data);
       expect(data.acquisitionData.map(x => x.filename)).toEqual(expectedFilenames);
     });

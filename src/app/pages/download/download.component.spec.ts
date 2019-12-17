@@ -13,7 +13,13 @@ describe('DownloadComponent', () => {
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpClientModule ],
       declarations: [ DownloadComponent ],
-      providers: [ CarrotHttpService ]
+      providers: [
+        CarrotHttpService,
+        {
+          provide: 'env',
+          useValue: {production: false}
+        }
+      ]
     })
     .compileComponents();
   }));

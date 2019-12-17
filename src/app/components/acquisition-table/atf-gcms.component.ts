@@ -35,15 +35,18 @@ export class ATFGCMSComponent extends ATFComponent implements OnInit {
 
       platform: [this.data.platform ? this.data.platform : this.platforms[0], Validators.required],
 
-      instrument: [this.data.ionizations && this.data.ionizations.hasOwnProperty('pos') ? this.data.ionizations['pos'] : null, Validators.required],
+      instrument: [this.data.ionizations && this.data.ionizations.hasOwnProperty('pos') ?
+        this.data.ionizations['pos'] : null, Validators.required],
 
       blankEnabled: this.data.blank ? this.data.blank.enabled : true,
       blankPre: this.data.blank ? this.data.blank.pre : 1,
-      blankFrequency: [this.data.blank ? this.data.blank.frequency : 10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
+      blankFrequency: [this.data.blank ? this.data.blank.frequency : 10,
+        [Validators.required, Validators.pattern('\\d+'), Validators.min(1)]],
 
       qcEnabled: this.data.qc ? this.data.qc.enabled : true,
       qcPre: this.data.qc ? this.data.qc.pre : 6,
-      qcFrequency: [this.data.qc ? this.data.qc.frequency : 10, [Validators.required, Validators.pattern("\\d+"), Validators.min(1)]],
+      qcFrequency: [this.data.qc ? this.data.qc.frequency : 10, [Validators.required,
+        Validators.pattern('\\d+'), Validators.min(1)]],
 
       randomize: this.data.hasOwnProperty('randomize') ? this.data.randomize : true
     });

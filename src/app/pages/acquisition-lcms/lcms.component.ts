@@ -6,6 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: []
 })
 export class LCMSComponent {
-  
   data = {step: 1};
 }
