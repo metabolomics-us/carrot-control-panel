@@ -24,7 +24,7 @@ export class DownloadComponent implements OnInit {
     this.status.success = undefined;
     this.status.error = undefined;
 
-    if (!this.task.filename || this.task.filename == '') {
+    if (!this.task.filename || this.task.filename === '') {
       this.status.error = 'No filename specified!';
     } else {
       this.status.checkingFile = true;
@@ -40,7 +40,7 @@ export class DownloadComponent implements OnInit {
           this.status.checkingFile = false;
           this.status.error = 'File could not be found!';
         }
-      )
+      );
     }
   }
 }

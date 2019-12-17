@@ -43,6 +43,16 @@
         </table>
       </div>
 
+
+      <div *ngIf="data.pooledQC.enabled">
+        <h6><b>Preview of Pooled QCs: {{data.pooledQC.label}}</b></h6>
+        <table class="table table-striped mt-2 mb-5">
+          <tr *ngFor="let filename of filenames | startswith:data.pooledQC.label | slice:0:3">
+            <td>{{filename}}</td>
+          </tr>
+        </table>
+      </div>
+
       <div *ngIf="data.qc2 && data.qc2.enabled">
         <h6><b>Preview of QCs: {{data.qc2.label}}</b></h6>
         <table class="table table-striped mt-2 mb-5">
@@ -64,10 +74,19 @@
         </table>
       </div>
 
-      <div *ngIf="data.hasOwnProperty('msmsData') && data.msmsData.length > 0">
+      <div *ngIf="msmsFilenames.length > 0">
         <h6><b>Preview of MS/MS Samples: {{data.prefix}}_MSMS</b></h6>
         <table class="table table-striped mt-2 mb-5">
-          <tr *ngFor="let filename of filenames | startswith:(data.prefix +'_MSMS')">
+          <tr *ngFor="let filename of msmsFilenames">
+            <td>{{filename}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div *ngIf="poolMSMSFilenames.length > 0">
+        <h6><b>Preview of Pooled MS/MS Samples: {{data.prefix}}_PoolMSMS</b></h6>
+        <table class="table table-striped mt-2 mb-5">
+          <tr *ngFor="let filename of poolMSMSFilenames">
             <td>{{filename}}</td>
           </tr>
         </table>

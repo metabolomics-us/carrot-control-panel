@@ -40,6 +40,7 @@ export class ATFComponent {
   }
 
   lastStep() {
+    window.scroll(0, 0);
     this.data.step--;
   }
 
@@ -47,7 +48,7 @@ export class ATFComponent {
     for (const prop of Object.getOwnPropertyNames(this.data)) {
       delete this.data[prop];
     }
-    
+
     this.data.step = 1;
   }
 }
