@@ -9,7 +9,7 @@ export class MiniXService {
 
   constructor(private http: HttpClient) { }
 
-  getMiniXExport(minixID: number, callback: Function, errorCallback: (error: any) => void) {
+  getMiniXExport(minixID: number, callback: (err: Error, result: any) => void, errorCallback: (error: any) => void) {
     return this.http.get(
       '/rest/export/' + minixID,
       {responseType: 'text'}
