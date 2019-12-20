@@ -1,6 +1,17 @@
 <form novalidate [formGroup]="form">
   <div class="form-row">
     <div class="col-md-12 mb-3">
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-info" (click)="lastStep()">
+              <i class="fa fa-arrow-left"></i> Back
+            </button>
+            &nbsp;
+            <button type="submit" class="btn btn-primary pull-right" (click)="nextStep()" [disabled]="!form.valid">
+              Preview Acquisition Table <i class="fa fa-arrow-right"></i>
+            </button>
+        </div>
+
       <h5>Mark MS/MS Samples</h5>
       
       <table class="table table-striped mb-3">

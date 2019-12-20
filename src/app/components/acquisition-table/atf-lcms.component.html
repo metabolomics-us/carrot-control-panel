@@ -1,4 +1,15 @@
 <form novalidate [formGroup]="form">
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-warning" (click)="reset()">
+          <i class="fa fa-repeat"></i> Restart
+        </button>
+    
+        <button type="submit" class="btn btn-primary pull-right" (click)="nextStep()" [disabled]="!form.valid">
+          Build File List <i class="fa fa-arrow-right"></i>
+        </button>
+    </div>
+
   <div class="form-row">
     <div class="col-md-12 mb-5">
       <label>Study Identifier (Sample filename prefix, e.g. <b>Fiehn</b>001_posHILIC_C1_020):</label>

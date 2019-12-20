@@ -5,7 +5,7 @@ export class ATFComponent {
 
   // Study data injected into this component
   @Input()
-  data;
+  data: any;
 
   // This component's form
   form: FormGroup;

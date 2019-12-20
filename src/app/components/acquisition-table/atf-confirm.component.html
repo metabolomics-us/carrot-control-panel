@@ -1,6 +1,17 @@
 <form novalidate>
   <div class="form-row">
     <div class="col-md-12 mb-3">
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-info" (click)="lastStep()">
+              <i class="fa fa-arrow-left"></i> Back
+            </button>
+    
+            <button type="submit" class="btn btn-primary pull-right" (click)="nextStep()">
+              Generate Acquisition Table <i class="fa fa-arrow-right"></i>
+            </button>
+        </div>
+
       <h5>Confirm Acquisition Information</h5>
 
       <h6 class="ml-5"><b>Method: {{data.platform}}</b></h6>
