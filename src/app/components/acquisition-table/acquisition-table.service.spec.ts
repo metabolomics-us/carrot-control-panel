@@ -24,7 +24,7 @@ describe('Service: AcquisitionTableService', () => {
     expect(sampleNumbers).not.toBe(result);
   }));
 
-  it('should generate acquisition table for MX373065', async(() => {
+  fit('should generate acquisition table for MX373065', async(() => {
     const data = {
       prefix: 'Connor',
       miniXID: 373065,

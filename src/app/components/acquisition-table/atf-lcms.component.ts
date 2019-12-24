@@ -41,6 +41,8 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     this.data.sampleData.forEach(x => {
       const matrix = x.metadata.species + ' ' + x.metadata.organ;
 
+    //   console.log('Matrix: \n', matrix);
+
       if (!this.data.samplesByMatrix.hasOwnProperty(matrix)) {
         this.data.samplesByMatrix[matrix] = [];
         this.matrixCount++;
@@ -48,6 +50,8 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
 
       this.data.samplesByMatrix[matrix].push(x);
     });
+
+    // console.log('SamplesByMatrix: \n', this.data.samplesByMatrix);
 
     // Combination of form groups, using existing data from model if available
     this.form = this.formBuilder.group({
@@ -183,6 +187,13 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     // Generate QC pattern generic filenames for defined samples
     try {
       this.acquisitionTableService.generateLCMSAcquisitionTable(this.data);
+
+      // Testing 
+      console.log('Generating LCMS Acquisition Table');
+      console.log('Acquisition Data: ', this.data.acquisitionData);
+      console.log('Final: ', this.data.acquisitionData.map(x => x.filename));
+        
+
     } catch (e) {
       console.log(e);
       this.error = 'Unable to generate acqusition table!  Is the MiniX study design missing any information? ' +

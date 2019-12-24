@@ -74,6 +74,8 @@ export class AcquisitionTableService {
    * Creates acqusition data for LC-MS experiment
    */
   generateLCMSAcquisitionTable(data) {
+
+    console.log('Data: \n',data);
     // Filenames should match:
     //   [A-Za-z]+(\d{3,4}|_MSMS)_MX\d+_[A-Za-z]+_[A-Za-z0-9-]+(_\d+_\d+)?
     const formatSampleName = (sample, i) => {
@@ -88,6 +90,9 @@ export class AcquisitionTableService {
 
     // Reorder sample list and filter by matrix if required
     const sampleData = (() => {
+        console.log('Matrix:\n',data.matrix); //undefined
+        console.log('Sample:\n',data.sampleData); // is defined
+        console.log('SampleByMatrix:\n',data.samplesByMatrix[data.matrix]);
       // Use only samples corresponding to a single matrix if specified
       // For all samples, perform shallow copy so that data.sample retains its original order
       const samples = data.matrix === 'all' ? [...data.sampleData] : data.samplesByMatrix[data.matrix];
