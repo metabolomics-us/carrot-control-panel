@@ -60,7 +60,12 @@ describe('Service: AcquisitionTableService', () => {
 
     // Test filename generation with randomization
     miniXService.getMiniXExport(data.miniXID, (error, result) => {
+
+      console.log('Result: \n', result);
+
       data.sampleData = miniXService.parseMiniXSamples(result);
+
+      console.log('Sample Data: \n', data.sampleData);
 
       const expectedFilenames = [
         'MtdBlank001_MX373065_{METHOD}_preConnor001',
@@ -78,7 +83,9 @@ describe('Service: AcquisitionTableService', () => {
       ];
 
       service.generateLCMSAcquisitionTable(data);
-      expect(data.acquisitionData.map(x => x.filename)).toEqual(expectedFilenames);
+      const dataFileNames = data.acquisitionData.map(x => x.filename);
+      expect(dataFileNames).toEqual(expectedFilenames);
+      // expect(data.acquisitionData.map(x => x.filename)).toEqual(expectedFilenames);
     });
 
     // Test filename generation without randomization
