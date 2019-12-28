@@ -55,7 +55,8 @@ describe('Service: AcquisitionTableService', () => {
       randomize: 'randomize',
       blanksFirst: true,
       sampleData: [],
-      acquisitionData: []
+      acquisitionData: [],
+      matrix: 'all'
     };
 
     // Test filename generation with randomization
