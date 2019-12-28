@@ -141,6 +141,9 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
 
     this.data.prefix = this.form.value.studyLabel;
     this.data.platform = this.form.value.platform;
+
+    // console.log('Platform: \n', this.data.platform);
+
     this.data.processingMethod = 'lcms';
     this.data.ionizations = {};
 
@@ -151,6 +154,8 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     if (this.form.value.ionization.negativeMode) {
       this.data.ionizations['neg'] = this.form.value.ionization.negativeModeInstrument;
     }
+
+    // console.log('Ionizations: \n', this.data.ionizations);
 
     // Set matrix if available
     this.data.matrix = this.form.value.matrix;
@@ -184,15 +189,19 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     this.data.blanksFirst = this.form.value.blanksFirst;
     this.data.randomize = this.form.value.randomize;
 
+    // console.log('Blanks: \n', this.data.blanksFirst);
+    // console.log('Randomize \n', this.data.randomize);
+
     // Generate QC pattern generic filenames for defined samples
     try {
       this.acquisitionTableService.generateLCMSAcquisitionTable(this.data);
 
       // Testing 
-      console.log('Generating LCMS Acquisition Table');
-      console.log('Acquisition Data: ', this.data.acquisitionData);
-      console.log('Final: ', this.data.acquisitionData.map(x => x.filename));
-        
+      // console.log('Generating LCMS Acquisition Table');
+      // console.log('Acquisition Data: ', this.data.acquisitionData);
+      console.log('Sample Data: \n', this.data.sampleData);
+      console.log('Matrix: \n', this.data.matrix);    
+      console.log('Data Names: \n', this.data.acquisitionData.map(x => x.filename));
 
     } catch (e) {
       console.log(e);

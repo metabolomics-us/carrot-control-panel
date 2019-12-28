@@ -24,7 +24,7 @@ describe('Service: AcquisitionTableService', () => {
     expect(sampleNumbers).not.toBe(result);
   }));
 
-  fit('should generate acquisition table for MX373065', async(() => {
+  it('should generate acquisition table for MX373065', async(() => {
     const data = {
       prefix: 'Connor',
       miniXID: 373065,
@@ -55,13 +55,14 @@ describe('Service: AcquisitionTableService', () => {
       randomize: 'randomize',
       blanksFirst: true,
       sampleData: [],
-      acquisitionData: []
+      acquisitionData: [],
+      matrix: 'all'
     };
 
     // Test filename generation with randomization
     miniXService.getMiniXExport(data.miniXID, (error, result) => {
 
-      console.log('Result: \n', result);
+      // console.log('Result: \n', result);
 
       data.sampleData = miniXService.parseMiniXSamples(result);
 
@@ -79,11 +80,14 @@ describe('Service: AcquisitionTableService', () => {
         'Connor006_MX373065_{METHOD}_LGG-W-003',
         'MtdBlank002_MX373065_{METHOD}_postConnor006',
         'BioRec002_MX373065_{METHOD}_postConnor006',
-        'PoolQC002_MX373065_{METHOD}_postConnor006',
+        'PoolQC002_MX373065_{METHOD}_postConnor006'
       ];
 
       service.generateLCMSAcquisitionTable(data);
       const dataFileNames = data.acquisitionData.map(x => x.filename);
+
+      console.log('Data Names: \n', dataFileNames);
+
       expect(dataFileNames).toEqual(expectedFilenames);
       // expect(data.acquisitionData.map(x => x.filename)).toEqual(expectedFilenames);
     });
@@ -104,7 +108,7 @@ describe('Service: AcquisitionTableService', () => {
         'Connor006_MX373065_{METHOD}_LGG-G-006',
         'MtdBlank002_MX373065_{METHOD}_postConnor006',
         'BioRec002_MX373065_{METHOD}_postConnor006',
-        'PoolQC002_MX373065_{METHOD}_postConnor006',
+        'PoolQC002_MX373065_{METHOD}_postConnor006'
       ];
 
       data.randomize = 'none';

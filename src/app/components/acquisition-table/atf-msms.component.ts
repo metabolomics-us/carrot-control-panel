@@ -24,6 +24,9 @@ export class ATFMSMSComponent extends ATFComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    // console.log('Final Data: \n', this.data);
+
     this.msmsSelectedCount = 0;
 
     this.form = this.formBuilder.group({
