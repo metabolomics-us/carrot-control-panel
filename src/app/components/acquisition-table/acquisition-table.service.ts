@@ -98,7 +98,7 @@ export class AcquisitionTableService {
 
       // Use only samples corresponding to a single matrix if specified
       // For all samples, perform shallow copy so that data.sample retains its original order
-      const samples = data.matrix === 'all' ? [...data.sampleData] : data.samplesByMatrix[data.matrix]; // THIS IS THE PROBLEM LINE!!!
+      const samples = data.matrix === 'all' ? [...data.sampleData] : data.samplesByMatrix[data.matrix]; // THIS IS THE PROBLEM LINE for actquistion-table-service unit test!!!
 
       if (data.randomize === 'randomize') {
         // Use a predictable randomization using the MiniX id as the seed

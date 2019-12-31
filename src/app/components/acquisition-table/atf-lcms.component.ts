@@ -41,7 +41,7 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
     this.data.sampleData.forEach(x => {
       const matrix = x.metadata.species + ' ' + x.metadata.organ;
 
-    //   console.log('Matrix: \n', matrix);
+      console.log('Matrix 1: \n', matrix);
 
       if (!this.data.samplesByMatrix.hasOwnProperty(matrix)) {
         this.data.samplesByMatrix[matrix] = [];
@@ -200,7 +200,7 @@ export class ATFLCMSComponent extends ATFComponent implements OnInit {
       // console.log('Generating LCMS Acquisition Table');
       // console.log('Acquisition Data: ', this.data.acquisitionData);
       console.log('Sample Data: \n', this.data.sampleData);
-      console.log('Matrix: \n', this.data.matrix);    
+      console.log('Matrix 2: \n', this.data.matrix);    
       console.log('Data Names: \n', this.data.acquisitionData.map(x => x.filename));
 
     } catch (e) {

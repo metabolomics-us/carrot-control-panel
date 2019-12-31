@@ -33,7 +33,7 @@ export class ATFMiniXComponent extends ATFComponent implements OnInit {
     this.miniXService.getMiniXExport(this.form.value.minix,
       (error, result) => {
 
-        // console.log("Result: \n", result);
+        console.log("Result: \n", result);
 
         this.miniXLoading = false;
 
@@ -51,7 +51,8 @@ export class ATFMiniXComponent extends ATFComponent implements OnInit {
         this.data.miniXData = result;
         this.data.sampleData = this.miniXService.parseMiniXSamples(result);
 
-        // console.log("Sample Data: \n", this.data.sampleData);
+        console.log("Sample Data: \n", this.data.sampleData);
+        console.log("Acquisition: ", this.data.sampleData[0].acquisition.instrument);
 
         window.scroll(0, 0);
         this.data.step++;
