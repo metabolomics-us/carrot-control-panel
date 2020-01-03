@@ -38,7 +38,7 @@
   <div class="container">
   <table class="table table-sm table-light table-striped" aria-label="Status Table">
     <tbody class="table-body">
-      <tr class="row" *ngFor="let stat of sortedStatuses(data[0].status, statusDef) | slice: 0; let i = index; let last = last;">
+      <!-- <tr class="row" *ngFor="let stat of sortedStatuses(data[0].status, statusDef) | slice: 0; let i = index; let last = last;">
         <td class="col centered">{{ statusKeys[i] }}</td>
         <td class="col centered" *ngIf="stat !== 'failed'; else failed">
           <i *ngIf="stat !== 'empty'" class="fa fa-check-circle fa-2x success" 
@@ -52,7 +52,7 @@
           </td>
           <td class="col">{{ getDate(get_time(data[0].status, stat)) }}</td>
         </ng-template>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
   </div>
