@@ -9,6 +9,8 @@ import { HotTableModule } from '@handsontable/angular';
 import { GetTypePipe } from '../../shared/gettype.pipe';
 import { AddTargetComponent } from './addtarget.component';
 
+import { CarrotHttpService } from '../../shared/services/carrot/carrot.http.service';
+
 describe('AddTargetComponent', () => {
   let component: AddTargetComponent;
   let fixture: ComponentFixture<AddTargetComponent>;
@@ -16,7 +18,14 @@ describe('AddTargetComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpClientModule, NgbModule, HotTableModule.forRoot() ],
-      declarations: [ AddTargetComponent, GetTypePipe ]
+      declarations: [ AddTargetComponent, GetTypePipe ],
+      providers: [
+        CarrotHttpService,
+        {
+          provide: 'env',
+          useValue: {production: false}
+        }
+      ]
     })
     .compileComponents();
   }));
@@ -27,7 +36,7 @@ describe('AddTargetComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  fit('should create', () => {
     expect(component).toBeTruthy();
   });
 });

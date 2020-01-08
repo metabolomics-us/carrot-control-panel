@@ -35,7 +35,7 @@ describe('StatusTableComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should compile', () => {
+  it('should compile', () => {
     expect(component).toBeTruthy();
   });
 });
