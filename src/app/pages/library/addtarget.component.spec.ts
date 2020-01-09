@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -14,6 +14,7 @@ import { CarrotHttpService } from '../../shared/services/carrot/carrot.http.serv
 describe('AddTargetComponent', () => {
   let component: AddTargetComponent;
   let fixture: ComponentFixture<AddTargetComponent>;
+  let carrotHttpService: CarrotHttpService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -33,8 +34,15 @@ describe('AddTargetComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddTargetComponent);
     component = fixture.componentInstance;
+    carrotHttpService = TestBed.get(CarrotHttpService);
     fixture.detectChanges();
   });
+
+  // it('should blah blah blah', () => {
+  //   inject([CarrotHttpService], (injectService: CarrotHttpService) => {
+  //     expect(injectService).toBe(carrotHttpService);
+  //   })
+  // });
 
   fit('should create', () => {
     expect(component).toBeTruthy();

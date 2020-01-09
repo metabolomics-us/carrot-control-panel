@@ -13,6 +13,7 @@ import { CarrotHttpService } from '../../shared/services/carrot/carrot.http.serv
 describe('AddLibraryComponent', () => {
   let component: AddLibraryComponent;
   let fixture: ComponentFixture<AddLibraryComponent>;
+  // let carrotHttpService: CarrotHttpService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -32,6 +33,7 @@ describe('AddLibraryComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddLibraryComponent);
     component = fixture.componentInstance;
+    // carrotHttpService = TestBed.get(CarrotHttpService);
     fixture.detectChanges();
   });
 
