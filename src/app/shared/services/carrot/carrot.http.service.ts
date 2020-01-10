@@ -53,8 +53,11 @@ export class CarrotHttpService {
    * Return a list of available acquisition methods
    */
   getAcquisitionMethods() {
+    console.log('getAcquisitionMethods() 1');
+    console.log('getAcquisitionMethods() 2', this.carroturl);
     return this.http.get(`${this.carroturl}/rest/library`).pipe(
       map((response: any[]) => {
+        console.log('getAcquisitionMethods() 2');
         return response
           .filter(x => x != null && x.chromatographicMethod != null)
           .map(x => {

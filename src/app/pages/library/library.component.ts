@@ -35,14 +35,16 @@ export class LibraryComponent {
    * Pull platform and acquisition method information from carrot scheduler
    */
   pullAcquisitionMethodsAndPlatforms() {
+    console.log("pullAcquistionMethodsAndPlatforms() 1");
     this.carrotHttpService.getAcquisitionMethods().subscribe(response => {
       console.log(response)
       this.acquisitionMethodOptions = response;
     });
-
+    console.log("pullAcquistionMethodsAndPlatforms() 2");
     this.carrotHttpService.getPlatforms().subscribe(response => {
       this.platformOptions = response;
     });
+    console.log("pullAcquistionMethodsAndPlatforms() 3");
   }
 
   /**

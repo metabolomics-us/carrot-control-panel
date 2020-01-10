@@ -38,6 +38,9 @@ describe('AddLibraryComponent', () => {
   });
 
   fit('should create', () => {
+    console.log("AddLibraryComponent");
+    // console.log(component);
+    // setTimeout(function(){ expect(component).toBeTruthy(); }, 3000);
     expect(component).toBeTruthy();
   });
 });

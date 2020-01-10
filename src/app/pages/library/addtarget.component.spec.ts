@@ -34,7 +34,7 @@ describe('AddTargetComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AddTargetComponent);
     component = fixture.componentInstance;
-    carrotHttpService = TestBed.get(CarrotHttpService);
+    // carrotHttpService = TestBed.get(CarrotHttpService);
     fixture.detectChanges();
   });
 
@@ -45,6 +45,9 @@ describe('AddTargetComponent', () => {
   // });
 
   fit('should create', () => {
+    console.log("AddTargetComponent");
+    // console.log(component);
+    // setTimeout(function(){ expect(component).toBeTruthy(); }, 3000);
     expect(component).toBeTruthy();
   });
 });
