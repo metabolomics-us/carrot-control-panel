@@ -12,6 +12,7 @@ export class CarrotHttpService {
 
   constructor(private http: HttpClient, @Inject('env') private env) {
     this.carroturl = `http://${env.carrothost}:${env.carrotport}`;
+    console.log('carrot.http.service: ', this.carroturl);
   }
 
   /**

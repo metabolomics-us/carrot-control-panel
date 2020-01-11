@@ -28,6 +28,12 @@ describe('AddLibraryComponent', () => {
       ]
     })
     .compileComponents();
+    // .then(() => {
+    //   fixture = TestBed.createComponent(AddLibraryComponent);
+    //   component = fixture.componentInstance;
+    //   // carrotHttpService = TestBed.get(CarrotHttpService);
+    //   fixture.detectChanges();
+    // });
   }));
 
   beforeEach(() => {
@@ -37,7 +43,7 @@ describe('AddLibraryComponent', () => {
     fixture.detectChanges();
   });
 
-  fit('should create', () => {
+  xit('should create', () => {
     console.log("AddLibraryComponent");
     // console.log(component);
     // setTimeout(function(){ expect(component).toBeTruthy(); }, 3000);
