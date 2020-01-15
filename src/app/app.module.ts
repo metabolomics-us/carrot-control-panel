@@ -53,8 +53,9 @@ import { AddTargetComponent } from './pages/library/addtarget.component';
 import { AddLibraryComponent } from './pages/library/addlibrary.component';
 import { DownloadComponent } from './pages/download/download.component';
 import { LoginComponent } from './pages/login/login.component';
+import { CreateAccountComponent } from './pages/create-account/create-account.component';
 
-// import { MessagesComponent } from './messages/messages.component';
+// import { MessagesComponent } from './messages/messages.component'; 
 
 export const ROUTES: Routes = [
   // Componentless parent route to apply guard all protected routes
@@ -100,6 +101,7 @@ export const ROUTES: Routes = [
     AddTargetComponent,
     AddLibraryComponent,
     DownloadComponent,
+    CreateAccountComponent,
     // MessagesComponent,
   ],
   imports: [
