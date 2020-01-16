@@ -1,1 +1,31 @@
-<p>create-account works!</p>
+<h2>Create Account</h2>
+<form>
+    <label>Personal Information</label>
+    <div class="form-group">
+        <!-- <label for="apikey">Enter Email Address</label> -->
+        <input type="text" name="username" class="form-control" id="username" placeholder="Username" [(ngModel)]="form.username">
+    </div>
+    <div class="form-group">
+        <!-- <label for="apikey">Enter Email Address</label> -->
+        <input type="email" name="email" class="form-control" id="email" placeholder="Email Address" [(ngModel)]="form.email">
+    </div>
+    <div class="form-group">
+        <!-- <label for="apikey">Enter Email Address</label> -->
+        <input type="password" name="password" class="form-control" id="password" placeholder="Password" [(ngModel)]="form.password">
+    </div>
+    <div class="form-group">
+        <!-- <label for="apikey">Enter Email Address</label> -->
+        <input type="password" name="confirm-password" class="form-control" id="confirm-password" placeholder="Confirm Password" [(ngModel)]="form.confirm-password">
+    </div>  
+
+    <div class="form-group">
+        <label for="apikey">Enter your API Key to access LC BinBase services</label>
+        <input type="text" name="apikey" class="form-control" id="apikey" placeholder="API Key" [(ngModel)]="form.apikey">
+    </div>
+  
+    <div>
+      <button type="submit" class="btn btn-primary" (click)="login()">
+        Create Account
+      </button>
+    </div>
+</form>

@@ -54,6 +54,8 @@ import { AddLibraryComponent } from './pages/library/addlibrary.component';
 import { DownloadComponent } from './pages/download/download.component';
 import { LoginComponent } from './pages/login/login.component';
 import { CreateAccountComponent } from './pages/create-account/create-account.component';
+import { HomeComponent } from './pages/home/home.component';
+import { UploadAcquisitionTableComponent } from './upload-acquisition-table/upload-acquisition-table.component';
 
 // import { MessagesComponent } from './messages/messages.component'; 
 
@@ -70,6 +72,8 @@ export const ROUTES: Routes = [
     {path: 'download', component: DownloadComponent}
   ]},
   {path: 'login', component: LoginComponent}
+  // {path: 'login', component: CreateAccountComponent}
+  // ,{path: 'createaccount', component: CreateAccountComponent}
 ];
 
 
@@ -102,6 +106,8 @@ export const ROUTES: Routes = [
     AddLibraryComponent,
     DownloadComponent,
     CreateAccountComponent,
+    HomeComponent,
+    UploadAcquisitionTableComponent,
     // MessagesComponent,
   ],
   imports: [

@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
+    console.log('Login Component');
     // Get the query params
     this.route.queryParams
       .subscribe(params => this.returnPath = params['return'] || '/');
