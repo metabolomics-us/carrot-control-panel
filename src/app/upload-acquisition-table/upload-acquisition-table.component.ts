@@ -7,9 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UploadAcquisitionTableComponent implements OnInit {
 
+  uploadInput: HTMLInputElement;
+
   constructor() { }
 
   ngOnInit() {
+    // this.uploadInput = 
   }
 
 }

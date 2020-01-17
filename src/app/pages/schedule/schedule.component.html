@@ -25,7 +25,21 @@
 
 
 <!-- Main form -->
+
 <div class="mb-5">
+  <h5>Option 1: Upload Previously Generated Acquisition Table</h5>
+  <div class="upload-acquisition-table">
+    <label class="btn btn-primary upload-acquisition-table-label" for="upload-acquisition-table-input">
+      <i class="fas fa-search-plus"></i>
+      Select File
+    </label>
+    <input class="upload-acquisition-table-input" type="file" (change)="fileSelected($event)">
+  </div>
+</div>
+<br><br>
+
+<div class="mb-5">
+  <h5>Option 2: Fill in Details Yourself</h5>
   <label>Retrieve Study Details from MiniX (Optional)</label>
 
   <form>

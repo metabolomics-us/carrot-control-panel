@@ -1,0 +1,24 @@
+#upload-acquisition-table {
+    position: relative;
+    /* width: 4; */
+    /* border: black dotted 2px; */
+    /* Two options for treating this like a non-relative block */
+    /* height: 42px; */
+    margin-bottom: 46px;
+}
+
+#upload-acquisition-table-input {
+    position: absolute;
+    z-index: -1;
+    /* color: transparent; */
+    bottom: 100;
+    right: 100;
+    /* visibility: hidden; */
+    opacity: 0.8;
+}
+
+#upload-acquisition-table-label {
+    position: absolute;
+    opacity: 0.5;
+    /* background-color: teal; */
+}

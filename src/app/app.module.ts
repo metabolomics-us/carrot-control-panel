@@ -72,6 +72,7 @@ export const ROUTES: Routes = [
     {path: 'download', component: DownloadComponent}
   ]},
   {path: 'login', component: LoginComponent}
+  // {path: 'login', component: UploadAcquisitionTableComponent}
   // {path: 'login', component: CreateAccountComponent}
   // ,{path: 'createaccount', component: CreateAccountComponent}
 ];

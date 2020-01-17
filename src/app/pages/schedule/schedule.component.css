@@ -8,3 +8,23 @@
 .hotHeaderSelection select {
   width: 150px;
 }
+
+/***************/
+
+.upload-acquisition-table {
+  position: relative;
+  margin-bottom: 46px;
+}
+
+.upload-acquisition-table-input {
+  position: absolute;
+  z-index: -1;
+  visibility: hidden;
+  /* opacity: 0.8; */
+}
+
+.upload-acquisition-table-label {
+  position: absolute;
+  width: 200px;
+  /* opacity: 0.5; */
+}
