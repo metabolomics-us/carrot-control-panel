@@ -14,9 +14,11 @@
 .upload-acquisition-table {
   position: relative;
   margin-bottom: 46px;
+  height: 1px;
+  /* border: 1px black dotted; */
 }
 
-.upload-acquisition-table-input {
+#upload-acquisition-table-input {
   position: absolute;
   z-index: -1;
   visibility: hidden;

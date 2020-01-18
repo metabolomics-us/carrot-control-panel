@@ -13,12 +13,12 @@ import { StasisService } from '@stasis';
 export class AuthGuard implements CanActivate {
 
   constructor(private router: Router, private authService: AuthService, private stasisService: StasisService) {
-    console.log('AuthGuard class constructor');
+    // console.log('AuthGuard class constructor');
    }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     // return true;
-    console.log('Function: CanActivate');
+    // console.log('Function: CanActivate');
     // Check if user is logged in/api key is validated, otherwise return to login page
     return this.authService.isLoggedIn()
       .pipe(map((isLoggedIn) => {

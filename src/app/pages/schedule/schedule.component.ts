@@ -5,6 +5,8 @@ import { HotTableRegisterer } from '@handsontable/angular';
 import { CarrotHttpService } from '../../shared/services/carrot/carrot.http.service';
 import { MiniXService } from '../../shared/services/minix/minix.service';
 
+import { parseString } from 'xml2js';
+
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
@@ -31,7 +33,12 @@ export class ScheduleComponent implements OnInit {
   selectedColumns;
 
   // Form options
-  acquisitionMethodOptions = [];
+  acquisitionMethodOptions = [
+    {title: 'lcms_istds | 6530 | test | positive'},
+    {title: 'lcms_istds | 6550 | test | negative'},
+    {title: 'csh | 6530 | test | positive'},
+    {title: 'csh | 6550 | test | negative'}
+  ];
   platformOptions = [];
 
   constructor(private hotRegisterer: HotTableRegisterer, private carrotHttpService: CarrotHttpService,
@@ -55,7 +62,9 @@ export class ScheduleComponent implements OnInit {
 
     // Set form options
     this.task = {platform: 'lcms'};
-    this.pullAcquisitionMethodsAndPlatforms();
+    // Commenting this out for now b/c carrotHttpService is inactive at the moment and throwing errors
+    //  Not sure why it's even called in ngOnInit
+    // this.pullAcquisitionMethodsAndPlatforms();
   }
 
 
@@ -93,36 +102,71 @@ export class ScheduleComponent implements OnInit {
       let commentCol = headers.indexOf('Comment');
       let labelCol = headers.indexOf('Label');
 
-      this.minixService.getMiniXJSONExport(this.task.minix).subscribe(
+      // this.minixService.getMiniXJSONExport(this.task.minix).subscribe(
+      this.minixService.getMiniXExportTest(this.task.minix).subscribe(
         (response: any) => {
-          this.status.miniXLoading = false;
+          // console.log("getMiniXJSONExport success");
+          // console.log(response);
 
-          response.forEach((x, i) => {
-            let values = Array(this.defaultColumns.length).fill('');
+          parseString(response, (err, result) => {
+            // console.log(result);
+            this.status.miniXLoading = false;
 
-            if (fileNameCol > -1)
-                values[fileNameCol] = x.sample;
-            if (classCol > -1)
-                values[classCol] = x.className;
-            if (speciesCol > -1)
-                values[speciesCol] = x.species;
-            if (organCol > -1)
-                values[organCol] = x.organ;
-            if (commentCol > -1)
-                values[commentCol] = x.comment;
-            if (labelCol > -1)
-                values[labelCol] = x.label;
+            response.forEach((x, i) => {
+              let values = Array(this.defaultColumns.length).fill('');
 
-            if (i < this.data.length) {
-              this.data[i] = values;
-            } else {
-              this.data.push(values);
-            }
+              if (fileNameCol > -1)
+                  values[fileNameCol] = x.sample;
+              if (classCol > -1)
+                  values[classCol] = x.className;
+              if (speciesCol > -1)
+                  values[speciesCol] = x.species;
+              if (organCol > -1)
+                  values[organCol] = x.organ;
+              if (commentCol > -1)
+                  values[commentCol] = x.comment;
+              if (labelCol > -1)
+                  values[labelCol] = x.label;
 
-            instance.updateSettings({data: this.data}, false);
-          });
+              if (i < this.data.length) {
+                this.data[i] = values;
+              } else {
+                this.data.push(values);
+              }
+
+              instance.updateSettings({data: this.data}, false);
+            });
+          }); // end parseString
+
+          // this.status.miniXLoading = false;
+
+          // response.forEach((x, i) => {
+          //   let values = Array(this.defaultColumns.length).fill('');
+
+          //   if (fileNameCol > -1)
+          //       values[fileNameCol] = x.sample;
+          //   if (classCol > -1)
+          //       values[classCol] = x.className;
+          //   if (speciesCol > -1)
+          //       values[speciesCol] = x.species;
+          //   if (organCol > -1)
+          //       values[organCol] = x.organ;
+          //   if (commentCol > -1)
+          //       values[commentCol] = x.comment;
+          //   if (labelCol > -1)
+          //       values[labelCol] = x.label;
+
+          //   if (i < this.data.length) {
+          //     this.data[i] = values;
+          //   } else {
+          //     this.data.push(values);
+          //   }
+
+          //   instance.updateSettings({data: this.data}, false);
+          // });
         },
         error => {
+          console.log("getMiniXJSONExport error");
           this.status.miniXLoading = false;
           this.status.miniXError = 'MiniX study ID could not be found!';
         }

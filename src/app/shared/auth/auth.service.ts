@@ -13,7 +13,7 @@ export class AuthService {
 
   constructor(private cookieService: CookieService, private stasisService: StasisService) {
     // Delete the cookie first so that you have to log in every time, for testing purposes
-    cookieService.delete(this.COOKIE_NAME);
+    // cookieService.delete(this.COOKIE_NAME);
     
     this.validatedApiKey = false;
   }
@@ -39,11 +39,11 @@ export class AuthService {
    * Check if api key is set
    */
   isLoggedIn(): Observable<boolean> {
-    console.log("isLoggedIn, valid key?:", this.validatedApiKey);
+    // console.log("isLoggedIn, valid key?:", this.validatedApiKey);
     if (this.validatedApiKey) {
       return of(true);
     } else if (this.cookieService.check(this.COOKIE_NAME)) {
-      console.log("this.cookieService.check(this.COOKIE_NAME)");
+      // console.log("this.cookieService.check(this.COOKIE_NAME)");
       // Check whether api key stored in the cookie is still valid
       const api_key = this.cookieService.get(this.COOKIE_NAME);
 
