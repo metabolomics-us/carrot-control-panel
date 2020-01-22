@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  carrothost: 'localhost',
-  carrotport: 18080
+  // carrothost: 'localhost', //junk
+  // carrotport: 18080,// junk
+  STASIS_API_TOKEN: 'GUec9mh1jc6VFbudSzxfz8aIqdRiadqw6wWBzRCB'
 };
 
 /*

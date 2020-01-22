@@ -13,7 +13,7 @@ export class MiniXService {
     return this.http.get(
       '/rest/export/' + minixID,
       {responseType: 'text'}
-    )
+    );
   }
 
   getMiniXExport(minixID: number, callback: (err: Error, result: any) => void, errorCallback: (error: any) => void) {

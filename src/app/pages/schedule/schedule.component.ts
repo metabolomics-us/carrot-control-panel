@@ -6,6 +6,7 @@ import { CarrotHttpService } from '../../shared/services/carrot/carrot.http.serv
 import { MiniXService } from '../../shared/services/minix/minix.service';
 
 import { parseString } from 'xml2js';
+import { sample } from 'rxjs/operators';
 
 @Component({
   selector: 'app-schedule',
@@ -102,75 +103,157 @@ export class ScheduleComponent implements OnInit {
       let commentCol = headers.indexOf('Comment');
       let labelCol = headers.indexOf('Label');
 
-      // this.minixService.getMiniXJSONExport(this.task.minix).subscribe(
-      this.minixService.getMiniXExportTest(this.task.minix).subscribe(
-        (response: any) => {
-          // console.log("getMiniXJSONExport success");
-          // console.log(response);
+      console.log('File Name: ', fileNameCol);
+      console.log('Class Name: ', classCol);
+      console.log('Species Name: ', speciesCol);
+      console.log('Organ Name: ', organCol);
+      console.log('Comment Name: ', commentCol);
+      console.log('Label Name: ', labelCol);
 
-          parseString(response, (err, result) => {
-            // console.log(result);
-            this.status.miniXLoading = false;
+      this.minixService.getMiniXExport(this.task.minix, 
+        (error, result) => {
+          this.status.miniXLoading = false;
+          // console.log('Error 1:\n', error);
+          // console.log('Result:\n', result);
+          let testingData = result.experiment.classes[0].class;
+          // console.log('Testing:\n', testingData);
+          let values = Array(this.defaultColumns.length).fill('');
 
-            response.forEach((x, i) => {
-              let values = Array(this.defaultColumns.length).fill('');
-
-              if (fileNameCol > -1)
-                  values[fileNameCol] = x.sample;
-              if (classCol > -1)
-                  values[classCol] = x.className;
-              if (speciesCol > -1)
-                  values[speciesCol] = x.species;
-              if (organCol > -1)
-                  values[organCol] = x.organ;
-              if (commentCol > -1)
-                  values[commentCol] = x.comment;
-              if (labelCol > -1)
-                  values[labelCol] = x.label;
-
-              if (i < this.data.length) {
-                this.data[i] = values;
-              } else {
-                this.data.push(values);
-              }
-
-              instance.updateSettings({data: this.data}, false);
-            });
-          }); // end parseString
-
-          // this.status.miniXLoading = false;
-
-          // response.forEach((x, i) => {
-          //   let values = Array(this.defaultColumns.length).fill('');
-
-          //   if (fileNameCol > -1)
-          //       values[fileNameCol] = x.sample;
-          //   if (classCol > -1)
-          //       values[classCol] = x.className;
-          //   if (speciesCol > -1)
-          //       values[speciesCol] = x.species;
-          //   if (organCol > -1)
-          //       values[organCol] = x.organ;
-          //   if (commentCol > -1)
-          //       values[commentCol] = x.comment;
-          //   if (labelCol > -1)
-          //       values[labelCol] = x.label;
-
-          //   if (i < this.data.length) {
-          //     this.data[i] = values;
-          //   } else {
+          // Didn't work
+          // let i = 0;
+          // let j = 0;
+          // for (i = 0; i < testingData.length; i++) {
+          //   let samples = testingData[i].samples[0].sample;
+          //   for (j = 0; j < samples.length; j++) {
+          //     values[fileNameCol] = samples[j].$.fileName;
+          //     values[classCol] = testingData[i].$.id;
+          //     values[speciesCol] = testingData[i].$.species;
+          //     values[organCol] = testingData[i].$.organ;
+          //     values[commentCol] = samples[j].$.comment;
+          //     values[labelCol] = samples[j].$.label;
           //     this.data.push(values);
           //   }
+          // }
 
-          //   instance.updateSettings({data: this.data}, false);
-          // });
+
+          let i = 0;
+          testingData.forEach(cla => {
+            // console.log('Organ: ', cla.$.organ);
+            // console.log('Species: ', cla.$.species);
+            // console.log('Class: ', cla.$.id);
+            let samples = cla.samples[0].sample;
+            samples.forEach(sam => {
+              // console.log('File Name: ', sam.$.fileName);
+              // console.log('Label: ', sam.$.label);
+              // console.log('Comment: ', sam.$.comment);
+              values[fileNameCol] = sam.$.fileName;
+              values[classCol] = cla.$.id;
+              values[speciesCol] = cla.$.species;
+              values[organCol] = cla.$.organ;
+              values[commentCol] = sam.$.comment;
+              values[labelCol] = sam.$.label;
+              this.data.push(values);
+              console.log('Values: ', values);
+              i++;
+
+              // if (i < 5) {
+              //   console.log('Data:\n',this.data);
+              // }
+            });
+            // console.log('-----------');
+          });
+          // console.log('Data:\n',this.data);
         },
         error => {
-          console.log("getMiniXJSONExport error");
+          console.log('Error 2:\n', error);
           this.status.miniXLoading = false;
-          this.status.miniXError = 'MiniX study ID could not be found!';
         }
       );
+
+
+
+      // this.minixService.getMiniXJSONExport(this.task.minix).subscribe(
+      // this.minixService.getMiniXExportTest(this.task.minix).subscribe(
+      //   (response: any) => {
+      //     // console.log("getMiniXJSONExport success");
+      //     // console.log(response);
+
+
+
+
+
+
+          
+
+      //     parseString(response, (err, result) => {
+      //       console.log("Response:\n", response);
+      //       console.log("Result:\n", result);
+      //       this.status.miniXLoading = false;
+
+      //       // response.forEach((x, i) => {
+      //       //   let values = Array(this.defaultColumns.length).fill('');
+
+      //       //   if (fileNameCol > -1)
+      //       //       values[fileNameCol] = x.sample;
+      //       //   if (classCol > -1)
+      //       //       values[classCol] = x.className;
+      //       //   if (speciesCol > -1)
+      //       //       values[speciesCol] = x.species;
+      //       //   if (organCol > -1)
+      //       //       values[organCol] = x.organ;
+      //       //   if (commentCol > -1)
+      //       //       values[commentCol] = x.comment;
+      //       //   if (labelCol > -1)
+      //       //       values[labelCol] = x.label;
+
+      //       //   if (i < this.data.length) {
+      //       //     this.data[i] = values;
+      //       //   } else {
+      //       //     this.data.push(values);
+      //       //   }
+
+      //       //   instance.updateSettings({data: this.data}, false);
+      //       // });
+      //     }); // end parseString
+
+
+
+
+          
+
+      //     // this.status.miniXLoading = false;
+
+      //     // response.forEach((x, i) => {
+      //     //   let values = Array(this.defaultColumns.length).fill('');
+
+      //     //   if (fileNameCol > -1)
+      //     //       values[fileNameCol] = x.sample;
+      //     //   if (classCol > -1)
+      //     //       values[classCol] = x.className;
+      //     //   if (speciesCol > -1)
+      //     //       values[speciesCol] = x.species;
+      //     //   if (organCol > -1)
+      //     //       values[organCol] = x.organ;
+      //     //   if (commentCol > -1)
+      //     //       values[commentCol] = x.comment;
+      //     //   if (labelCol > -1)
+      //     //       values[labelCol] = x.label;
+
+      //     //   if (i < this.data.length) {
+      //     //     this.data[i] = values;
+      //     //   } else {
+      //     //     this.data.push(values);
+      //     //   }
+
+      //     //   instance.updateSettings({data: this.data}, false);
+      //     // });
+      //   },
+      //   error => {
+      //     console.log("getMiniXJSONExport error");
+      //     this.status.miniXLoading = false;
+      //     this.status.miniXError = 'MiniX study ID could not be found!';
+      //   }
+      // );
     }
   }
 
