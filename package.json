@@ -30,7 +30,7 @@
     "font-awesome": "^4.7.0",
     "handsontable": "^6.0.0",
     "jquery": "^3.4.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "ngx-cookie-service": "^2.2.0",
     "ngx-modal-dialog": "^3.0.0",
     "ngx-spinner": "^8.0.0",
